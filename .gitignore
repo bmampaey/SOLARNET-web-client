@@ -1,3 +1,9 @@
+# Editor backup files
+*~
+
+# Secret key
+**/secret_key.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

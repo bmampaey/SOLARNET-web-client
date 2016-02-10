@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="SVOApp">
+<head>
+	<meta charset="utf-8">
+	
+	<!-- For bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- style sheets -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/angular_multi_select/angular-multi-select.css">
+	
+	<!-- Libs -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.js"></script>	
+	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.1.2.js"></script>
+	<script src="/static/angular_multi_select/angular-multi-select.js"></script>
+		
+	<!-- SVO app -->
+	<script src="/static/svo.module.js"></script>
+	<script src="/static/svo.controller.js"></script>
+	
+	<!-- dataset module -->
+	<script src="/static/dataset/dataset.module.js"></script>
+	<script src="/static/dataset/dataset.resources.js"></script>
+	<script src="/static/dataset/dataset.controller.js"></script>
+	
+	<!-- data_selection module -->
+	<script src="/static/data_selection/data_selection.module.js"></script>
+	<script src="/static/data_selection/data_selection.resources.js"></script>
+	<script src="/static/data_selection/data_selection.controller.js"></script>
+
+</head>
+
+<body ng-controller="SVOController" class="container-fluid">
+	<nav id="menu" class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav">
+				<li><a href="#/dataset">Datasets</a></li>
+				<li><a href="#/event">Events</a></li>
+				<li><a href="#/data_selection">Data selections</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/logout">Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+	
+	<div ng-view id="content" class="row"></div>
+</body>
+</html>
+
+

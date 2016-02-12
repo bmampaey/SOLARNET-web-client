@@ -1,6 +1,8 @@
-angular.module('DatasetApp').controller('DatasetController',
+var DatasetApp = angular.module('DatasetApp');
 
-function($scope, $timeout, $filter, Dataset, Telescope, Characteristic, Tag) {
+DatasetApp.controller('DatasetController',
+
+function($scope, Dataset, Telescope, Characteristic, Tag) {
 	
 	// load instruments for the multi select
 	$scope.instruments = [];
@@ -66,7 +68,7 @@ function($scope, $timeout, $filter, Dataset, Telescope, Characteristic, Tag) {
 	// function to update dataset list using the search criteria
 	$scope.update_datasets = function() {
 		console.log("Updating datasets");
-		// ajax request to api, put filter in the {}
+		// create set of query params
 		var params = {};
 		if($scope.selectedInstruments.length != 0) {
 			params.instrument__in = $scope.selectedInstruments.map(function(element) {
@@ -78,8 +80,10 @@ function($scope, $timeout, $filter, Dataset, Telescope, Characteristic, Tag) {
 				return element.value;
 			});
 		}
+		console.log($scope.start_date);
 		console.log("Query params");
 		console.log(params);
+		// update the datasets
 		Dataset.get(params, function(datasets) {
 			$scope.datasets = datasets.results;
 		});
@@ -89,7 +93,7 @@ function($scope, $timeout, $filter, Dataset, Telescope, Characteristic, Tag) {
 	$scope.update_datasets();
 	
 	// list of opened datasets in the accordion
-	$scope.opened_accordion = null;
+	$scope.opened_accordion = {};
 	$scope.opened_datasets = [];
 	
 	// functions to open and close dataset detail in accordion
@@ -99,7 +103,7 @@ function($scope, $timeout, $filter, Dataset, Telescope, Characteristic, Tag) {
 		{
 			$scope.opened_datasets.push(dataset);
 		}
-		$scope.opened_accordion = dataset;
+		$scope.opened_accordion[dataset.id] = true;
 	};
 	
 	$scope.close_dataset = function(dataset) {
@@ -108,8 +112,29 @@ function($scope, $timeout, $filter, Dataset, Telescope, Characteristic, Tag) {
 		{
 			$scope.opened_datasets.splice(index, 1);
 		}
-		$scope.opened_accordion = null;
+		$scope.opened_accordion[dataset.id]= false;
 	};
-	
+
 	console.log("DatasetController scope", $scope);
+});
+
+DatasetApp.controller('MetadataController',
+function($scope, Metadata, Tag) {
+	$scope.start_date = $scope.$parent.start_date;
+	$scope.end_date = $scope.$parent.end_date;
+	$scope.wavelength_min = $scope.$parent.wavelength_min;
+	$scope.wavelength_max = $scope.$parent.wavelength_max;
+	$scope.selectedTags = $scope.$parent.selectedTags
+	
+	$scope.update_metadata = function() {
+		console.log("Updating metadata for " + $scope.dataset.name);
+		// create set of query params
+		params = {dataset: $scope.dataset.id};
+		Metadata.get(params, function(metadata) {
+			$scope.metadata_list = metadata.results;
+			$scope.next_metadata = metadata.next;
+			$scope.previous_metadata = metadata.previous;
+		});
+	};
+	$scope.update_metadata();
 });

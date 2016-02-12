@@ -2,7 +2,7 @@ var SVOApp = angular.module('SVOApp', [
 	'ngRoute',
 	'ui.bootstrap',
 	'DatasetApp',
-//	'DataSelectionApp',
+	'DataSelectionApp',
 ]);
 
 SVOApp.config(['$routeProvider',

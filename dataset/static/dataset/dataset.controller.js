@@ -7,7 +7,7 @@ function($scope, Dataset, Telescope, Characteristic, Tag) {
 	// load instruments for the multi select
 	$scope.instruments = [];
 	Telescope.get(function(telescopes){
-		angular.forEach(telescopes.results, function(telescope) {
+		angular.forEach(telescopes.objects, function(telescope) {
 			// open select group with telescope name
 			$scope.instruments.push({
 				name: telescope.name,
@@ -33,7 +33,7 @@ function($scope, Dataset, Telescope, Characteristic, Tag) {
 	// load characteristics for the multi select
 	$scope.characteristics = [];
 	Characteristic.get(function(characteristics){
-		angular.forEach(characteristics.results, function(characteristic) {
+		angular.forEach(characteristics.objects, function(characteristic) {
 			// add characteristic
 			$scope.characteristics.push({
 				name: characteristic.name,
@@ -49,7 +49,7 @@ function($scope, Dataset, Telescope, Characteristic, Tag) {
 	// load tags for the multi select
 	$scope.tags = [];
 	Tag.get(function(tags){
-		angular.forEach(tags.results, function(tag) {
+		angular.forEach(tags.objects, function(tag) {
 			// add characteristic
 			$scope.tags.push({
 				name: tag.name,
@@ -85,7 +85,7 @@ function($scope, Dataset, Telescope, Characteristic, Tag) {
 		console.log(params);
 		// update the datasets
 		Dataset.get(params, function(datasets) {
-			$scope.datasets = datasets.results;
+			$scope.datasets = datasets.objects;
 		});
 	};
 	
@@ -131,7 +131,7 @@ function($scope, Metadata, Tag) {
 		// create set of query params
 		params = {dataset: $scope.dataset.id};
 		Metadata.get(params, function(metadata) {
-			$scope.metadata_list = metadata.results;
+			$scope.metadata_list = metadata.objects;
 			$scope.next_metadata = metadata.next;
 			$scope.previous_metadata = metadata.previous;
 		});

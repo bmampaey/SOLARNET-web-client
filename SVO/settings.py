@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 	'account',
 	'dataset',
 	'data_selection',
+	'event'
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -29,7 +29,7 @@
 				/>
 			</div>
 			<div class="form-group">
-				<label for="tags" class="control-label">Tags:</label>			
+				<label for="tags" class="control-label">Tags:</label>
 				<multi-select
 					id="tags"
 					input-model="tags"
@@ -46,9 +46,9 @@
 				<div class="form-group col-md-6" ng-class="{'has-error': start_date > end_date}">
 					<label for="start_date" class="control-label">start</label>
 					<div class="input-group">
-						<input type="text" id="start_date" datetime-picker class="form-control" ng-model="start_date" is-open="opened_datetime_picker['start_date']"/>
+						<input type="text" id="start_date" datetime-picker class="form-control" ng-model="start_date" is-open="opened_datetime_picker['start_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['start_date'] = true">
+							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['start_date'] = true" title="Click to open date picker">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</button>
 						</span>
@@ -57,9 +57,9 @@
 				<div class="form-group col-md-6" ng-class="{'has-error': start_date > end_date}">
 					<label for="end_date" class="control-label">end</label>
 					<div class="input-group">
-						<input type="text" id="end_date" datetime-picker class="form-control" ng-model="end_date" is-open="opened_datetime_picker['end_date']"/>
+						<input type="text" id="end_date" datetime-picker class="form-control" ng-model="end_date" is-open="opened_datetime_picker['end_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['end_date'] = true">
+							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['end_date'] = true" title="Click to open date picker">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</button>
 						</span>
@@ -72,14 +72,22 @@
 					<label for="wavelength_min" class="control-label">min</label>
 					<div class="input-group">
 						<input type="number" id="wavelength_min" class="form-control" ng-model="wavelength_min"/>
-						<span class="input-group-addon">&Aring;</span>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="angstrom = !angstrom" title="Click to change from Ångström to nano meters">
+								{{angstrom ? "&Aring;" : "nm"}}
+							</button>
+						</span>
 					</div>
 				</div>
 				<div class="form-group col-md-6" ng-class="{'has-error': wavelength_min > wavelength_max}">
 					<label for="wavelength_max" class="control-label">max</label>
 					<div class="input-group">
 						<input type="number" id="wavelength_max" class="form-control" ng-model="wavelength_max"/>
-						<span class="input-group-addon">&Aring;</span>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="angstrom = !angstrom" title="Click to change from Ångström to nano meters">
+								{{angstrom ? "&Aring;" : "nm"}}
+							</button>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -96,9 +104,9 @@
 				<th>Telescope</th>
 				<th>Characteristics</th>
 			</tr>
-			<tr ng-repeat="dataset in datasets" ng-click="open_dataset(dataset)">
+			<tr ng-repeat="dataset in datasets" ng-hide="dataset.metadata.number_items == 0" ng-click="open_dataset(dataset)">
 				<td>{{dataset.name}}</td>
-				<td>{{dataset.number_items}}</td>
+				<td>{{dataset.metadata.number_items}}</td>
 				<td>{{dataset.instrument}}</td>
 				<td>{{dataset.telescope}}</td>
 				<td>{{dataset.characteristics.join(', ')}}</td>

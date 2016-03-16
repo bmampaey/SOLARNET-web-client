@@ -3,6 +3,7 @@ var SVOApp = angular.module('SVOApp', [
 	'ui.bootstrap',
 	'DatasetApp',
 	'DataSelectionApp',
+	'EventApp',
 ]);
 
 SVOApp.config(['$routeProvider',
@@ -18,6 +19,10 @@ SVOApp.config(['$routeProvider',
 			.when('/data_selection', {
 				templateUrl: '/static/data_selection/data_selection.html',
 				controller: 'DataSelectionController'
+			})
+			.when('/event', {
+				templateUrl: '/static/event/event.html',
+				controller: 'EventController'
 			})
 			.otherwise({
 				redirectTo: '/dataset'

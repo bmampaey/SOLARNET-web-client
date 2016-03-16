@@ -4,6 +4,9 @@ DatasetApp.controller('DatasetController',
 
 function($scope, Dataset, Telescope, Characteristic, Tag) {
 	
+	// specify wavelength units in angstrom
+	$scope.angstrom = true;
+	
 	// load instruments for the multi select
 	$scope.instruments = [];
 	Telescope.get(function(telescopes){
@@ -80,13 +83,31 @@ function($scope, Dataset, Telescope, Characteristic, Tag) {
 				return element.value;
 			});
 		}
-		console.log($scope.start_date);
+		if($scope.start_date != null) {
+			// date are in local timezone, so must be offset to UTC
+			params.date_end__gt = new Date($scope.start_date.getTime() - (60000 * $scope.start_date.getTimezoneOffset()));
+		}
+		
+		if($scope.end_date != null) {
+			// date are in local timezone, so must be offset to UTC
+			params.date_beg__lt = new Date($scope.end_date.getTime() - (60000 * $scope.end_date.getTimezoneOffset()));
+		}
+		
+		if($scope.wavelength_min != null) {
+			params.wavemax__gt = $scope.angstrom ? $scope.wavelength_min / 10.0 : $scope.wavelength_min;
+		}
+		
+		if($scope.wavelength_max != null) {
+			params.wavemin__lt = $scope.angstrom ? $scope.wavelength_max  / 10.0 : $scope.wavelength_max;
+		}
+
 		console.log("Query params");
 		console.log(params);
 		// update the datasets
 		Dataset.get(params, function(datasets) {
 			$scope.datasets = datasets.objects;
 		});
+		scope = $scope;
 	};
 	
 	// load the dataset list

@@ -2,21 +2,20 @@ var EventApp = angular.module('EventApp');
 
 EventApp.controller('EventController',
 
-function($scope, Event, EVENT_TYPES) {
+function($scope, $window, Event, EVENT_TYPES) {
 	
 	// set the list of event types for the multi select
 	$scope.eventTypes = [];
 	angular.forEach(EVENT_TYPES, function(value, key) {
 		$scope.eventTypes.push({
-			name: key,
-			checked: true,
-			value: value
+			name: value,
+			checked: false,
+			value: key
 		});
 	});
 	
 	// list of selected event types, filled automatically  by the multi select
 	$scope.selectedEventTypes = [];
-	
 	
 	// list of all events
 	$scope.events = [];
@@ -26,22 +25,40 @@ function($scope, Event, EVENT_TYPES) {
 		console.log("Updating events");
 		// create set of query params
 		var params = {};
-		if($scope.selectedInstruments.length != 0) {
-			params.instrument__in = $scope.selectedInstruments.map(function(element) {
+		if($scope.selectedEventTypes.length != 0) {
+			params.event_type = $scope.selectedEventTypes.map(function(element) {
 				return element.value;
-			});
+			}).join(',');
 		}
-		if($scope.selectedCharacteristics.length != 0) {
-			params.characteristics__in = $scope.selectedCharacteristics.map(function(element) {
-				return element.value;
-			});
+		else {
+			params.event_type = '**';
 		}
-		console.log($scope.start_date);
+		
+		if($scope.start_date == null) {
+			$scope.start_date = new Date(1975, 09, 01);
+		}
+		// date are in local timezone, so must be offset to UTC
+		params.event_starttime = new Date($scope.start_date.getTime() - (60000 * $scope.start_date.getTimezoneOffset()));
+		
+		if($scope.end_date == null) {
+			$scope.end_date = new Date();
+		}
+		// date are in local timezone, so must be offset to UTC
+		params.event_endtime = new Date($scope.end_date.getTime() - (60000 * $scope.end_date.getTimezoneOffset()));
+		
 		console.log("Query params");
 		console.log(params);
+		
+		// ugly hack because of HEK server bug on JSONP callback
+		var c = $window.angular.callbacks.counter.toString(36);
+		$window['angularcallbacks_' + c] = function (data) {
+			$window.angular.callbacks['_' + c](data);
+			delete $window['angularcallbacks_' + c];
+		};
+		
 		// update the events
 		Event.get(params, function(events) {
-			$scope.events = events.objects;
+			$scope.events = events.result;
 		});
 	};
 	
@@ -70,27 +87,4 @@ function($scope, Event, EVENT_TYPES) {
 		}
 		$scope.opened_accordion[event.id]= false;
 	};
-
-	console.log("EventController scope", $scope);
-});
-
-EventApp.controller('MetadataController',
-function($scope, Metadata, Tag) {
-	$scope.start_date = $scope.$parent.start_date;
-	$scope.end_date = $scope.$parent.end_date;
-	$scope.wavelength_min = $scope.$parent.wavelength_min;
-	$scope.wavelength_max = $scope.$parent.wavelength_max;
-	$scope.selectedTags = $scope.$parent.selectedTags
-	
-	$scope.update_metadata = function() {
-		console.log("Updating metadata for " + $scope.event.name);
-		// create set of query params
-		params = {event: $scope.event.id};
-		Metadata.get(params, function(metadata) {
-			$scope.metadata_list = metadata.objects;
-			$scope.next_metadata = metadata.next;
-			$scope.previous_metadata = metadata.previous;
-		});
-	};
-	$scope.update_metadata();
 });

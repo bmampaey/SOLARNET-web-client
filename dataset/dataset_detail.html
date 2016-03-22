@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{dataset.name}}</h3>
+</div>
+<div class="modal-body"  ng-controller="MetadataController">
+	<div class="row">
+		<div class="col-md-4">
+			<form ng-submit="search_metadata()">
+				<div ng-include="'dataset/' + dataset.id + '.html'">
+					Please wait while the search form is loading...
+				</div>
+				<input type="submit" value="Search" class="btn btn-primary btn-md" />
+			</form>
+		</div>
+		
+		<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="metadata_table">
+			<table class="table table-hover table-responsive">
+				<tr>
+					<th ng-repeat="column in columns">{{column[1]}}</th>
+					<th>Tags</th>
+				</tr>
+				<tr ng-repeat="metadata in metadata_list">
+					<td ng-repeat="column in columns">{{metadata[column[0]]}}</td>
+					<td>{{dataset.tags.join(', ')}}</td>
+				</tr>
+			</table>
+			<div class="pager">
+					<button type="button" class="btn btn-default btn-sm previous" ng-click="load_metadata(page_number - 1)" ng-class="{'disabled': page_number <= 1}">&larr;</button>
+					<button type="button" class="btn btn-default btn-sm next" ng-click="load_metadata(page_number + 1)" ng-class="{'disabled': page_number >= number_pages}">&rarr;</button>
+			</div>
+			<p class="small text-center">Click on any row to see metadata details</p>
+		</div>
+	</div>
+</div>

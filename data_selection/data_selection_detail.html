@@ -1,0 +1,31 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{user_data_selection.name}}</h3>
+</div>
+<div class="modal-body">
+	<table class="table table-responsive">
+		<tr>
+			<th>FTP</th>
+			<th># Items</th>
+			<th>Dataset</th>
+			<th>Date of creation</th>
+			<th>Search parameters</th>
+			<th>Delete</th>
+		</tr>
+		<tr ng-repeat="data_selection in data_selections">
+			<td>
+				<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
+					<span class="glyphicon glyphicon-folder-open"></span>
+				</a>
+			</td>
+			<td>{{data_selection.number_items}}</td>
+			<td>{{data_selection.dataset.name}}</td>
+			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>TODO</td>
+			<td>
+				<button type="button" class="btn btn-danger btn-sm" ng-click="delete_data_selection(data_selection); $event.stopPropagation();">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
+			</td>
+		</tr>
+	</table>
+</div>

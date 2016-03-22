@@ -1,0 +1,66 @@
+<div class="row">
+	<div class="col-md-4">
+		<form ng-submit="search_events()">
+			<div class="form-group">
+				<label for="event_types" class="control-label">Event type:</label>
+				<multi-select
+					id="event_types"
+					input-model="eventTypes"
+					output-model="selectedEventTypes"
+					button-label="name"
+					item-label="name"
+					tick-property="checked"
+					helper-elements=""
+					group-property="multiSelectGroup"
+				/>
+				
+			</div>
+			<div class="row">
+				<label class="control-label col-md-12">Event date</label>
+				<div class="form-group col-md-6" ng-class="{'has-error': start_date > end_date}">
+					<label for="start_date" class="control-label">start</label>
+					<div class="input-group">
+						<input type="text" id="start_date" datetime-picker class="form-control" ng-model="start_date" is-open="opened_datetime_picker['start_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['start_date'] = true">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="form-group col-md-6" ng-class="{'has-error': start_date > end_date}">
+					<label for="end_date" class="control-label">end</label>
+					<div class="input-group">
+						<input type="text" id="end_date" datetime-picker class="form-control" ng-model="end_date" is-open="opened_datetime_picker['end_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['end_date'] = true">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<input type="submit" value="Search" class="btn btn-primary btn-md" />
+		</form>
+	</div>
+
+	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="event_table">
+		<table class="table table-hover table-responsive">
+			<tr>
+				<th>Type</th>
+				<th>Start date</th>
+				<th>End date</th>
+			</tr>
+			<tr ng-repeat="event in events" ng-click="open_event_detail(event)">
+				<td>{{event.event_type | full_type}}</td>
+				<td>{{event.event_starttime}}</td>
+				<td>{{event.event_endtime}}</td>
+			</tr>
+		</table>
+		<div class="pager">
+				<button type="button" class="btn btn-default btn-sm previous" ng-click="load_events(page_number - 1)" ng-class="{'disabled': page_number <= 1}">&larr;</button>
+				<button type="button" class="btn btn-default btn-sm next" ng-click="load_events(page_number + 1)">&rarr;</button>
+		</div>
+		<p class="small text-center">Click on any row to see event details</p>
+	</div>
+</div>

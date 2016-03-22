@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-4">
-		<form ng-submit="update_events()">
+		<form ng-submit="search_events()">
 			<div class="form-group">
 				<label for="event_types" class="control-label">Event type:</label>
 				<multi-select
@@ -16,7 +16,7 @@
 				
 			</div>
 			<div class="row">
-				<label class="control-label col-md-12">Date range</label>
+				<label class="control-label col-md-12">Event date</label>
 				<div class="form-group col-md-6" ng-class="{'has-error': start_date > end_date}">
 					<label for="start_date" class="control-label">start</label>
 					<div class="input-group">
@@ -44,18 +44,22 @@
 		</form>
 	</div>
 
-	<div class="col-md-8">
+	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="event_table">
 		<table class="table table-hover table-responsive">
 			<tr>
 				<th>Type</th>
 				<th>Start date</th>
 				<th>End date</th>
 			</tr>
-			<tr ng-repeat="event in events" ng-click="open_event(event)">
+			<tr ng-repeat="event in events" ng-click="open_event_detail(event)">
 				<td>{{event.event_type | full_type}}</td>
 				<td>{{event.event_starttime}}</td>
 				<td>{{event.event_endtime}}</td>
 			</tr>
 		</table>
+		<div class="pager">
+				<button type="button" class="btn btn-default btn-sm previous" ng-click="load_events(page_number - 1)" ng-class="{'disabled': page_number <= 1}">&larr;</button>
+				<button type="button" class="btn btn-default btn-sm next" ng-click="load_events(page_number + 1)">&rarr;</button>
+		</div>
 	</div>
 </div>

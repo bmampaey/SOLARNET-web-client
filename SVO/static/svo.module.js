@@ -1,6 +1,7 @@
 var SVOApp = angular.module('SVOApp', [
 	'ngRoute',
 	'ui.bootstrap',
+	'bsLoadingOverlay',
 	'DatasetApp',
 	'DataSelectionApp',
 	'EventApp',
@@ -18,7 +19,7 @@ SVOApp.config(['$routeProvider',
 			})
 			.when('/data_selection', {
 				templateUrl: '/static/data_selection/data_selection.html',
-				controller: 'DataSelectionController'
+				controller: 'UserDataSelectionController'
 			})
 			.when('/event', {
 				templateUrl: '/static/event/event.html',
@@ -29,3 +30,12 @@ SVOApp.config(['$routeProvider',
 			});
 	}
 ]);
+
+
+SVOApp.run(function (bsLoadingOverlayService) {
+	bsLoadingOverlayService.setGlobalConfig({
+		delay: 100, // Minimal delay to hide loading overlay in ms.
+		activeClass: undefined, // Class that is added to the element where bs-loading-overlay is applied when the overlay is active.
+		templateUrl: "/static/libs/angular-loading-overlay/angular-loading-overlay.html" // Template url for overlay element. If not specified - no overlay element is created.
+	});
+});

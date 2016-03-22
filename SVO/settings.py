@@ -41,9 +41,7 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'django_extensions', # Add useful management commands
 	'debug_toolbar', # Add useful info when debugging
-	'rest_framework',
 	'django_filters',
-	'crispy_forms', # Just for the Rest framework
 	# Our own apps
 	'account',
 	'dataset',
@@ -138,6 +136,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
 	os.path.join(PROJECT_DIR, 'static').replace('\\','/'), # Add common static directory
 ]
+
+STATIC_ROOT = '/var/www/html/SVO/'
 
 # Django REST Framework settings
 REST_FRAMEWORK = {

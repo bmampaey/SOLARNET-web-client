@@ -1,18 +1,29 @@
-<div ng-controller="DataSelectionController">
-	<table class="table table-hover table-responsive">
+<div class="row">
+	<table class="table table-hover table-responsive" bs-loading-overlay bs-loading-overlay-reference-id="user_data_selection_table">
 		<tr>
+			<th>FTP</th>
 			<th># Items</th>
 			<th>Name</th>
 			<th>Date of creation</th>
 			<th>Last update</th>
-			<th>Datasets</th>
+			<th>Delete</th>
 		</tr>
-		<tr ng-repeat="data_selection in data_selections" ng-click="">
-			<td>{{data_selection.number_items}}</td>
-			<td>{{data_selection.name}}</td>
-			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
-			<td>{{data_selection.updated | date : "yyyy-MM-dd HH:mm" }}</td>
-			<td>{{data_selection.datasets.join(', ')}}</td>
+		<tr ng-repeat="user_data_selection in user_data_selections" ng-click="open_user_data_selection_detail(user_data_selection)">
+			<td>
+				<a href="{{user_data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
+					<span class="glyphicon glyphicon-folder-open"></span>
+				</a>
+			</td>
+			<td>{{user_data_selection.number_items}}</td>
+			<td>{{user_data_selection.name}}</td>
+			<td>{{user_data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>{{user_data_selection.updated | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>
+				<button type="button" class="btn btn-danger btn-sm" ng-click="delete_user_data_selection(user_data_selection); $event.stopPropagation();">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
+			</td>
 		</tr>
 	</table>
+	<p class="small text-center">Click on any row to see data selection detail</p>
 </div>

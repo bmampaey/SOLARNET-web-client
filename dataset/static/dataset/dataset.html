@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-4">
-		<form ng-submit="update_datasets()">
+		<form ng-submit="search_datasets()">
 			<div class="form-group">
 				<label for="instruments" class="control-label">Instrument:</label>
 				<multi-select
@@ -42,7 +42,7 @@
 				/>
 			</div>
 			<div class="row">
-				<label class="control-label col-md-12">Date range</label>
+				<label class="control-label col-md-12">Observation date</label>
 				<div class="form-group col-md-6" ng-class="{'has-error': start_date > end_date}">
 					<label for="start_date" class="control-label">start</label>
 					<div class="input-group">
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<label class="control-label col-md-12">Wavelength range</label>
+				<label class="control-label col-md-12">Observation wavelength</label>
 				<div class="form-group col-md-6" ng-class="{'has-error': wavelength_min > wavelength_max}">
 					<label for="wavelength_min" class="control-label">min</label>
 					<div class="input-group">
@@ -95,7 +95,7 @@
 		</form>
 	</div>
 
-	<div class="col-md-8">
+	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="dataset_table">
 		<table class="table table-hover table-responsive">
 			<tr>
 				<th>Dataset</th>
@@ -104,27 +104,13 @@
 				<th>Telescope</th>
 				<th>Characteristics</th>
 			</tr>
-			<tr ng-repeat="dataset in datasets" ng-hide="dataset.metadata.number_items == 0" ng-click="open_dataset(dataset)">
+			<tr ng-repeat="dataset in datasets" ng-hide="dataset.metadata.number_items == 0" ng-click="open_dataset_detail(dataset)">
 				<td>{{dataset.name}}</td>
 				<td>{{dataset.metadata.number_items}}</td>
 				<td>{{dataset.instrument}}</td>
 				<td>{{dataset.telescope}}</td>
-				<td>{{dataset.characteristics.join(', ')}}</td>
+				<td>{{dataset.characteristics | name_list}}</td>
 			</tr>
 		</table>
 	</div>
-</div>
-<div class="row">
-	<uib-accordion close-others="true">
-		<uib-accordion-group ng-repeat="dataset in opened_datasets" is-open="opened_accordion[dataset.id]">
-			<uib-accordion-heading>
-				{{ dataset.name }}
-				<span uib-popover="{{dataset.description}}" popover-placement="right" popover-trigger="mouseenter" class="glyphicon glyphicon-info-sign"></span>
-				<span class="pull-right glyphicon glyphicon-remove-sign" ng-click="close_dataset(dataset)"></span>
-			</uib-accordion-heading>
-			<div ng-include="'/static/dataset/' + dataset.id + '.html'" autoscroll ng-controller="MetadataController">
-			 	Please wait while the metadata is loading...
-			</div>
-		</uib-accordion-group>
-	</uib-accordion>
 </div>

@@ -11,8 +11,8 @@ EventApp.constant('HEK_SEARCH_PARAMS', {
 	x2: '5000',
 	y1: '-5000',
 	y2: '5000',
-	return: 'event_type,event_starttime,event_endtime,kb_archivid', // limit the returned fields
-	result_limit: 20, // limit to 20 results
+	return: 'event_type,event_starttime,event_endtime,kb_archivid,gs_thumburl,frm_name,frm_identifier', // limit the returned fields
+	result_limit: 10, // limit the number of results
 });
 
 EventApp.constant('EVENT_TYPES', {

@@ -24,8 +24,8 @@ DatasetApp.factory('Tag', ['SDA_URL', '$resource',
 	}
 ]);
 
-DatasetApp.factory('Metadata', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + ':dataset');
+DatasetApp.factory('Metadata', ['SDA_URL', '$resource', 'METADATA_SEARCH_PARAMS',
+	function(SDA_URL, $resource, METADATA_SEARCH_PARAMS) {
+		return $resource(SDA_URL + ':dataset', METADATA_SEARCH_PARAMS);
 	}
 ]);

@@ -9,7 +9,7 @@ angular.module('authenticationApp')
 		}
 	);
 })
-.factory('authenticationService', function($uibModal, $cookies, User){
+.factory('authenticationService', function($cookies, $location, $q, $uibModal, User){
 	var user = get_session_user();
 	return {
 		user: user,
@@ -17,6 +17,7 @@ angular.module('authenticationApp')
 		login: login,
 		logout: logout,
 		request_login: request_login,
+		require_authentication: require_authentication,
 	};
 	
 	function is_authenticated() {
@@ -30,23 +31,26 @@ angular.module('authenticationApp')
 	function login_success(data){
 		user = data.username;
 		$cookies.put('user', user);
+		return data;
 	}
 	
 	function login_failed(data){
-		
+		// resource pass the full http response on failure
+		return $q.reject(data.data);
 	}
 	
 	function logout(){
 		return User.logout().$promise.finally(function(data){
 			user = undefined;
 			$cookies.remove('user');
+			$location.url('/');
 		});
 	}
 	
 	function request_login(){
-		$uibModal.open({
+		return $uibModal.open({
 			templateUrl: 'authentication/login.html',
-			size: 'md',
+			size: 'sm',
 			controller: 'LoginController',
 			controllerAs: 'login',
 			//bindToController: true, // necessary?
@@ -55,7 +59,23 @@ angular.module('authenticationApp')
 	};
 	
 	function get_session_user(){
-		return $cookies.get('user');
+		if ($cookies.get('user')) {
+			return $cookies.get('user');
+		}
+		else {
+			return undefined;
+		}
+		
 	}
 	
+	function require_authentication() {
+		// return true or a promise with true when authentication is ok
+		// can be used for resolve
+		if (is_authenticated()) {
+			return true;
+		} else {
+			var login = request_login();
+			return login.closed;
+		}
+	};
 });

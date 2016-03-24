@@ -20,7 +20,7 @@ angular.module('authenticationApp')
 	}
 	
 	function login_success(data){
-		$uibModalInstance.close();
+		$uibModalInstance.close(true);
 	}
 	
 	function login_failed(data){

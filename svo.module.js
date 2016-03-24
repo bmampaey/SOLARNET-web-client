@@ -20,7 +20,13 @@ angular.module('SVOApp')
 		})
 		.when('/data_selection', {
 			templateUrl: 'data_selection/data_selection.html',
-			controller: 'UserDataSelectionController'
+			controller: 'UserDataSelectionController',
+			resolve: {
+				// data selection require authentication
+				factory: function(authenticationService){
+					return authenticationService.require_authentication();
+					},
+			},
 		})
 		.when('/event', {
 			templateUrl: 'event/event.html',
@@ -33,7 +39,7 @@ angular.module('SVOApp')
 .run(function (bsLoadingOverlayService) {
 	bsLoadingOverlayService.setGlobalConfig({
 		delay: 100, // Minimal delay to hide loading overlay in ms.
-		activeClass: undefined, // Class that is added to the element where bs-loading-overlay is applied when the overlay is active.
+		activeClass: null, // Class that is added to the element where bs-loading-overlay is applied when the overlay is active.
 		templateUrl: "libs/angular-loading-overlay/angular-loading-overlay.html" // Template url for overlay element. If not specified - no overlay element is created.
 	});
 });

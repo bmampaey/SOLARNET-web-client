@@ -1,6 +1,5 @@
-var DataSelectionApp = angular.module('DataSelectionApp');
-
-DataSelectionApp.controller('UserDataSelectionController', function($scope, UserDataSelection, DataSelection, $uibModal, bsLoadingOverlayService) {
+angular.module('DataSelectionApp')
+.controller('UserDataSelectionController', function($scope, UserDataSelection, DataSelection, $uibModal, bsLoadingOverlayService) {
 	
 	console.log("UserDataSelectionController scope", $scope.$id);
 	
@@ -54,9 +53,8 @@ DataSelectionApp.controller('UserDataSelectionController', function($scope, User
 			},
 		});
 	};
-});
-
-DataSelectionApp.controller('UserDataSelectionDetailController',
+})
+.controller('UserDataSelectionDetailController',
 function($scope, $uibModalInstance, user_data_selection) {
 	console.log("UserDataSelectionDetailController scope", $scope.$id);
 	$scope.user_data_selection = user_data_selection;

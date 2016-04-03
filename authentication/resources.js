@@ -1,4 +1,5 @@
-angular.module('authenticationApp')
+angular
+.module('authenticationApp')
 .factory('User', function($resource, SDA_URL){
 	return $resource(
 		SDA_URL + 'user/:action\\/',

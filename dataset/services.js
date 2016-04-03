@@ -1,83 +1,99 @@
-angular.module('DatasetApp')
+angular.module('datasetApp')
 .factory('datasetService',
-	function(Dataset, Telescope, Characteristic, Tag, bsLoadingOverlayService){
-		var datasets;
+	function($location, $q, messagingService, Dataset, Telescope, Characteristic, Tag){
+		var datasets = [];
 		return {
 			datasets: datasets,
 			search_datasets: search_datasets,
-			get_datasets: get_datasets,
-			get_instruments: get_instruments,
-			get_characteristics: get_characteristics,
-			get_tags: get_tags,
+			load_datasets: load_datasets,
+			instruments: get_instruments(),
+			characteristics: get_characteristics(),
+			tags: get_tags(),
 		};
 		
-		var query_params;
-		// function to parse search criteria and load the table
-		function search_datasets(search_params, overlay_id) {
+		// function to parse search criteria and load the url query params
+		function search_datasets(search_criteria) {
 			
-			query_params = {};
+			var search_params = {};
 			
 			// check selected instruments
-			if(search_params.selected_instruments.length != 0) {
-				query_params.instrument__in = get_values(search_params.selected_instruments);
+			if(search_criteria.selected_instruments.length != 0) {
+				search_params.instrument__in = get_values(search_criteria.selected_instruments);
 			}
 			
 			// check selected characteristics
-			if(search_params.selected_characteristics.length != 0) {
-				query_params.characteristics__in = get_values(search_params.selected_characteristics);
+			if(search_criteria.selected_characteristics.length != 0) {
+				search_params.characteristics__in = get_values(search_criteria.selected_characteristics);
 			}
 			
 			// check selected tags
-			if(search_params.selected_tags.length != 0) {
-				query_params.tags__in = get_values(search_params.selected_tags);
+			if(search_criteria.selected_tags.length != 0) {
+				search_params.tags__in = get_values(search_criteria.selected_tags);
 			}
 			
 			// check date range
-			if(search_params.start_date != null) {
-				// date are in local timezone, so must be offset to UTC
-				query_params.date_end__gt = new Date(search_params.start_date.getTime() - (60000 * search_params.start_date.getTimezoneOffset()));
+			if(search_criteria.start_date != null) {
+				search_params.date_end__gt = search_criteria.start_date.toISOString();
 			}
 			
-			if(search_params.end_date != null) {
-				// date are in local timezone, so must be offset to UTC
-				query_params.date_beg__lt = new Date(search_params.end_date.getTime() - (60000 * search_params.end_date.getTimezoneOffset()));
+			if(search_criteria.end_date != null) {
+				search_params.date_beg__lt = search_criteria.end_date.toISOString();
 			}
 			
 			// check wavelength range
-			if(search_params.wavelength_min != null) {
-				query_params.wavemax__gt = search_params.angstrom ? search_params.wavelength_min / 10.0 : search_params.wavelength_min;
+			if(search_criteria.wavelength_min != null) {
+				search_params.wavemax__gt = search_criteria.angstrom ? search_criteria.wavelength_min / 10.0 : search_criteria.wavelength_min;
 			}
 			
-			if(search_params.wavelength_max != null) {
-				query_params.wavemin__lt = search_params.angstrom ? search_params.wavelength_max  / 10.0 : search_params.wavelength_max;
+			if(search_criteria.wavelength_max != null) {
+				search_params.wavemin__lt = search_criteria.angstrom ? search_criteria.wavelength_max  / 10.0 : search_criteria.wavelength_max;
 			}
 			
-			console.log("Query params");
-			console.log(query_params);
+			console.log("Search params");
+			console.log(search_params);
+			
+			// load the query params in the url
+			$location.search(search_params);
 			
 			// load the datasets
-			load_datasets(overlay_id)
+			return load_datasets();
 		};
 		
-		// function to get the datasets
-		function get_datasets(overlay_id){
+		// function to load the datasets
+		var dataset_request;
+		function load_datasets(page_number){
 			console.log("Updating datasets");
 			
-			// set the loading overlay
-			if(overlay_id){
-				bsLoadingOverlayService.start({referenceId: overlay_id});
+			// cancel any previous request
+			if(dataset_request !== undefined){
+				console.log('Cancel previous dataset request', dataset_request);
+				// TODO HUHO canceling the request reject the promise
+				//dataset_request.$cancelRequest();
 			}
 			
-			// get the datasets
-			Dataset.get(query_params, function(datasets) {
-				// update the dataset list
-				datasets = datasets.objects;
-				
-				// stop the loading overlay
-				if(overlay_id){
-					bsLoadingOverlayService.stop({referenceId: overlay_id});
-				}
-			});
+			
+			// set page number
+			//offset = page_number * 0;
+			//$location.search('offset', page_number);
+			
+			// get the datasets, and save the request for later
+			dataset_request = Dataset.get($location.search());
+			
+			// return the dataset promise
+			return dataset_request.$promise.then(load_datasets_success, load_datasets_error);
+		}
+		
+		function load_datasets_success(data){
+			// do not just assign datasets, modify it
+			Array.prototype.splice.apply(datasets, [0, datasets.length].concat(data.objects));
+			return data;
+		}
+		
+		function load_datasets_error(response){
+			// resource pass the full http response on failure
+			var reason = response.status < 0 ? 'The server seems down' : response.statusText;
+			messagingService.error(['There was an error retrieving datasest', reason]);
+			return $q.reject(reason);
 		}
 		
 		function get_values(array){

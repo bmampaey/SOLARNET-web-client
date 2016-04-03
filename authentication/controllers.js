@@ -1,4 +1,5 @@
-angular.module('authenticationApp')
+angular
+.module('authenticationApp')
 .controller('LoginController', function($uibModalInstance, authenticationService) {
 	// Angular does not detect auto-fill or auto-complete. If the browser
 	// autofills "username", Angular will be unaware of this and think
@@ -10,7 +11,7 @@ angular.module('authenticationApp')
 	vm.authenticate = authenticate;
 	
 	function authenticate() {
-		authenticationService.login(get_credentials()).then(login_success, login_failed);
+		authenticationService.login(get_credentials()).then(login_success, login_error);
 	}
 	
 	function get_credentials(){
@@ -23,7 +24,7 @@ angular.module('authenticationApp')
 		$uibModalInstance.close(true);
 	}
 	
-	function login_failed(data){
+	function login_error(data){
 		vm.error_message = data.reason;
 	}
 });

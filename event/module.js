@@ -1,8 +1,8 @@
-var EventApp = angular.module('EventApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'multi-select']);
+var eventApp = angular.module('eventApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'multi-select']);
 
-EventApp.constant('HEK_URL', 'http://www.lmsal.com/hek/her');
+eventApp.constant('HEK_URL', 'http://www.lmsal.com/hek/her');
 
-EventApp.constant('HEK_SEARCH_PARAMS', {
+eventApp.constant('HEK_SEARCH_PARAMS', {
 	cosec: 2, // ask for json
 	cmd: 'search', // search command
 	type: 'column',
@@ -15,7 +15,7 @@ EventApp.constant('HEK_SEARCH_PARAMS', {
 	result_limit: 10, // limit the number of results
 });
 
-EventApp.constant('EVENT_TYPES', {
+eventApp.constant('EVENT_TYPES', {
 	AR : 'Active Region',
 	CE : 'CME',
 	CD : 'Coronal Dimming',
@@ -44,7 +44,7 @@ EventApp.constant('EVENT_TYPES', {
 	TO : 'Topological Object'
 });
 
-EventApp.filter('full_type', function(EVENT_TYPES) {
+eventApp.filter('full_type', function(EVENT_TYPES) {
 	return function(input) {
 		return input in EVENT_TYPES ? EVENT_TYPES[input] : input;
 	};

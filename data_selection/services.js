@@ -1,1 +1,1 @@
-angular.module('DataSelectionApp');
+angular.module('dataSelectionApp');

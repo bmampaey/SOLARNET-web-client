@@ -12,13 +12,13 @@
 	<link rel="stylesheet" href="libs/datetime-picker/datetime-picker.css">
 	
 	<!-- Libs -->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-cookies.js"></script>
-	
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-resource.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
 	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.4.js"></script>
+	
 	<script src="libs/angular_multi_select/angular-multi-select.js"></script>
 	<script src="libs/datetime-picker/datetime-picker.js"></script>
 	<script src="libs/angular-loading-overlay/angular-loading-overlay.js"></script>
@@ -28,9 +28,15 @@
 	<script src="svo.module.js"></script>
 	<script src="svo.controllers.js"></script>
 	
+	<!-- messaging module -->
+	<script src="messaging/module.js"></script>
+	<script src="messaging/services.js"></script>
+	<script src="messaging/controllers.js"></script>
+	
 	<!-- authentication module -->
 	<script src="authentication/module.js"></script>
 	<script src="authentication/resources.js"></script>
+	<script src="authentication/services.js"></script>
 	<script src="authentication/controllers.js"></script>
 	
 	<!-- dataset module -->
@@ -56,19 +62,19 @@
 		<nav id="menu" class="navbar navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<ul class="nav navbar-nav">
-					<li ng-class="{ active: svo_ctrl.is_active('/dataset')}"><a href="#/dataset">Datasets</a></li>
-					<li ng-class="{ active: svo_ctrl.is_active('/data_selection')}"><a href="#/data_selection">Data selections</a></li>
-					<li ng-class="{ active: svo_ctrl.is_active('/event')}"><a href="#/event">Events</a></li>
+					<li ui-sref-active="active"><a ui-sref="dataset">Datasets</a></li>
+					<li ui-sref-active="active"><a ui-sref="data_selection">Data selections</a></li>
+					<li ui-sref-active="active"><a ui-sref="event">Events</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" ng-switch on="svo_ctrl.authentication.is_authenticated()">
 					<li ng-switch-when="true"><button class="btn btn-default navbar-btn" ng-click="svo_ctrl.authentication.logout()">Logout</button></li>
 					<li ng-switch-default><button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.request_login()">Login</button></li>
-					<!-- ugly hack because of bug? in bootstrap -->
+					<!-- ugly hack because of ?bug? in bootstrap -->
 					<li>&nbsp;&nbsp;&nbsp;</li>
 				</ul>
 			</div>
 		</nav>
-	<div ng-view id="content" class="container-fluid"></div>
+	<div ui-view id="content" class="container-fluid"></div>
 </body>
 </html>
 

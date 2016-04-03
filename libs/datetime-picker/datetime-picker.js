@@ -300,8 +300,8 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
                     }
                     scope.date = dt;
                 }
-
-                var date = scope.date ? dateFilter(scope.date, dateFormat, ngModelOptions.timezone) : null;
+                // Modified here, removed the timezone in dateFilter
+                var date = scope.date ? dateFilter(scope.date, dateFormat) : null;
 
                 element.val(date);
                 ngModel.$setViewValue(date);

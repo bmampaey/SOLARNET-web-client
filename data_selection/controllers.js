@@ -1,4 +1,4 @@
-angular.module('DataSelectionApp')
+angular.module('dataSelectionApp')
 .controller('UserDataSelectionController', function($scope, UserDataSelection, DataSelection, $uibModal, bsLoadingOverlayService) {
 	
 	console.log("UserDataSelectionController scope", $scope.$id);

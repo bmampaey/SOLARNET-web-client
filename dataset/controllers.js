@@ -1,27 +1,30 @@
-angular.module('DatasetApp')
+angular.module('datasetApp')
 .controller('DatasetController',
-	function(datasetService, $uibModal) {
-		
+	function($uibModal, bsLoadingOverlayService, datasetService) {
 		var vm = this;
-		// search dataset form models
-		vm.search_params = {
+		
+		// dataset search criteria
+		vm.search_criteria = {
 			angstrom: true, // specify wavelength units in angstrom
 			selected_instruments: [], // filled automatically  by the multi select
 			selected_characteristics: [], // filled automatically  by the multi select
 			selected_tags: [], // filled automatically  by the multi select
 		}
 		
-		// load the dataset with the initial search params
-		vm.datasets = datasetService.search_datasets(vm.search_params, 'dataset_overlay');
+		// datasets
+		vm.datasets = datasetService.datasets;
 		
 		// instruments for the multi select
-		vm.instruments = datasetService.get_instruments();
+		vm.instruments = datasetService.instruments;
 		
 		// characteristics for the multi select
-		vm.characteristics = datasetService.get_characteristics();
+		vm.characteristics = datasetService.characteristics;
 		
 		// tags for the multi select
-		vm.tags = datasetService.get_tags();
+		vm.tags = datasetService.tags;
+		
+		// function to search/filter datasets
+		vm.search_datasets = search_datasets;
 		
 		// function to open dataset detail in modal
 		vm.open_dataset_detail = open_dataset_detail;
@@ -29,18 +32,30 @@ angular.module('DatasetApp')
 		// function to save a data selection
 		vm.save_data_selection = save_data_selection;
 		
+		// populate datasets
+		vm.search_datasets_promise = search_datasets();
+		
+		///////////////////////////////////////////////////////////////////////////
+		
+		function search_datasets(){
+			bsLoadingOverlayService.start({referenceId: 'dataset_overlay'});
+			return datasetService.search_datasets(vm.search_criteria).finally(search_datasets_finally);
+		}
+		
+		function search_datasets_finally(){
+			bsLoadingOverlayService.stop({referenceId: 'dataset_overlay'});
+		}
+		
 		function open_dataset_detail(dataset) {
 			$uibModal.open({
-				templateUrl: 'dataset/dataset_detail.html',
+				templateUrl: 'dataset/metadata.html',
 				size: 'lg',
-				controller: 'DatasetDetailController',
+				controller: 'MetadataController',
 				resolve: {
 					dataset: function () { return dataset }
 				},
 			});
 		}
-		
-		
 		
 		function save_data_selection(selected_datasets)
 		{
@@ -49,15 +64,8 @@ angular.module('DatasetApp')
 		
 	}
 )
-.controller('DatasetDetailController',
-	function(vm, $uibModalInstance, dataset) {
-		console.log("DatasetDetailController scope", vm.$id);
-		
-		vm.dataset = dataset;
-	}
-)
 .controller('MetadataController',
-	function(vm, Metadata, Tag, METADATA_SEARCH_PARAMS, bsLoadingOverlayService) {
+	function(Metadata, Tag, METADATA_SEARCH_PARAMS, bsLoadingOverlayService) {
 		// TODO move to an app
 		console.log("MetadataController scope", vm.$id);
 	
@@ -90,41 +98,41 @@ angular.module('DatasetApp')
 		});
 		
 		// search parameters
-		var search_params = {dataset: vm.dataset.id + '_metadata'};
+		var search_criteria = {dataset: vm.dataset.id + '_metadata'};
 		
 		// function to parse search criteria and load the table
 		vm.search_metadata = function() {
 			
-			search_params = {dataset: vm.dataset.id + '_metadata'};
+			search_criteria = {dataset: vm.dataset.id + '_metadata'};
 			
 			// check date range
 			if(vm.start_date != null) {
 				// date are in local timezone, so must be offset to UTC
-				search_params.date_end__gt = new Date(vm.start_date.getTime() - (60000 * vm.start_date.getTimezoneOffset()));
+				search_criteria.date_end__gt = new Date(vm.start_date.getTime() - (60000 * vm.start_date.getTimezoneOffset()));
 			}
 			
 			if(vm.end_date != null) {
 				// date are in local timezone, so must be offset to UTC
-				search_params.date_beg__lt = new Date(vm.end_date.getTime() - (60000 * vm.end_date.getTimezoneOffset()));
+				search_criteria.date_beg__lt = new Date(vm.end_date.getTime() - (60000 * vm.end_date.getTimezoneOffset()));
 			}
 			
 			// check wavelength range
 			if(vm.wavelength_min != null) {
-				search_params.wavemax__gt = vm.angstrom ? vm.wavelength_min / 10.0 : vm.wavelength_min;
+				search_criteria.wavemax__gt = vm.angstrom ? vm.wavelength_min / 10.0 : vm.wavelength_min;
 			}
 			
 			if(vm.wavelength_max != null) {
-				search_params.wavemin__lt = vm.angstrom ? vm.wavelength_max  / 10.0 : vm.wavelength_max;
+				search_criteria.wavemin__lt = vm.angstrom ? vm.wavelength_max  / 10.0 : vm.wavelength_max;
 			}
 			
 			// check selected tags
 			if(vm.selectedTags.length != 0) {
-				search_params.tags__in = vm.selectedTags.map(function(element) {
+				search_criteria.tags__in = vm.selectedTags.map(function(element) {
 					return element.value;
 				});
 			}
 			console.log("search params");
-			console.log(search_params);
+			console.log(search_criteria);
 			
 			//load the metadata
 			vm.load_metadata();
@@ -144,10 +152,10 @@ angular.module('DatasetApp')
 			bsLoadingOverlayService.start({referenceId: 'metadata_table'});
 			
 			// update the search params
-			search_params.offset = vm.page_number * METADATA_SEARCH_PARAMS.limit;
+			search_criteria.offset = vm.page_number * METADATA_SEARCH_PARAMS.limit;
 			
 			// update the table
-			Metadata.get(search_params, function(metadata) {
+			Metadata.get(search_criteria, function(metadata) {
 				// update the metadata list
 				vm.metadata_list = metadata.objects;
 				vm.number_pages = Math.ceil(metadata.meta.total_count / METADATA_SEARCH_PARAMS.limit);

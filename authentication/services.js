@@ -1,4 +1,5 @@
-angular.module('authenticationApp')
+angular
+.module('authenticationApp')
 .factory('authenticationService', function($cookies, $location, $q, $uibModal, User){
 	var user = get_session_user();
 	return {
@@ -15,7 +16,7 @@ angular.module('authenticationApp')
 	}
 	
 	function login(credentials){
-		return User.login(credentials).$promise.then(login_success, login_failed);
+		return User.login(credentials).$promise.then(login_success, login_error);
 	}
 	
 	function login_success(data){
@@ -24,9 +25,9 @@ angular.module('authenticationApp')
 		return data;
 	}
 	
-	function login_failed(data){
+	function login_error(response){
 		// resource pass the full http response on failure
-		return $q.reject(data.data);
+		return $q.reject(response.data);
 	}
 	
 	function logout(){

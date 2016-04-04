@@ -1,21 +1,21 @@
-angular.module('eventApp');
+angular
+.module('eventApp')
 .factory('eventService',
 	function($location, $q, $window, messagingService, Event, EVENT_TYPES){
 		var events = [];
 		return {
-			events: events,
-			search_events: search_events,
-			load_events: load_events,
+			parse_search_criteria: parse_search_criteria,
+			get_events: get_events,
 			event_types: get_event_types(),
 		};
 		
-		// function to parse search criteria and load the url query params
-		function search_events(search_criteria) {
+		// function to parse search criteria into search params for the Event resource
+		function parse_search_criteria(search_criteria) {
 			
 			var search_params = {};
 			
 			// check selected event type
-			if($scope.selectedEventTypes.length != 0) {
+			if(search_criteria.selected_event_types.length > 0) {
 				search_params.event_type = get_values(search_criteria.selected_event_types)
 			}
 			else {
@@ -26,31 +26,23 @@ angular.module('eventApp');
 			search_params.event_starttime = search_criteria.start_date != null ? search_criteria.start_date : new Date(Date.UTC(1975, 09, 01));
 			search_params.event_endtime = search_criteria.end_date != null ? search_criteria.end_date : new Date();
 			
-			console.log("Search params");
-			console.log(search_params);
-			
-			// load the query params in the url
-			$location.search(search_params);
-			
-			// load the events
-			return load_events(1);
+			return search_params
 		}
 		
-		// function to load the datasets
-		var event_request;
-		function load_events(page_number){
-			console.log("Updating events");
+		// function to get the events
+		var request;
+		function get_events(search_params, page_number){
 			
 			// cancel any previous request
-			if(event_request !== undefined){
-				console.log('Cancel previous dataset request', event_request);
-				// TODO HUHO canceling the request reject the promise
-				//event_request.$cancelRequest();
+			if(request !== undefined){
+				console.log('Cancelling previous request', request);
+				// canceling the request reject the promise
+				request.$cancelRequest();
 			}
 			
-			// set page number
-			page_number = page_number != undefined ? page_number : 1; 
-			$location.search('page', page_number);
+			// add page number to search params
+			page_number = page_number != undefined ? page_number - 1 : 0;
+			search_params.page = page_number;
 			
 			// ugly hack because of HEK server bug on JSONP callback
 			var c = $window.angular.callbacks.counter.toString(36);
@@ -60,23 +52,28 @@ angular.module('eventApp');
 			};
 			
 			// get the events, and save the request for later
-			event_request = Event.get($location.search());
+			request = Event.get(search_params);
 			
 			// return the event promise
-			return event_request.$promise.then(load_events_success, load_events_error);
+			return request.$promise.then(get_events_success, get_events_error);
 		}
 		
-		function load_events_success(data){
-			// do not just assign events, modify it
-			Array.prototype.splice.apply(events, [0, events.length].concat(data.result));
-			return data;
+		function get_events_success(data){
+			return data.result;
 		}
 		
-		function load_events_error(response){
-			// resource pass the full http response on failure
-			var reason = response.status < 0 ? 'The server seems down' : response.statusText;
-			messagingService.error(['There was an error retrieving events', reason]);
-			return $q.reject(reason);
+		function get_events_error(response){
+			// TODO How can we know the request was cancelled? For now check if response is undefined
+			if (reason === undefined) {
+				return $q.reject('cancelled');
+			}
+			else {
+				// resource pass the full http response on failure
+				var reason = response.status < 0 ? 'The server seems down' : response.statusText;
+				// display some error message
+				messagingService.error(['There was an error retrieving events', reason]);
+				return $q.reject(reason);
+			}
 		}
 		
 		function get_values(array){
@@ -97,4 +94,5 @@ angular.module('eventApp');
 			});
 			return results;
 		}
+	}
 );

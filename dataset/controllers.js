@@ -1,18 +1,21 @@
 angular.module('datasetApp')
 .controller('DatasetController',
-	function($uibModal, bsLoadingOverlayService, datasetService) {
+	function($location, $uibModal, bsLoadingOverlayService, datasetService) {
 		var vm = this;
 		
-		// dataset search criteria
-		vm.search_criteria = {
+		// set the search criteria from url
+		vm.search_criteria = $location.search();
+		/*
+		{
 			angstrom: true, // specify wavelength units in angstrom
 			selected_instruments: [], // filled automatically  by the multi select
 			selected_characteristics: [], // filled automatically  by the multi select
 			selected_tags: [], // filled automatically  by the multi select
+			
 		}
-		
+		*/
 		// datasets
-		vm.datasets = datasetService.datasets;
+		vm.datasets = [];
 		
 		// instruments for the multi select
 		vm.instruments = datasetService.instruments;
@@ -32,18 +35,41 @@ angular.module('datasetApp')
 		// function to save a data selection
 		vm.save_data_selection = save_data_selection;
 		
-		// populate datasets
-		vm.search_datasets_promise = search_datasets();
+		// load datasets with current search criteria
+		var search_params = datasetService.parse_search_criteria(vm.search_criteria);
+		load_datasets(vm.search_criteria.page);
 		
 		///////////////////////////////////////////////////////////////////////////
 		
 		function search_datasets(){
-			bsLoadingOverlayService.start({referenceId: 'dataset_overlay'});
-			return datasetService.search_datasets(vm.search_criteria).finally(search_datasets_finally);
+			// set the search criteria into the url
+			$location.search(vm.search_criteria);
+			// upate the search params
+			search_params = datasetService.parse_search_criteria(vm.search_criteria);
+			// load the datasets
+			load_datasets(1);
 		}
 		
-		function search_datasets_finally(){
+		function load_datasets(page_number){
+			// set the page number into the url
+			$location.search('page', page_number);
+			// start the overlay
+			bsLoadingOverlayService.start({referenceId: 'dataset_overlay'});
+			// get the datasets
+			datasetService.get_datasets(search_params, page_number).then(load_datasets_success, load_datasets_error);
+		}
+		
+		function load_datasets_success(datasets){
+			vm.datasets = datasets;
+			// stop the overlay
 			bsLoadingOverlayService.stop({referenceId: 'dataset_overlay'});
+		}
+		
+		function load_datasets_error(reason){
+			if (reason != 'cancelled') {
+				// stop the overlay
+				bsLoadingOverlayService.stop({referenceId: 'dataset_overlay'});
+			}
 		}
 		
 		function open_dataset_detail(dataset) {

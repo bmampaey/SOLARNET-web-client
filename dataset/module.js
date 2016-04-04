@@ -1,5 +1,5 @@
 angular
-.module('datasetApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'multi-select', 'checklist-model', 'messagingApp'])
+.module('datasetApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.select', 'ui.bootstrap.datetimepicker', 'multi-select', 'checklist-model', 'messagingApp'])
 .constant('SDA_URL', 'http://solarnet.oma.be:8080/api/v1/')
 .constant('METADATA_SEARCH_PARAMS', {
 	limit: 10, // limit the number of results

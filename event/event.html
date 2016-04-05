@@ -2,18 +2,13 @@
 	<div class="col-md-4">
 		<form ng-submit="event_ctrl.search_events()">
 			<div class="form-group">
-				<label for="event_types" class="control-label">Event type:</label>
-				<multi-select
-					id="event_types"
-					input-model="event_ctrl.event_types"
-					output-model="event_ctrl.search_criteria.selected_event_types"
-					button-label="name"
-					item-label="name"
-					tick-property="checked"
-					helper-elements=""
-					group-property="multiSelectGroup"
-				/>
-				
+				<label for="event_types" class="control-label">Event types:</label>
+				<ui-select multiple="true" ng-model="event_ctrl.search_criteria.selected_event_types" theme="bootstrap">
+					<ui-select-match placeholder="select or search event type">{{$item.name}}</ui-select-match>
+					<ui-select-choices repeat="event_type in event_ctrl.event_types | filter:{name: $select.search}">
+					  <div ng-bind-html="event_type.name | highlight: $select.search"></div>
+					</ui-select-choices>
+				  </ui-select>
 			</div>
 			<div class="row">
 				<label class="control-label col-md-12">Event date</label>
@@ -44,7 +39,7 @@
 		</form>
 	</div>
 
-	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="event_table">
+	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="event_overlay">
 		<table class="table table-hover table-responsive">
 			<tr>
 				<th>Type</th>
@@ -52,14 +47,14 @@
 				<th>End date</th>
 			</tr>
 			<tr ng-repeat="event in event_ctrl.events" ng-click="event_ctrl.open_event_detail(event)">
-				<td>{{event.event_type | full_type}}</td>
+				<td>{{event.event_type | fullType}}</td>
 				<td>{{event.event_starttime}}</td>
 				<td>{{event.event_endtime}}</td>
 			</tr>
 		</table>
 		<div class="pager">
-				<button type="button" class="btn btn-default btn-sm previous" ng-click="event_ctrl.load_events(page_number - 1)" ng-class="{'disabled': page_number <= 1}">&larr;</button>
-				<button type="button" class="btn btn-default btn-sm next" ng-click="event_ctrl.load_events(page_number + 1)">&rarr;</button>
+				<button type="button" class="btn btn-default btn-sm previous" ng-click="event_ctrl.load_events(event_ctrl.page_number - 1)" ng-class="{'disabled': event_ctrl.page_number <= 1}">&larr;</button>
+				<button type="button" class="btn btn-default btn-sm next" ng-click="event_ctrl.load_events(event_ctrl.page_number + 1)">&rarr;</button>
 		</div>
 		<p class="small text-center">Click on any row to see event details</p>
 	</div>

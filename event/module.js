@@ -1,8 +1,7 @@
-var eventApp = angular.module('eventApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'multi-select']);
-
-eventApp.constant('HEK_URL', 'http://www.lmsal.com/hek/her');
-
-eventApp.constant('HEK_SEARCH_PARAMS', {
+angular
+.module('eventApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.select', 'ui.bootstrap.datetimepicker'])
+.constant('HEK_URL', 'http://www.lmsal.com/hek/her')
+.constant('HEK_SEARCH_PARAMS', {
 	cosec: 2, // ask for json
 	cmd: 'search', // search command
 	type: 'column',
@@ -13,9 +12,8 @@ eventApp.constant('HEK_SEARCH_PARAMS', {
 	y2: '5000',
 	return: 'event_type,event_starttime,event_endtime,kb_archivid,gs_thumburl,frm_name,frm_identifier', // limit the returned fields
 	result_limit: 10, // limit the number of results
-});
-
-eventApp.constant('EVENT_TYPES', {
+})
+.constant('EVENT_TYPES', {
 	AR : 'Active Region',
 	CE : 'CME',
 	CD : 'Coronal Dimming',
@@ -42,10 +40,25 @@ eventApp.constant('EVENT_TYPES', {
 	CC : 'Coronal Cavity',
 	ER : 'Eruption',
 	TO : 'Topological Object'
-});
-
-eventApp.filter('full_type', function(EVENT_TYPES) {
+})
+.filter('fullType', function(EVENT_TYPES) {
 	return function(input) {
 		return input in EVENT_TYPES ? EVENT_TYPES[input] : input;
+	};
+})
+.filter('getProp', function() {
+	return function(input, prop, separator) {
+		if (input instanceof Array){
+			var list = input.map(function(val){return val[prop];});
+			if (separator != undefined){
+				return list.join(separator);
+			}
+			else {
+				return list
+			}
+		}
+		else {
+			return input[prop];
+		}
 	};
 });

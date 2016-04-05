@@ -1,27 +1,27 @@
 angular
 .module('datasetApp')
-.factory('Dataset', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + 'dataset');
+.factory('Dataset', ['$resource', 'SDA_URL', 'DATASET_RESOURCE_LIMIT',
+	function($resource, SDA_URL, DATASET_RESOURCE_LIMIT) {
+		return $resource(SDA_URL + '/dataset/:name', {limit: DATASET_RESOURCE_LIMIT});
 	}
 ])
-.factory('Telescope', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + 'telescope');
+.factory('Telescope', ['$resource', 'SDA_URL', 'TELESCOPE_RESOURCE_LIMIT',
+	function($resource, SDA_URL, TELESCOPE_RESOURCE_LIMIT) {
+		return $resource(SDA_URL + '/telescope/:name', {limit: TELESCOPE_RESOURCE_LIMIT});
 	}
 ])
-.factory('Characteristic', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + 'characteristic');
+.factory('Characteristic', ['$resource', 'SDA_URL', 'CHARACTERISTIC_RESOURCE_LIMIT',
+	function($resource, SDA_URL, CHARACTERISTIC_RESOURCE_LIMIT) {
+		return $resource(SDA_URL + '/characteristic/:name', {limit: CHARACTERISTIC_RESOURCE_LIMIT});
 	}
 ])
-.factory('Tag', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + 'tag');
+.factory('Tag', ['$resource', 'SDA_URL', 'TAG_RESOURCE_LIMIT',
+	function($resource, SDA_URL, TAG_RESOURCE_LIMIT) {
+		return $resource(SDA_URL + '/tag/:name', {limit: TAG_RESOURCE_LIMIT});
 	}
 ])
-.factory('Metadata', ['SDA_URL', '$resource', 'METADATA_SEARCH_PARAMS',
-	function(SDA_URL, $resource, METADATA_SEARCH_PARAMS) {
-		return $resource(SDA_URL + ':dataset', METADATA_SEARCH_PARAMS);
+.factory('Metadata', ['$resource', 'SDA_URL', 'METADATA_RESOURCE_LIMIT',
+	function($resource, SDA_URL, METADATA_RESOURCE_LIMIT) {
+		return $resource(SDA_URL + '/:metadata/:oid', {limit: METADATA_RESOURCE_LIMIT});
 	}
 ]);

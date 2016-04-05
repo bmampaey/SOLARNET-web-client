@@ -1,8 +1,9 @@
 angular
 .module('eventApp')
 .factory('eventService',
-	function($location, $q, $window, messagingService, Event, EVENT_TYPES){
-		var events = [];
+	function($location, $q, $window, messagingService, Event, EVENT_TYPES, getPropFilter){
+		var request;
+		
 		return {
 			parse_search_criteria: parse_search_criteria,
 			get_events: get_events,
@@ -15,8 +16,8 @@ angular
 			var search_params = {};
 			
 			// check selected event type
-			if(search_criteria.selected_event_types.length > 0) {
-				search_params.event_type = get_values(search_criteria.selected_event_types)
+			if(search_criteria.selected_event_types != null && search_criteria.selected_event_types.length > 0) {
+				search_params.event_type = getPropFilter(search_criteria.selected_event_types, 'value')
 			}
 			else {
 				search_params.event_type = '**';
@@ -76,19 +77,12 @@ angular
 			}
 		}
 		
-		function get_values(array){
-			return array.map(function(element) {
-					return element.value;
-				});
-		}
-		
 		// function to get the event types for a multi select
 		function get_event_types(){
 			var results = [];
 			angular.forEach(EVENT_TYPES, function(value, key) {
 				results.push({
 					name: value,
-					checked: false,
 					value: key
 				});
 			});

@@ -4,7 +4,7 @@ angular
 	function($location, $uibModal, bsLoadingOverlayService, eventService) {
 		var vm = this;
 		
-		// event search criteria
+		// set default search criteria
 		vm.search_criteria = {
 			selected_event_types: [], // filled automatically  by the multi select
 		}
@@ -18,22 +18,26 @@ angular
 		// function to search/filter events
 		vm.search_events = search_events;
 		
+		// page number
+		vm.page_number = 1, 
+		
 		// function to load events
 		vm.load_events = load_events;
 		
 		// function to open event detail in modal
 		vm.open_event_detail = open_event_detail;
 		
-		// populate events
+		// load events with current search criteria
 		search_events();
 		
-		var search_params;
+		/* DEFINITIONS */
 		
+		var search_params
 		function search_events(){
 			// upate the search params
 			search_params = eventService.parse_search_criteria(vm.search_criteria);
-			// set the search params into the url
-			$location.search(search_params);
+			// set the search criteria into the url
+			$location.search(vm.search_criteria);
 			// load the events
 			load_events(1);
 		}
@@ -41,6 +45,8 @@ angular
 		function load_events(page_number){
 			// set the page number into the url
 			$location.search('page', page_number);
+			// update the controller page number
+			vm.page_number = page_number;
 			// start the overlay
 			bsLoadingOverlayService.start({referenceId: 'event_overlay'});
 			// get the events

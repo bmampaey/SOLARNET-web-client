@@ -1,45 +1,32 @@
 <div class="row">
 	<div class="col-md-4">
-		<form ng-submit="dataset_ctrl.search_datasets('dataset_overlay')">
+		<form ng-submit="dataset_ctrl.search_datasets()">
 			<div class="form-group">
-				<label for="instruments" class="control-label">Instrument:</label>
-				<multi-select
-					id="instruments"
-					input-model="dataset_ctrl.instruments"
-					output-model="dataset_ctrl.search_criteria.selected_instruments"
-					button-label="name"
-					item-label="name"
-					tick-property="checked"
-					helper-elements=""
-					group-property="multiSelectGroup"
-				/>
-				
+				<label for="telescopes" class="control-label">Telescopes:</label>
+				<ui-select multiple="true" ng-model="dataset_ctrl.search_criteria.selected_telescopes" theme="bootstrap">
+					<ui-select-match placeholder="select or search telescopes">{{$item.name}}</ui-select-match>
+					<ui-select-choices repeat="telescope in dataset_ctrl.telescopes | filter:{name: $select.search}">
+					  <div ng-bind-html="telescope.name| highlight: $select.search"></div>
+					</ui-select-choices>
+				  </ui-select>
 			</div>
 			<div class="form-group">
 				<label for="characteristics" class="control-label">Characteristics:</label>
-				<multi-select
-					id="characteristics"
-					input-model="dataset_ctrl.characteristics"
-					output-model="dataset_ctrl.search_criteria.selected_characteristics"
-					button-label="name"
-					item-label="name"
-					tick-property="checked"
-					helper-elements=""
-					group-property="multiSelectGroup"
-				/>
+				<ui-select multiple="true" ng-model="dataset_ctrl.search_criteria.selected_characteristics" theme="bootstrap">
+					<ui-select-match placeholder="select or search characteristics">{{$item.name}}</ui-select-match>
+					<ui-select-choices repeat="characteristic in dataset_ctrl.characteristics | filter:{name: $select.search}">
+					  <div ng-bind-html="characteristic.name | highlight: $select.search"></div>
+					</ui-select-choices>
+				  </ui-select>
 			</div>
 			<div class="form-group">
 				<label for="tags" class="control-label">Tags:</label>
-				<multi-select
-					id="tags"
-					input-model="dataset_ctrl.tags"
-					output-model="dataset_ctrl.search_criteria.selected_tags"
-					button-label="name"
-					item-label="name"
-					tick-property="checked"
-					helper-elements=""
-					group-property="multiSelectGroup"
-				/>
+				<ui-select multiple="true" ng-model="dataset_ctrl.search_criteria.selected_tags" theme="bootstrap">
+					<ui-select-match placeholder="select or search tags">{{$item.name}}</ui-select-match>
+					<ui-select-choices repeat="tag in dataset_ctrl.tags | filter:{name: $select.search}">
+					  <div ng-bind-html="tag.name | highlight: $select.search"></div>
+					</ui-select-choices>
+				  </ui-select>
 			</div>
 			<div class="row">
 				<label class="control-label col-md-12">Observation date</label>
@@ -106,17 +93,17 @@
 				<th>Characteristics</th>
 			</tr>
 			<tr ng-repeat="dataset in dataset_ctrl.datasets" ng-hide="dataset.metadata.number_items == 0" ng-click="dataset_ctrl.open_dataset_detail(dataset)">
-				<td><input type="checkbox" checklist-model="datasets.selected" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
+				<td><input type="checkbox" checklist-model="dataset_ctrl.selected_datasets" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
 				<td>{{dataset.name}}</td>
 				<td>{{dataset.metadata.number_items}}</td>
-				<td>{{dataset.instrument}}</td>
 				<td>{{dataset.telescope}}</td>
-				<td>{{dataset.characteristics | name_list}}</td>
+				<td>{{dataset.telescope}}</td>
+				<td>{{dataset.characteristics | getProp:'name':', '}}</td>
 			</tr>
 		</table>
 		<p class="small text-center">Click on any row to see dataset content or refine search</p>
 		<div role="group">
-				<button type="button" class="btn btn-default" ng-click="dataset_ctrl.create_user_data_selection(datasets.selected)" ng-class="{'disabled': !datasets.selected}" title="Select one or more dataset to add to/create a selection">Save selection</button>
+				<button type="button" class="btn btn-default" ng-click="dataset_ctrl.create_user_data_selection(datasets.selected)" ng-class="{'disabled': dataset_ctrl.selected_datasets.length == 0}" title="Select one or more dataset to add to/create a selection">Save selection</button>
 		</div>
 	</div>
 </div>

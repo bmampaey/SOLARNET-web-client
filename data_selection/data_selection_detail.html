@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{parent_data_selection.name}}</h3>
+	<h3 class="modal-title">{{ctrl.parent.name}}</h3>
 </div>
 <div class="modal-body">
 	<table class="table table-responsive">
@@ -11,18 +11,18 @@
 			<th>Search parameters</th>
 			<th>Delete</th>
 		</tr>
-		<tr ng-repeat="data_selection in data_selection_ctrl.data_selections">
+		<tr ng-repeat="object in ctrl.data_selections">
 			<td>
-				<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
+				<a href="{{object.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
 					<span class="glyphicon glyphicon-folder-open"></span>
 				</a>
 			</td>
-			<td>{{data_selection.number_items}}</td>
-			<td>{{data_selection.dataset.name}}</td>
-			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>{{object.number_items}}</td>
+			<td>{{object.dataset.name}}</td>
+			<td>{{object.created | date : "yyyy-MM-dd HH:mm" }}</td>
 			<td>TODO</td>
 			<td>
-				<button type="button" class="btn btn-danger btn-sm" ng-click="data_selection.delete(); $event.stopPropagation();">
+				<button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.delete_object(object); $event.stopPropagation();">
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</td>

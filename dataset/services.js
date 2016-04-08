@@ -1,12 +1,9 @@
 angular.module('datasetApp')
-.factory('datasetService', function($q, messagingService, DATASET_RESOURCE_LIMIT, Dataset, Telescope, Characteristic, Tag, getPropFilter){
+.factory('datasetService', function(getPropFilter){
 	
 	return {
 		parse_search_criteria: parse_search_criteria,
-		get_datasets: get_datasets,
-		telescopes: get_telescopes(),
-		characteristics: get_characteristics(),
-		tags: get_tags(),
+		parse_location_search: parse_location_search,
 	};
 	
 	// function to parse search criteria into search params for the Dataset resource
@@ -50,75 +47,24 @@ angular.module('datasetApp')
 		return search_params;
 	};
 	
-	// function to get the datasets
-	var request;
-	function get_datasets(search_params, page_number){
-		
-		// cancel any previous request
-		if(request !== undefined){
-			console.log('Cancelling previous request', request);
-			// canceling the request reject the promise
-			request.$cancelRequest();
-		}
-		
-		// add offset to search params
-		page_number = page_number != undefined ? page_number - 1 : 0;
-		search_params.offset = page_number * DATASET_RESOURCE_LIMIT;
-		
-		// get the datasets, and save the request for later
-		request = Dataset.get(search_params);
-		
-		// return the dataset promise
-		return request.$promise.then(get_datasets_success, get_datasets_error);
-	}
-	
-	function get_datasets_success(data){
-		data.objects.meta = data.meta;
-		return data.objects;
-	}
-	
-	function get_datasets_error(response){
-		// TODO How can we know the request was cancelled? For now check if response is undefined
-		if (reason === undefined) {
-			return $q.reject('cancelled');
-		}
-		else {
-			// resource pass the full http response on failure
-			var reason = response.status < 0 ? 'The server seems down' : response.statusText;
-			// display some error message
-			messagingService.error(['There was an error retrieving datasets', reason]);
-			return $q.reject(reason);
-		}
-	}
-	
-	// function to get the telescopes
-	// return an empty list filled when the request completes
-	function get_telescopes(){
-		var results = [];
-		Telescope.get(function(telescopes){
-			 Array.prototype.push.apply(results, telescopes.objects);
+	// parse the location search values into search criteria
+	// usefull if we want to prefill the form inputs from the url
+	function parse_location_search(search_criteria){
+		// some search criteria must be arrays for the multi select
+		angular.forEach(['selected_telescopes', 'selected_characteristics', 'selected_tags'], function(array){
+			if(search_criteria[array] == undefined){
+				search_criteria[array] = [];
+			} else if(! (search_criteria[array] instanceof Array)) {
+				search_criteria[array] = [search_criteria[array]]
+			}
 		});
-		return results;
-	}
-	
-	
-	// function to get the characteristics
-	// return an empty list filled when the request completes
-	function get_characteristics(){
-		var results = [];
-		Characteristic.get(function(characteristics){
-			 Array.prototype.push.apply(results, characteristics.objects);
-		});
-		return results;
-	}
-	
-	// function to get the tags
-	// return an empty list filled when the request completes
-	function get_tags(){
-		var results = [];
-		Tag.get(function(tags){
-			 Array.prototype.push.apply(results, tags.objects);
-		});
-		return results;
+		// dates need to be converted to Date objects
+		if(search_criteria.start_date != undefined) {
+			search_criteria.start_date = new Date(search_criteria.start_date);
+		}
+		if(search_criteria.end_date != undefined) {
+			search_criteria.end_date = new Date(search_criteria.end_date);
+		}
+		return search_criteria;
 	}
 });

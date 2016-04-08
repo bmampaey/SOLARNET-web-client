@@ -1,11 +1,9 @@
 angular.module('dataSelectionApp')
-.factory('UserDataSelection', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + '/user_data_selection/:id');
-	}
-])
-.factory('DataSelection', ['SDA_URL', '$resource',
-	function(SDA_URL, $resource) {
-		return $resource(SDA_URL + '/data_selection/:id');
-	}
-]);
+.factory('UserDataSelection', function($tastypieResource, SDA_URL) {
+	var UserDataSelection = new $tastypieResource('user_data_selection', {limit:0});
+	return UserDataSelection;
+})
+.factory('DataSelection', function($tastypieResource, SDA_URL) {
+	var DataSelection = new $tastypieResource('data_selection', {limit:0});
+	return DataSelection;
+});

@@ -43,8 +43,7 @@ angular
 		if (user.is_authenticated()) {
 			return true;
 		} else {
-			var login = login();
-			return login.closed;
+			return login().closed;
 		}
 	};
 });

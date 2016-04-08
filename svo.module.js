@@ -16,13 +16,19 @@ angular
 	.state('dataset', {
 		url: "/dataset",
 		templateUrl: "dataset/dataset.html",
-		controller: "DatasetController as dataset_ctrl",
+		controller: "DatasetController as ctrl",
 		reloadOnSearch: false,
 	})
 	.state('data_selection', {
 		url: "/data_selection",
 		templateUrl: "data_selection/data_selection.html",
 		controller: "DataSelectionController as ctrl",
+		resolve: {
+				// data selection require authentication
+				factory: function(authenticationService){
+					return authenticationService.require_authentication();
+					},
+			},
 		reloadOnSearch: false,
 	})
 	.state('event', {

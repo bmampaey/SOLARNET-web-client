@@ -5,7 +5,7 @@
 	<p>Please specify your email address to ctrl into the application</p>
 	<form ng-submit="ctrl.login()">
 		<div class="form-group" ng-class="{'has-error' : ctrl.error_message}">
-			<input type="email" class="form-control" ng-model="ctrl.email" placeholder="your email" required/>
+			<input type="email" class="form-control" autofocus ng-model="ctrl.email" placeholder="your email" required/>
 			<p class="help-block">{{ctrl.error_message}}</p>
 		</div>
 		<input type="submit" value="Login" class="btn btn-primary btn-md" />

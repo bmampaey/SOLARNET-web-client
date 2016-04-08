@@ -1,6 +1,6 @@
 angular
 .module('authenticationApp')
-.controller('LoginController', function($uibModalInstance, authenticationService) {
+.controller('LoginController', function($uibModalInstance, user) {
 	// Angular does not detect auto-fill or auto-complete. If the browser
 	// autofills "username", Angular will be unaware of this and think
 	// the $scope.username is blank. To workaround this we use the 
@@ -8,10 +8,12 @@ angular
 	//$('#id_auth_form input').checkAndTriggerAutoFillEvent();
 	
 	var vm = this;
-	vm.authenticate = authenticate;
+	vm.login = login;
 	
-	function authenticate() {
-		authenticationService.login(get_credentials()).then(login_success, login_error);
+	/* DEFINITIONS */
+	
+	function login() {
+		user.login(get_credentials()).then(login_success, login_error);
 	}
 	
 	function get_credentials(){
@@ -20,12 +22,12 @@ angular
 		}
 	}
 	
-	function login_success(data){
+	function login_success(){
 		$uibModalInstance.close(true);
 	}
 	
-	function login_error(data){
-		vm.error_message = data.reason;
+	function login_error(response){
+		vm.error_message = response.data || response.statusText;
 	}
 });
 

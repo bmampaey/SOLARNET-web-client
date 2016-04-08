@@ -66,3 +66,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# Fucking apple files
+.DS_Store
+._.DS_Store

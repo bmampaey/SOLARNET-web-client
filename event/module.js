@@ -1,5 +1,11 @@
 angular
-.module('eventApp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.select', 'ui.bootstrap.datetimepicker'])
+.module('eventApp', [
+	'ngResource',
+	'ui.bootstrap',
+	'ui.select',
+	'ui.bootstrap.datetimepicker',
+	'global',
+])
 .constant('HEK_URL', 'http://www.lmsal.com/hek/her')
 .constant('HEK_SEARCH_PARAMS', {
 	cosec: 2, // ask for json
@@ -40,25 +46,4 @@ angular
 	CC : 'Coronal Cavity',
 	ER : 'Eruption',
 	TO : 'Topological Object'
-})
-.filter('fullType', function(EVENT_TYPES) {
-	return function(input) {
-		return input in EVENT_TYPES ? EVENT_TYPES[input] : input;
-	};
-})
-.filter('getProp', function() {
-	return function(input, prop, separator) {
-		if (input instanceof Array){
-			var list = input.map(function(val){return val[prop];});
-			if (separator != undefined){
-				return list.join(separator);
-			}
-			else {
-				return list
-			}
-		}
-		else {
-			return input[prop];
-		}
-	};
 });

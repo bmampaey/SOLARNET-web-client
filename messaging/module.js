@@ -1,3 +1,5 @@
 angular
-.module('messagingApp', ['ui.bootstrap']);
+.module('messagingApp', [
+	'ui.bootstrap',
+]);
 

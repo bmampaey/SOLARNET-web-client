@@ -17,12 +17,16 @@ angular
 	
 	function show_messages(type, messages){
 		$uibModal.open({
-			templateUrl: 'messaging/message.html',
+			templateUrl: '/SVO/messaging/message.html',
 			size: 'sm',
 			controller: 'MessagingController',
 			controllerAs: 'ctrl',
 			backdrop: true,
-			resolve : {info: function(){return {type: type, messages: messages}}},
+			resolve : {
+				info: function(){
+					return {type: type, messages: messages}
+				}
+			},
 		});
 	}
 });

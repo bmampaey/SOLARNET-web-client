@@ -1,5 +1,5 @@
 <div class="row">
-	<table class="table table-hover table-responsive" bs-loading-overlay bs-loading-overlay-reference-id="user_data_selection_overlay">
+	<table class="table table-hover table-responsive" bs-loading-overlay bs-loading-overlay-reference-id="data_selections_overlay">
 		<tr>
 			<th>FTP</th>
 			<th># Items</th>
@@ -8,18 +8,18 @@
 			<th>Last update</th>
 			<th>Delete</th>
 		</tr>
-		<tr ng-repeat="user_data_selection in user_data_selection_ctrl.user_data_selections" ng-click="user_data_selection_ctrl.open_user_data_selection_detail(user_data_selection)">
+		<tr ng-repeat="data_selection in data_selection_ctrl.data_selections" ng-click="data_selection_ctrl.open_detail(data_selection)">
 			<td>
-				<a href="{{user_data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
+				<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
 					<span class="glyphicon glyphicon-folder-open"></span>
 				</a>
 			</td>
-			<td>{{user_data_selection.number_items}}</td>
-			<td>{{user_data_selection.name}}</td>
-			<td>{{user_data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
-			<td>{{user_data_selection.updated | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>{{data_selection.number_items}}</td>
+			<td>{{data_selection.name}}</td>
+			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>{{data_selection.updated | date : "yyyy-MM-dd HH:mm" }}</td>
 			<td>
-				<button type="button" class="btn btn-danger btn-sm" ng-click="user_data_selection_ctrl.delete_user_data_selection(user_data_selection); $event.stopPropagation();">
+				<button type="button" class="btn btn-danger btn-sm" ng-click="data_selection.delete(); $event.stopPropagation();">
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</td>

@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{user_data_selection.name}}</h3>
+	<h3 class="modal-title">{{parent_data_selection.name}}</h3>
 </div>
 <div class="modal-body">
 	<table class="table table-responsive">
@@ -22,7 +22,7 @@
 			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
 			<td>TODO</td>
 			<td>
-				<button type="button" class="btn btn-danger btn-sm" ng-click="data_selection_ctrl.delete_data_selection(data_selection); $event.stopPropagation();">
+				<button type="button" class="btn btn-danger btn-sm" ng-click="data_selection.delete(); $event.stopPropagation();">
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</td>

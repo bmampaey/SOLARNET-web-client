@@ -17,14 +17,19 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-resource.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.5/ui-bootstrap-tpls.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.5/ui-bootstrap-tpls.js"></script>
 	
+	<script src="libs/angular-resource-tastypie/angular-resource-tastypie.js"></script>
 	<script src="libs/datetime-picker/datetime-picker.js"></script>
 	<script src="libs/angular-loading-overlay/angular-loading-overlay.js"></script>
 	<script src="libs/checklist-model/checklist-model.js"></script>
 		
+	<!-- global config module -->
+	<script src="global/module.js"></script>
+	<script src="global/filters.js"></script>
+	
 	<!-- SVO app -->
 	<script src="svo.module.js"></script>
 	<script src="svo.controllers.js"></script>
@@ -57,6 +62,7 @@
 	<script src="event/resources.js"></script>
 	<script src="event/services.js"></script>
 	<script src="event/controllers.js"></script>
+	<script src="event/filters.js"></script>
 </head>
 
 <body ng-controller="SVOController as svo_ctrl" class="container-fluid">
@@ -67,9 +73,9 @@
 					<li ui-sref-active="active"><a ui-sref="data_selection">Data selections</a></li>
 					<li ui-sref-active="active"><a ui-sref="event">Events</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right" ng-switch on="svo_ctrl.authentication.is_authenticated()">
+				<ul class="nav navbar-nav navbar-right" ng-switch on="svo_ctrl.authentication.user.is_authenticated()">
 					<li ng-switch-when="true"><button class="btn btn-default navbar-btn" ng-click="svo_ctrl.authentication.logout()">Logout</button></li>
-					<li ng-switch-default><button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.request_login()">Login</button></li>
+					<li ng-switch-default><button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.login()">Login</button></li>
 					<!-- ugly hack because of ?bug? in bootstrap -->
 					<li>&nbsp;&nbsp;&nbsp;</li>
 				</ul>

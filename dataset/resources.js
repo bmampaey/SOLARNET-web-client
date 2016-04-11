@@ -11,7 +11,4 @@ angular
 })
 .factory('Tag',function($tastypieResource, SDA_URL) {
 		return new $tastypieResource('tag');
-})
-.factory('Metadata',function($tastypieResource, SDA_URL) {
-		return new $tastypieResource('dataset/:metadata/:oid');
 });

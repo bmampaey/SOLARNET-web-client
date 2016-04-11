@@ -51,6 +51,7 @@
 				<td>{{event.event_starttime}}</td>
 				<td>{{event.event_endtime}}</td>
 			</tr>
+			<tr ng-show="!event_ctrl.events.length"><td class="text-center text-warning" colspan="3">No event correspond to your search criteria.</td></tr>
 		</table>
 		<div class="pager">
 				<button type="button" class="btn btn-default btn-sm previous" ng-click="event_ctrl.load_events(event_ctrl.page_number - 1)" ng-class="{'disabled': event_ctrl.page_number <= 1}">&larr;</button>

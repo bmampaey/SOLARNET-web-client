@@ -82,7 +82,7 @@
 		</form>
 	</div>
 
-	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="objects_overlay">
+	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="{{ctrl.overlay_id}}">
 		<table class="table table-hover table-responsive">
 			<tr>
 				<th></th>
@@ -100,6 +100,7 @@
 				<td>{{dataset.telescope}}</td>
 				<td>{{dataset.characteristics | getProp:'name':', '}}</td>
 			</tr>
+			<tr ng-show="!ctrl.datasets.objects.length"><td class="text-center text-warning" colspan="6">No dataset correspond to your search criteria.</td></tr>
 		</table>
 		<p class="small text-center">Click on any row to see dataset content or refine search</p>
 		<div role="group">

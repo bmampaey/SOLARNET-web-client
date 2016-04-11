@@ -48,7 +48,6 @@ angular.module('datasetApp')
 	};
 	
 	// parse the location search values into search criteria
-	// usefull if we want to prefill the form inputs from the url
 	function parse_location_search(search_criteria){
 		// some search criteria must be arrays for the multi select
 		angular.forEach(['selected_telescopes', 'selected_characteristics', 'selected_tags'], function(array){

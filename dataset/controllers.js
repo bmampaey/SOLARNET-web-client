@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, bsLoadingOverlayService, Dataset, Telescope, Characteristic, Tag, datasetService) {
+.controller('DatasetController', function($location, $state, bsLoadingOverlayService, Dataset, Telescope, Characteristic, Tag, datasetService) {
 	var vm = this;
 	
 	// set default search criteria
@@ -11,7 +11,7 @@ angular.module('datasetApp')
 	};
 	
 	// datasets
-	vm.page = {};
+	vm.datasets = {};
 	
 	// list of selected datasets
 	vm.selected_datasets = [];
@@ -27,7 +27,8 @@ angular.module('datasetApp')
 	vm.open_detail = open_detail;
 	vm.save_data_selection = save_data_selection;
 	
-
+	// overlay id
+	vm.overlay_id = 'objects_overlay';
 	
 	// load datasets with current search criteria
 	search(vm.search_criteria);
@@ -49,12 +50,11 @@ angular.module('datasetApp')
 	);
 	/* DEFINITIONS */
 	
-	var overlay_id = 'objects_overlay';
-
+	var parse_search_criteria = datasetService.parse_search_criteria;
 	
 	function search(search_criteria){
 		// display loading overlay
-		bsLoadingOverlayService.start({referenceId: overlay_id});
+		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// find the data selections
 		Dataset.objects.$find(datasetService.parse_search_criteria(search_criteria)).then(
 			function(result){
@@ -62,7 +62,7 @@ angular.module('datasetApp')
 				// update the controller
 				vm.datasets = result;
 				// stop the loading overlay
-				bsLoadingOverlayService.stop({referenceId: overlay_id});
+				bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
 			},
 			function(error){
 				console.log(error);
@@ -74,13 +74,13 @@ angular.module('datasetApp')
 	
 	function change_page(page_number) {
 		// display loading overlay
-		bsLoadingOverlayService.start({referenceId: overlay_id});
+		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// find the data selections
 		Dataset.page.change(page_number).then(
 			function(result){
 				console.log(result);
 				// stop the loading overlay
-				bsLoadingOverlayService.stop({referenceId: overlay_id});
+				bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
 			},
 			function(error){
 				console.log(error);
@@ -93,7 +93,8 @@ angular.module('datasetApp')
 	
 	// function to open dataset detail in modal
 	function open_detail(dataset) {
-		console.log('Openin dataset', dataset);
+		console.log('Opening dataset', dataset);
+		$state.go('dataset.metadata', {dataset_id: dataset.id, dataset: dataset}); 
 	}
 	
 	// function to save a data selection

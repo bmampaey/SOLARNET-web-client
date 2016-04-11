@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ctrl.dataset.name}}</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-4">
+			<form ng-submit="ctrl.search(ctrl.search_criteria)">
+				<div ng-include="ctrl.form_template_url">
+					Please wait while the search form is loading...
+				</div>
+				<input type="submit" value="Search" class="btn btn-primary btn-md" />
+			</form>
+		</div>
+		
+		<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="objects_overlay">
+			<table class="table table-hover table-responsive">
+				<tr>
+					<th ng-repeat="column in ctrl.columns">{{column[1]}}</th>
+					<th>Tags</th>
+				</tr>
+				<tr ng-repeat="metadata in ctrl.metadata.objects">
+					<td ng-repeat="column in ctrl.columns">{{metadata[column[0]]}}</td>
+					<td>{{metadata.tags.join(', ')}}</td>
+				</tr>
+			</table>
+			<div class="pager">
+					<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.metadata.index - 1)" ng-class="{'disabled': ctrl.metadata.index <= 1}">&larr;</button>
+					<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.metadata.index + 1)" ng-class="{'disabled': ctrl.metadata.index >= number_pages}">&rarr;</button>
+			</div>
+			<p class="small text-center">Click on any row to see metadata details</p>
+		</div>
+	</div>
+</div>

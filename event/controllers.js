@@ -1,83 +1,79 @@
 angular
 .module('eventApp')
-.controller('EventController', 
-	function($location, $uibModal, bsLoadingOverlayService, eventService) {
-		var vm = this;
-		
-		// set default search criteria
-		vm.search_criteria = {
-			selected_event_types: [], // filled automatically  by the multi select
-		}
-		
-		// events
-		vm.events = [];
-		
-		// event types
-		vm.event_types = eventService.event_types;
-		
-		// function to search/filter events
-		vm.search_events = search_events;
-		
-		// page number
-		vm.page_number = 1, 
-		
-		// function to load events
-		vm.load_events = load_events;
-		
-		// function to open event detail in modal
-		vm.open_event_detail = open_event_detail;
-		
-		// load events with current search criteria
-		search_events();
-		
-		/* DEFINITIONS */
-		
-		var search_params
-		function search_events(){
-			// upate the search params
-			search_params = eventService.parse_search_criteria(vm.search_criteria);
-			// set the search criteria into the url
-			$location.search(vm.search_criteria);
-			// load the events
-			load_events(1);
-		}
-		
-		function load_events(page_number){
-			// set the page number into the url
-			$location.search('page', page_number);
-			// update the controller page number
-			vm.page_number = page_number;
-			// start the overlay
-			bsLoadingOverlayService.start({referenceId: 'event_overlay'});
-			// get the events
-			eventService.get_events(search_params, page_number).then(load_events_success, load_events_error);
-		}
-		
-		function load_events_success(events){
-			vm.events = events;
+.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, EVENT_TYPES, Event, eventService) {
+	var vm = this;
+	
+	// set default search criteria
+	vm.search_criteria = {
+		selected_event_types: [], // filled automatically  by the multi select
+	}
+	
+	// events
+	vm.objects = [];
+	
+	// options for the multi selects
+	vm.event_types = Object.keys(EVENT_TYPES).map(function(key, index) {
+		return {name: EVENT_TYPES[key], value: key};
+	});
+	
+	// methods
+	vm.search = search;
+	vm.change_page = change_page;
+	vm.open_detail = open_detail;
+	
+	// overlay id
+	vm.overlay_id = 'objects_overlay';
+	
+	// load events with current search criteria
+	search(vm.search_criteria);
+	
+	/* DEFINITIONS */
+	
+	function search(search_criteria){
+		// display loading overlay
+		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
+		// find the events
+		vm.objects = Event.query(eventService.parse_search_criteria(search_criteria));
+		return vm.objects.$promise.then(load_objects_success, load_objects_error);
+	}
+	
+	function change_page(page_number) {
+		// display loading overlay
+		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
+		// find the data selections
+		return vm.objects.load_page(page_number).$promise.then(load_objects_success, load_objects_error);
+	}
+	
+	function load_objects_success(result){
+		console.log(result);
+		// stop the overlay
+		bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
+	}
+	
+	function load_objects_error(error){
+		if (error != 'cancelled') {
 			// stop the overlay
-			bsLoadingOverlayService.stop({referenceId: 'event_overlay'});
+			bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
 		}
-		
-		function load_events_error(reason){
-			if (reason != 'cancelled') {
-				// stop the overlay
-				bsLoadingOverlayService.stop({referenceId: 'event_overlay'});
-			}
-		}
-		
-		// function to open event detail in modal
-		function open_event_detail(event) {
-			$uibModal.open({
-				templateUrl: 'event/event_detail.html',
-				size: 'md',
-				controller: 'EventDetailController',
-				resolve: {
-					event: function () { return event }
-				},
-			});
-		}
+		// display some error message
+		messagingService.error(['There was an error retrieving objects', error.statusText]);
+
+	}
+	
+	// function to open event detail in modal
+	function open_detail(object) {
+		$uibModal.open({
+			templateUrl: 'event/event_detail.html',
+			size: 'md',
+			controller: 'EventDetailController',
+			controllerAs: 'ctrl',
+			resolve: {
+				object: function () { return object }
+			},
+		});
+	}
 })
-.controller('EventDetailController', function($scope, $uibModalInstance, event) {
-	$scope.event = event;
+.controller('EventDetailController', function(object) {
+	var vm = this;
+	vm.object = object;
 });

@@ -1,21 +1,21 @@
 <div class="row">
 	<div class="col-md-4">
-		<form ng-submit="event_ctrl.search_events()">
+		<form ng-submit="ctrl.search(ctrl.search_criteria)">
 			<div class="form-group">
 				<label for="event_types" class="control-label">Event types:</label>
-				<ui-select multiple="true" ng-model="event_ctrl.search_criteria.selected_event_types" theme="bootstrap">
+				<ui-select multiple="true" ng-model="ctrl.search_criteria.selected_event_types" theme="bootstrap">
 					<ui-select-match placeholder="select or search event type">{{$item.name}}</ui-select-match>
-					<ui-select-choices repeat="event_type in event_ctrl.event_types | filter:{name: $select.search}">
+					<ui-select-choices repeat="event_type in ctrl.event_types | filter:{name: $select.search}">
 					  <div ng-bind-html="event_type.name | highlight: $select.search"></div>
 					</ui-select-choices>
 				  </ui-select>
 			</div>
 			<div class="row">
 				<label class="control-label col-md-12">Event date</label>
-				<div class="form-group col-md-6" ng-class="{'has-error': event_ctrl.search_criteria.start_date > event_ctrl.search_criteria.end_date}">
+				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.start_date > ctrl.search_criteria.end_date}">
 					<label for="start_date" class="control-label">start</label>
 					<div class="input-group">
-						<input type="text" id="start_date" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="event_ctrl.search_criteria.start_date" is-open="opened_datetime_picker['start_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="start_date" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.start_date" is-open="opened_datetime_picker['start_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['start_date'] = true">
 								<span class="glyphicon glyphicon-calendar"></span>
@@ -23,10 +23,10 @@
 						</span>
 					</div>
 				</div>
-				<div class="form-group col-md-6" ng-class="{'has-error': event_ctrl.search_criteria.start_date > event_ctrl.search_criteria.end_date}">
+				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.start_date > ctrl.search_criteria.end_date}">
 					<label for="end_date" class="control-label">end</label>
 					<div class="input-group">
-						<input type="text" id="end_date" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="event_ctrl.search_criteria.end_date" is-open="opened_datetime_picker['end_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="end_date" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.end_date" is-open="opened_datetime_picker['end_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['end_date'] = true">
 								<span class="glyphicon glyphicon-calendar"></span>
@@ -39,23 +39,23 @@
 		</form>
 	</div>
 
-	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="event_overlay">
+	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="{{ctrl.overlay_id}}">
 		<table class="table table-hover table-responsive">
 			<tr>
 				<th>Type</th>
 				<th>Start date</th>
 				<th>End date</th>
 			</tr>
-			<tr ng-repeat="event in event_ctrl.events" ng-click="event_ctrl.open_event_detail(event)">
-				<td>{{event.event_type | fullType}}</td>
-				<td>{{event.event_starttime}}</td>
-				<td>{{event.event_endtime}}</td>
+			<tr ng-repeat="object in ctrl.objects" ng-click="ctrl.open_detail(object)">
+				<td>{{object.event_type | fullType}}</td>
+				<td>{{object.event_starttime}}</td>
+				<td>{{object.event_endtime}}</td>
 			</tr>
-			<tr ng-show="!event_ctrl.events.length"><td class="text-center text-warning" colspan="3">No event correspond to your search criteria.</td></tr>
+			<tr ng-show="!ctrl.objects.length"><td class="text-center text-warning" colspan="3">No event correspond to your search criteria.</td></tr>
 		</table>
 		<div class="pager">
-				<button type="button" class="btn btn-default btn-sm previous" ng-click="event_ctrl.load_events(event_ctrl.page_number - 1)" ng-class="{'disabled': event_ctrl.page_number <= 1}">&larr;</button>
-				<button type="button" class="btn btn-default btn-sm next" ng-click="event_ctrl.load_events(event_ctrl.page_number + 1)">&rarr;</button>
+				<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.objects.page_number - 1)" ng-class="{'disabled': ctrl.objects.page_number <= 1}">&larr;</button>
+				<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.objects.page_number + 1)">&rarr;</button>
 		</div>
 		<p class="small text-center">Click on any row to see event details</p>
 	</div>

@@ -1,6 +1,6 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $uibModal, bsLoadingOverlayService, Metadata, Tag, DEFAULT_METADATA_SERVICE, metadataService, dataset) {
+.controller('MetadataController', function($location, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, DEFAULT_METADATA_SERVICE, metadataService, dataset) {
 	
 	// merge metadata service and defaults
 	var service = {};

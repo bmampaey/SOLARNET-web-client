@@ -51,12 +51,14 @@
 				<td>{{object.event_starttime}}</td>
 				<td>{{object.event_endtime}}</td>
 			</tr>
-			<tr ng-show="!ctrl.objects.length"><td class="text-center text-warning" colspan="3">No event correspond to your search criteria.</td></tr>
+			<tr ng-switch="ctrl.objects.length > 0">
+				<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see event details</td>
+				<td ng-switch-default class="text-center text-warning" colspan="100">No event correspond to your search criteria</td>
+			</tr>
 		</table>
 		<div class="pager">
 				<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.objects.page_number - 1)" ng-class="{'disabled': ctrl.objects.page_number <= 1}">&larr;</button>
 				<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.objects.page_number + 1)">&rarr;</button>
 		</div>
-		<p class="small text-center">Click on any row to see event details</p>
 	</div>
 </div>

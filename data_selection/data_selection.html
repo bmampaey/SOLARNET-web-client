@@ -24,7 +24,9 @@
 				</button>
 			</td>
 		</tr>
-		<tr ng-hide="ctrl.page.objects.length > 0"><td class="text-center text-warning" colspan="6">You have not saved any data selection yet.</td></tr>
+			<tr ng-switch="ctrl.page.objects.length > 0">
+				<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see data selection details</td>
+				<td ng-switch-default class="text-center text-warning" colspan="100">You have not saved any data selection yet</td>
+			</tr>
 	</table>
-	<p class="small text-center">Click on any row to see data selection details</p>
 </div>

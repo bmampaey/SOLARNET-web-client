@@ -20,13 +20,15 @@
 				<td ng-repeat="column in ctrl.columns">{{metadata[column[0]]}}</td>
 				<td>{{metadata.tags.join(', ')}}</td>
 			</tr>
-			<tr ng-hide="ctrl.page.objects.length > 0"><td class="text-center text-warning" colspan="100">No metadata correspond to your search criteria.</td></tr>
+			<tr ng-switch="ctrl.page.objects.length > 0">
+				<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see data details</td>
+				<td ng-switch-default class="text-center text-warning" colspan="100">No metadata correspond to your search criteria</td>
+			</tr>
 		</table>
 		<div class="pager">
 				<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.page.previous_page_number())" ng-class="{'disabled': !ctrl.page.has_previous()}">&larr;</button>
 				<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.page.next_page_number())" ng-class="{'disabled':  !ctrl.page.has_next()}">&rarr;</button>
 		</div>
-		<p class="small text-center">Click on any row to see metadata details</p>
 		<div role="group">
 			<button type="button" class="btn btn-primary" ng-click="ctrl.create_user_data_selection(ctrl.selected_metadata)" ng-class="{'disabled': ctrl.selected_metadata.length == 0}" title="Select one or more metadata to add to/create a selection">Save selection</button>
 		</div>

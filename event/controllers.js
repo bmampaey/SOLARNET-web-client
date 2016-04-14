@@ -1,6 +1,6 @@
 angular
 .module('eventApp')
-.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, EVENT_TYPES, Event, eventService) {
+.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, messagingService, EVENT_TYPES, Event, eventService) {
 	var vm = this;
 	
 	// set default search criteria

@@ -4,7 +4,8 @@ angular
 	'ui.bootstrap',
 	'ui.select',
 	'ui.bootstrap.datetimepicker',
-	'global'
+	'global',
+	'messagingApp'
 ])
 .constant('HEK_URL', 'http://www.lmsal.com/hek/her')
 .constant('HEK_QUERY_PARAMS', {

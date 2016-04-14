@@ -18,7 +18,7 @@ angular
 		['wavemin', 'Min. wavelength'],
 		['wavemax', 'Max. wavelength'],
 	],
-	form_template_url :  '/SVO/metadata/metadata_form.html',
+	form_template_url :  '/SVO/metadata/form_template.html',
 	parse_search_criteria: function (search_criteria) {
 		return search_criteria;
 	},

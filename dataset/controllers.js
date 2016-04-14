@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $uibModal, $ocLazyLoad, bsLoadingOverlayService, Dataset, Telescope, Characteristic, Tag, datasetService) {
+.controller('DatasetController', function($location, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService) {
 	var vm = this;
 	
 	// set default search criteria

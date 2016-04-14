@@ -3,5 +3,13 @@
 </div>
 <div class="modal-body">
 	<img ng-if="ctrl.metadata.data_location.thumbnail_url" ng-src="{{ctrl.metadata.data_location.thumbnail_url}}" class="img-responsive center-block" alt="Data thumbnail"/>
-	<p ng-bind-html="ctrl.metadata.fits_header | wrapText : 80"/>
+	<table class="table table-condensed table-responsive">
+		<tr>
+			<th><input type="text" class="form-control" placeholder="Filter on FITS keywords" ng-model="searchText"></th>
+		</tr>
+		<tr ng-repeat="card in ctrl.metadata.fits_header | splitText : 80 | filter : searchText track by $index">
+			<td>{{card}}</td>
+		</tr>
+		<tr ng-hide="ctrl.metadata.fits_header.length > 0"><td class="text-center text-warning" colspan="1">No FITS header available.</td></tr>
+	</table>
 </div>

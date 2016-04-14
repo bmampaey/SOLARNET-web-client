@@ -92,7 +92,7 @@
 				<th>Telescope</th>
 				<th>Characteristics</th>
 			</tr>
-			<tr ng-repeat="dataset in ctrl.datasets.objects" ng-hide="dataset.metadata.number_items == 0" ng-click="ctrl.open_detail(dataset)">
+			<tr ng-repeat="dataset in ctrl.page.objects" ng-hide="dataset.metadata.number_items == 0" ng-click="ctrl.open_detail(dataset)">
 				<td><input type="checkbox" checklist-model="ctrl.selected_datasets" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
 				<td>{{dataset.name}}</td>
 				<td>{{dataset.metadata.number_items}}</td>
@@ -100,11 +100,11 @@
 				<td>{{dataset.telescope}}</td>
 				<td>{{dataset.characteristics | getProp:'name':', '}}</td>
 			</tr>
-			<tr ng-show="!ctrl.datasets.objects.length"><td class="text-center text-warning" colspan="6">No dataset correspond to your search criteria.</td></tr>
+			<tr ng-hide="ctrl.page.objects.length > 0"><td class="text-center text-warning" colspan="6">No dataset correspond to your search criteria.</td></tr>
 		</table>
 		<p class="small text-center">Click on any row to see dataset content or refine search</p>
 		<div role="group">
-				<button type="button" class="btn btn-default" ng-click="ctrl.create_user_data_selection(ctrl.selected_datasets)" ng-class="{'disabled': ctrl.selected_datasets.length == 0}" title="Select one or more dataset to add to/create a selection">Save selection</button>
+			<button type="button" class="btn btn-primary" ng-click="ctrl.create_user_data_selection(ctrl.selected_datasets)" ng-class="{'disabled': ctrl.selected_datasets.length == 0}" title="Select one or more dataset to add to/create a selection">Save selection</button>
 		</div>
 	</div>
 </div>

@@ -1,8 +1,7 @@
-<!--
-For detail show fits header in this
-<textarea rows="4" cols="80" readonly>
-At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
-</textarea>
-
-
--->
+<div class="modal-header">
+	<h3 class="modal-title">{{ctrl.dataset.name}}</h3>
+</div>
+<div class="modal-body">
+	<img ng-if="ctrl.metadata.data_location.thumbnail_url" ng-src="{{ctrl.metadata.data_location.thumbnail_url}}" class="img-responsive center-block" alt="Data thumbnail"/>
+	<p ng-bind-html="ctrl.metadata.fits_header | wrapText : 80"/>
+</div>

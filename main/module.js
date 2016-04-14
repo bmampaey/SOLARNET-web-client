@@ -26,11 +26,11 @@ angular
 		templateUrl: 'data_selection/data_selection.html',
 		controller: 'DataSelectionController as ctrl',
 		resolve: {
-			// data selection require authentication
-			authenticate: [
-				'$authenticationService',
+			// data selection requires authentication
+			authenticatedUser: [
+				'authenticationService',
 				function(authenticationService){
-					return authenticationService.require_authentication();
+					return authenticationService.authenticatedUser();
 				}
 			]
 		},
@@ -39,33 +39,22 @@ angular
 	.state('event', {
 		url: '/event',
 		templateUrl: 'event/event.html',
-		controller: 'EventController as event_ctrl',
+		controller: 'EventController as ctrl',
 		reloadOnSearch: false,
 	})
-	.state('dataset.metadata', {
+	.state('metadata', {
 		url: '/metadata/:dataset_id',
+		templateUrl: 'metadata/metadata.html',
+		controller: 'MetadataController as ctrl',
+		resolve: {
+			// metadata requires a dataset, TODO this is not correct, must return a promise resolved when we have the dataset
+			dataset: [
+				'Dataset',
+				function(Dataset){
+					return Dataset.get({id: dataset_id});
+				}
+			]
+		},
 		reloadOnSearch: false,
-		params: {dataset: null},
-		onEnter: ['$stateParams', '$uibModal', '$ocLazyLoad', function($stateParams, $uibModal, $ocLazyLoad) {
-			console.log('Opening modal for ',$stateParams.dataset);
-			$uibModal.open({
-				templateUrl: 'metadata/metadata.html',
-				size: 'xl',
-				controller: 'MetadataController',
-				controllerAs: 'ctrl',
-				resolve: {
-					 // pass the dataset id (TODO check how to pass the full dataset)
-					dataset: function () {
-						return $stateParams.dataset;
-					},
-					loadMetadataService: function() {
-						console.log('Loading service for ', $stateParams.dataset_id);
-						return $ocLazyLoad.load('/SVO/metadata/'+$stateParams.dataset_id+'.js');
-					}
-				},
-			}).result.finally(function() {
-				$state.go('^');
-			});
-		}]
 	});
 });

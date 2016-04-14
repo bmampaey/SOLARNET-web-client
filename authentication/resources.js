@@ -1,6 +1,6 @@
 angular
 .module('authenticationApp')
-.factory('User', function($resource, $cookies, $tastypie, SDA_URL){
+.factory('User', function($resource, $cookies, SDA_URL){
 	var User = $resource(
 		SDA_URL + 'user/:action/',
 		null,
@@ -22,7 +22,6 @@ angular
 		return self.$login(function(){
 			// email is not sent back by the server so we have to set it from the credentials
 			self.email = credentials.email;
-			self.set_tastypie_authentication();
 			
 			$cookies.putObject('user', {
 				username: self.username,
@@ -45,11 +44,6 @@ angular
 	User.prototype.is_authenticated = function() {
 		var self = this;
 		return self.email != undefined && self.api_key != undefined;
-	};
-	
-	User.prototype.set_tastypie_authentication = function(){
-		var self = this;
-		$tastypie.setAuth(self.email, self.api_key);
 	};
 	
 	User.get_session_user = function(){

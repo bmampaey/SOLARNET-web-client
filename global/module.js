@@ -1,15 +1,12 @@
 angular
 .module('global', [
-	'ngResourceTastypie',
+	'ngTastyResource',
 	'bsLoadingOverlay',
 ])
 .constant('SDA_URL', 'http://solarnet.oma.be:8080/api/v1/')
-.config(function($httpProvider){
-//	$httpProvider.defaults.withCredentials = true;
-})
-.config(function($tastypieProvider, SDA_URL){
-	// See https://github.com/mw-ferretti/angular-resource-tastypie
-	$tastypieProvider.setResourceUrl(SDA_URL);
+.config(function(tastyResourceProvider, SDA_URL){
+	tastyResourceProvider.config.api_url = SDA_URL;
+	tastyResourceProvider.config.cache = true;
 })
 .run(function (bsLoadingOverlayService) {
 	bsLoadingOverlayService.setGlobalConfig({

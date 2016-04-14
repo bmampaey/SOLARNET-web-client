@@ -1,7 +1,7 @@
 angular
 .module('dataSelectionApp', [
 	'ui.bootstrap',
-	'ngResourceTastypie',
+	'ngTastyResource',
 	'bsLoadingOverlay',
 	'global',
 	'messagingApp',

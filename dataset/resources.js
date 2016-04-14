@@ -1,14 +1,14 @@
 angular
 .module('datasetApp')
-.factory('Dataset',function($tastypieResource, SDA_URL) {
-		return new $tastypieResource('dataset');
+.factory('Dataset',function(tastyResource) {
+		return new tastyResource('dataset/:id');
 })
-.factory('Telescope',function($tastypieResource, SDA_URL) {
-		return new $tastypieResource('telescope');
+.factory('Telescope',function(tastyResource) {
+		return new tastyResource('telescope/:name');
 })
-.factory('Characteristic',function($tastypieResource, SDA_URL) {
-		return new $tastypieResource('characteristic');
+.factory('Characteristic',function(tastyResource) {
+		return new tastyResource('characteristic/:name');
 })
-.factory('Tag',function($tastypieResource, SDA_URL) {
-		return new $tastypieResource('tag');
+.factory('Tag',function(tastyResource) {
+		return new tastyResource('tag/:name');
 });

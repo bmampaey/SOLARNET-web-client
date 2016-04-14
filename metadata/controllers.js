@@ -1,32 +1,34 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, bsLoadingOverlayService, Metadata, Tag, metadataService, DEFAULT_METADATA_SERVICE, dataset) {
+.controller('MetadataController', function($location, $uibModal, bsLoadingOverlayService, Metadata, Tag, DEFAULT_METADATA_SERVICE, metadataService, dataset) {
 	
-	var parse_search_criteria = metadataService.parse_search_criteria || DEFAULT_METADATA_SERVICE.parse_search_criteria;
-	
-	console.log('metadataController', dataset);
+	// merge metadata service and defaults
+	var service = {};
+	angular.forEach(DEFAULT_METADATA_SERVICE, function(value, key){
+		service[key] = metadataService[key] != undefined ? metadataService[key]: value;
+	});
 	
 	var vm = this;
 	
 	vm.dataset = dataset;
 	
+	// metadata paginator
+	vm.page = {};
+	
 	// set search criteria from search params
-	vm.search_criteria = (metadataService.parse_location_search || DEFAULT_METADATA_SERVICE.parse_location_search)($location.search());
+	vm.search_criteria = service.parse_location_search($location.search());
 	
 	// columns to display in table
-	vm.columns = metadataService.columns || DEFAULT_METADATA_SERVICE.columns;
+	vm.columns = service.columns;
 	
 	//form template url
-	vm.form_template_url = metadataService.form_template_url || DEFAULT_METADATA_SERVICE.form_template_url;
-	
-	// datasets
-	vm.metadata = {};
+	vm.form_template_url = service.form_template_url;
 	
 	// list of selected datasets
 	vm.selected_metadata = [];
 	
 	// options for the multi selects
-	vm.tags = [];
+	vm.tags = Tag.query({dataset: dataset.id});
 	
 	// methods
 	vm.search = search;
@@ -34,64 +36,59 @@ angular
 	vm.open_detail = open_detail;
 	vm.save_data_selection = save_data_selection;
 	
+	// overlay id
+	vm.overlay_id = 'metadata_overlay';
+	
 	// load metadata with current search criteria
 	search(vm.search_criteria);
 	
-	Tag.objects.$find({dataset: dataset.id}).then(
-		function(result){
-			vm.tags = result.objects;
-		}
-	);
-	
 	/* DEFINITIONS */
-	
-	var overlay_id = 'objects_overlay';
-	
-	
 	function search(search_criteria){
 		// display loading overlay
-		bsLoadingOverlayService.start({referenceId: overlay_id});
-		// find the data selections
-		var search_params = parse_search_criteria(search_criteria);
+		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
+		// filter the search criteria
+		var search_params = service.parse_search_criteria(search_criteria);
 		search_params.metadata = dataset.id + '_metadata';
-		Metadata.objects.$find(search_params).then(
-			function(result){
-				console.log(result);
-				// update the controller
-				vm.metadata = result;
-				// stop the loading overlay
-				bsLoadingOverlayService.stop({referenceId: overlay_id});
-			},
-			function(error){
-				console.log(error);
-				// display some error message
-				messagingService.error(['There was an error retrieving objects', error.statusText]);
-			}
-		);
+		// get the page
+		vm.page = Metadata.paginator(search_params, load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {
 		// display loading overlay
-		bsLoadingOverlayService.start({referenceId: overlay_id});
-		// find the data selections
-		Metadata.page.change(page_number).then(
-			function(result){
-				console.log(result);
-				// stop the loading overlay
-				bsLoadingOverlayService.stop({referenceId: overlay_id});
-			},
-			function(error){
-				console.log(error);
-				// display some error message
-				messagingService.error(['There was an error retrieving objects', error.statusText]);
-			}
-		);
+		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
+		// get the page
+		vm.page = vm.page.page(page_number, load_objects_success, load_objects_error);
 	}
 	
+	function load_objects_success(result){
+		console.log(result);
+		// stop the overlay
+		bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
+	}
 	
-	// function to open dataset detail in modal
+	function load_objects_error(error){
+		if (error != 'cancelled') {
+			// stop the overlay
+			bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
+		}
+		// display some error message
+		messagingService.error(['There was an error retrieving objects', error.statusText]);
+	}
+	
+	// function to open metadata detail in modal
 	function open_detail(metadata) {
 		console.log('Opening metadata', metadata);
+		
+		$uibModal.open({
+			templateUrl: 'metadata/metadata_detail.html',
+			size: 'md',
+			controller: 'MetadataDetailController',
+			controllerAs: 'ctrl',
+			resolve: {
+				metadata: function () { return metadata; },
+				dataset: function () { return dataset; },
+			},
+		});
 	}
 	
 	// function to save a data selection
@@ -99,4 +96,9 @@ angular
 	{
 		console.log('Adding to data selection', selected_metadata);
 	}
+})
+.controller('MetadataDetailController', function(metadata, dataset) {
+	var vm = this;
+	vm.metadata = metadata;
+	vm.dataset = dataset;
 });

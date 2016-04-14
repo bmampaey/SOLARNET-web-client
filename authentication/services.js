@@ -3,15 +3,12 @@ angular
 .factory('authenticationService', function($location, $uibModal, User){
 	
 	var user = User.get_session_user();
-	if(user.is_authenticated()){
-		user.set_tastypie_authentication();
-	}
 	
 	return {
 		user: user,
 		login: login,
 		logout: logout,
-		require_authentication: require_authentication,
+		authenticatedUser: authenticatedUser,
 	};
 	
 	
@@ -37,13 +34,13 @@ angular
 		});
 	};
 	
-	function require_authentication() {
-		// return true or a promise with true when authentication is ok
+	function authenticatedUser() {
+		// return an authenticated user
 		// can be used for resolve
 		if (user.is_authenticated()) {
-			return true;
+			return user;
 		} else {
-			return login().closed;
+			return login().result;
 		}
 	};
 });

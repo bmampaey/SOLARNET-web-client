@@ -3,6 +3,6 @@ angular
 	'ui.bootstrap',
 	'ngResource',
 	'ngCookies',
-	'ngResourceTastypie',
+	'ngTastyResource',
 	'global',
 ]);

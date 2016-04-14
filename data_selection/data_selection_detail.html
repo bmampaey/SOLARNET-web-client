@@ -11,22 +11,22 @@
 			<th>Search parameters</th>
 			<th>Delete</th>
 		</tr>
-		<tr ng-repeat="object in ctrl.data_selections">
+		<tr ng-repeat="data_selection in ctrl.data_selections">
 			<td>
-				<a href="{{object.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
+				<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
 					<span class="glyphicon glyphicon-folder-open"></span>
 				</a>
 			</td>
-			<td>{{object.number_items}}</td>
-			<td>{{object.dataset.name}}</td>
-			<td>{{object.created | date : "yyyy-MM-dd HH:mm" }}</td>
+			<td>{{data_selection.number_items}}</td>
+			<td>{{data_selection.dataset.name}}</td>
+			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
 			<td>TODO</td>
 			<td>
-				<button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.delete_object(object); $event.stopPropagation();">
+				<button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.delete_data_selection(data_selection); $event.stopPropagation();">
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</td>
 		</tr>
-		<tr ng-show="!ctrl.data_selections.length"><td class="text-center text-warning" colspan="6">Empty data selection.</td></tr>
+		<tr ng-hide="ctrl.data_selections.length > 0"><td class="text-center text-warning" colspan="6">Empty data selection.</td></tr>
 	</table>
 </div>

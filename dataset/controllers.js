@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $state, bsLoadingOverlayService, Dataset, Telescope, Characteristic, Tag, datasetService) {
+.controller('DatasetController', function($location, $uibModal, $ocLazyLoad, bsLoadingOverlayService, Dataset, Telescope, Characteristic, Tag, datasetService) {
 	var vm = this;
 	
 	// set default search criteria
@@ -10,16 +10,16 @@ angular.module('datasetApp')
 		selected_tags: [], // filled automatically  by the multi select
 	};
 	
-	// datasets
-	vm.datasets = {};
+	// dataset paginator
+	vm.page = {};
 	
 	// list of selected datasets
 	vm.selected_datasets = [];
 	
 	// options for the multi selects
-	vm.telescopes = [];
-	vm.characteristics = [];
-	vm.tags = [];
+	vm.telescopes = Telescope.query();
+	vm.characteristics = Characteristic.query();
+	vm.tags = Tag.query();
 	
 	// methods
 	vm.search = search;
@@ -28,73 +28,70 @@ angular.module('datasetApp')
 	vm.save_data_selection = save_data_selection;
 	
 	// overlay id
-	vm.overlay_id = 'objects_overlay';
+	vm.overlay_id = 'dataset_overlay';
 	
 	// load datasets with current search criteria
 	search(vm.search_criteria);
 	
-	Telescope.objects.$find().then(
-		function(result){
-			vm.telescopes = result.objects;
-		}
-	);
-	Characteristic.objects.$find().then(
-		function(result){
-			vm.characteristics = result.objects;
-		}
-	);
-	Tag.objects.$find().then(
-		function(result){
-			vm.tags = result.objects;
-		}
-	);
 	/* DEFINITIONS */
-	
-	var parse_search_criteria = datasetService.parse_search_criteria;
 	
 	function search(search_criteria){
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
-		// find the data selections
-		Dataset.objects.$find(datasetService.parse_search_criteria(search_criteria)).then(
-			function(result){
-				console.log(result);
-				// update the controller
-				vm.datasets = result;
-				// stop the loading overlay
-				bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
-			},
-			function(error){
-				console.log(error);
-				// display some error message
-				messagingService.error(['There was an error retrieving objects', error.statusText]);
-			}
-		);
+		// get the page
+		vm.page = Dataset.paginator(datasetService.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
-		// find the data selections
-		Dataset.page.change(page_number).then(
-			function(result){
-				console.log(result);
-				// stop the loading overlay
-				bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
-			},
-			function(error){
-				console.log(error);
-				// display some error message
-				messagingService.error(['There was an error retrieving objects', error.statusText]);
-			}
-		);
+		// get the page
+		vm.page = vm.page.page(page_number, load_objects_success, load_objects_error);
+	}
+	
+	function load_objects_success(result){
+		console.log(result);
+		// stop the overlay
+		bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
+	}
+	
+	function load_objects_error(error){
+		if (error != 'cancelled') {
+			// stop the overlay
+			bsLoadingOverlayService.stop({referenceId: vm.overlay_id});
+		}
+		// display some error message
+		messagingService.error(['There was an error retrieving objects', error.statusText]);
 	}
 	
 	
 	// function to open dataset detail in modal
 	function open_detail(dataset) {
-		console.log('Opening dataset', dataset);
-		$state.go('dataset.metadata', {dataset_id: dataset.id, dataset: dataset}); 
+		$uibModal.open({
+			templateUrl: 'dataset/dataset_detail.html',
+			size: 'xl',
+			controller: 'MetadataController',
+			controllerAs: 'ctrl',
+			resolve: {
+				 // pass the dataset
+				dataset: function () {
+					return dataset;
+				},
+				// load the metadata specific service
+				load_metadata_service: function() {
+					console.log('Loading specific service for ', dataset.id);
+					return $ocLazyLoad.load('/SVO/metadata/'+dataset.id+'.js').then(load_metadata_service_succes, load_metadata_service_error);
+				}
+			},
+		});
+		
+		function load_metadata_service_succes(result){
+			console.log('Loaded specific service for ', dataset.id);
+			return result;
+		}
+		function load_metadata_service_error(error){
+			console.log('Error loading specific service for ', dataset.id, ': ', error);
+		}
 	}
 	
 	// function to save a data selection

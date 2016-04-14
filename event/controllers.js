@@ -22,7 +22,7 @@ angular
 	vm.open_detail = open_detail;
 	
 	// overlay id
-	vm.overlay_id = 'objects_overlay';
+	vm.overlay_id = 'event_overlay';
 	
 	// load events with current search criteria
 	search(vm.search_criteria);
@@ -32,16 +32,15 @@ angular
 	function search(search_criteria){
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
-		// find the events
-		vm.objects = Event.query(eventService.parse_search_criteria(search_criteria));
-		return vm.objects.$promise.then(load_objects_success, load_objects_error);
+		// get the page
+		vm.objects = Event.query(eventService.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
-		// find the data selections
-		return vm.objects.load_page(page_number).$promise.then(load_objects_success, load_objects_error);
+		// get the page
+		vm.objects.load_page(page_number, load_objects_success, load_objects_error);
 	}
 	
 	function load_objects_success(result){
@@ -57,23 +56,22 @@ angular
 		}
 		// display some error message
 		messagingService.error(['There was an error retrieving objects', error.statusText]);
-
 	}
 	
 	// function to open event detail in modal
-	function open_detail(object) {
+	function open_detail(dataset) {
 		$uibModal.open({
 			templateUrl: 'event/event_detail.html',
 			size: 'md',
 			controller: 'EventDetailController',
 			controllerAs: 'ctrl',
 			resolve: {
-				object: function () { return object }
+				dataset: function () { return dataset }
 			},
 		});
 	}
 })
-.controller('EventDetailController', function(object) {
+.controller('EventDetailController', function(dataset) {
 	var vm = this;
-	vm.object = object;
+	vm.object = dataset;
 });

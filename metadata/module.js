@@ -2,7 +2,7 @@ angular
 .module('metadataApp', [
 	'ngSanitize',
 	'ui.bootstrap',
-	'ngResourceTastypie',
+	'ngTastyResource',
 	'ui.select',
 	'ui.bootstrap.datetimepicker',
 	'checklist-model',

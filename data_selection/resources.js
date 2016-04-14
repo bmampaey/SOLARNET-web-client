@@ -1,9 +1,7 @@
 angular.module('dataSelectionApp')
-.factory('UserDataSelection', function($tastypieResource, SDA_URL) {
-	var UserDataSelection = new $tastypieResource('user_data_selection', {limit:0});
-	return UserDataSelection;
+.factory('UserDataSelection', function(tastyResource) {
+	return new tastyResource('user_data_selection/:id', {paramDefaults: {id: '@id'}, cache: false});
 })
-.factory('DataSelection', function($tastypieResource, SDA_URL) {
-	var DataSelection = new $tastypieResource('data_selection', {limit:0});
-	return DataSelection;
+.factory('DataSelection', function(tastyResource) {
+	return new tastyResource('data_selection/:id', {paramDefaults: {id: '@id'}, cache: false});
 });

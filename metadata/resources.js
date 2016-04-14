@@ -1,5 +1,5 @@
 angular
 .module('metadataApp')
-.factory('Metadata',function($tastypieResource, SDA_URL) {
-		return new $tastypieResource(':metadata/:oid');
+.factory('Metadata',function(tastyResource) {
+		return new tastyResource(':metadata/:oid', {paramDefaults: {metadata: '@metadata', oid: '@oid'}, page_size: 10});
 });

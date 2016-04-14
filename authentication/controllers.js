@@ -23,7 +23,7 @@ angular
 	}
 	
 	function login_success(){
-		$uibModalInstance.close(true);
+		$uibModalInstance.close(user);
 	}
 	
 	function login_error(response){

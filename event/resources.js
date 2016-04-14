@@ -26,10 +26,10 @@ angular
 	// hack the query method to add load page methods
 	var query = Event.query;
 	
-	Event.query = function(search_params, a, b, c){
-		var result = query(search_params, a, b, c);
-		result.search_params = search_params;
-		result.page_number = search_params.page || 1;
+	Event.query = function(parameters, succes, error){
+		var result = query(parameters, succes, error);
+		result.search_params = parameters;
+		result.page_number = parameters.page || 1;
 		result.load_page = load_page;
 		result.load_next_page = load_next_page;
 		result.load_previous_page = load_previous_page;
@@ -38,18 +38,26 @@ angular
 	
 	return Event;
 	
-	function load_page(page_number) {
+	// update query results with page results
+	// and return the content of the page
+	function load_page(page_number, succes, error) {
 		var self = this;
 		if (page_number <= 0){
 			throw 'Invalid page number';
 		}
 		self.search_params.page = page_number;
-		return Event.query(self.search_params, function(data){
+		return Event.query(self.search_params, function(data, responseHeaders){
 			// update self with the new data
 			Array.prototype.splice.apply(self, [0, self.length].concat(data));
 			self.page_number = page_number;
-		});
+			
+			// call original succes
+			if (succes != undefined) {
+				succes(data, responseHeaders);
+			}
+		}, error);
 	}
+	
 	function load_next_page(){
 		return this.load_page(this.page_number + 1);
 	}

@@ -41,20 +41,26 @@
 
 	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="{{ctrl.overlay_id}}">
 		<table class="table table-hover table-responsive">
-			<tr>
-				<th>Type</th>
-				<th>Start date</th>
-				<th>End date</th>
-			</tr>
-			<tr ng-repeat="object in ctrl.objects" ng-click="ctrl.open_detail(object)">
-				<td>{{object.event_type | fullType}}</td>
-				<td>{{object.event_starttime}}</td>
-				<td>{{object.event_endtime}}</td>
-			</tr>
-			<tr ng-switch="ctrl.objects.length > 0">
-				<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see event details</td>
-				<td ng-switch-default class="text-center text-warning" colspan="100">No event correspond to your search criteria</td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Start date</th>
+					<th>End date</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr ng-switch="ctrl.objects.length > 0">
+					<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see event details</td>
+					<td ng-switch-default class="text-center text-warning" colspan="100">No event correspond to your search criteria</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr ng-repeat="object in ctrl.objects" ng-click="ctrl.open_detail(object)">
+					<td>{{object.event_type | fullType}}</td>
+					<td>{{object.event_starttime}}</td>
+					<td>{{object.event_endtime}}</td>
+				</tr>
+			</tbody>
 		</table>
 		<div class="pager">
 				<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.objects.page_number - 1)" ng-class="{'disabled': ctrl.objects.page_number <= 1}">&larr;</button>

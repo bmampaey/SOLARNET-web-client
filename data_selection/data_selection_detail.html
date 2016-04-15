@@ -3,30 +3,36 @@
 </div>
 <div class="modal-body">
 	<table class="table table-responsive">
-		<tr>
-			<th>FTP</th>
-			<th># Items</th>
-			<th>Dataset</th>
-			<th>Date of creation</th>
-			<th>Search parameters</th>
-			<th>Delete</th>
-		</tr>
-		<tr ng-repeat="data_selection in ctrl.data_selections">
-			<td>
-				<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
-					<span class="glyphicon glyphicon-folder-open"></span>
-				</a>
-			</td>
-			<td>{{data_selection.number_items}}</td>
-			<td>{{data_selection.dataset.name}}</td>
-			<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
-			<td>TODO</td>
-			<td>
-				<button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.delete_data_selection(data_selection); $event.stopPropagation();">
-					<span class="glyphicon glyphicon-trash"></span>
-				</button>
-			</td>
-		</tr>
-		<tr ng-hide="ctrl.data_selections.length > 0"><td class="text-center text-warning" colspan="6">Empty data selection.</td></tr>
+		<thead>
+			<tr>
+				<th>FTP</th>
+				<th># Items</th>
+				<th>Dataset</th>
+				<th>Date of creation</th>
+				<th>Search parameters</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr ng-hide="ctrl.data_selections.length > 0"><td class="text-center text-warning" colspan="6">Empty data selection.</td></tr>
+		</tfoot>
+		<tbody>
+			<tr ng-repeat="data_selection in ctrl.data_selections">
+				<td>
+					<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
+						<span class="glyphicon glyphicon-folder-open"></span>
+					</a>
+				</td>
+				<td>{{data_selection.number_items}}</td>
+				<td>{{data_selection.dataset.name}}</td>
+				<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
+				<td>TODO</td>
+				<td>
+					<button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.delete_data_selection(data_selection); $event.stopPropagation();">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 </div>

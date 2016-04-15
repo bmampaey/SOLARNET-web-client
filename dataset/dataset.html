@@ -84,26 +84,32 @@
 
 	<div class="col-md-8" bs-loading-overlay bs-loading-overlay-reference-id="{{ctrl.overlay_id}}">
 		<table class="table table-hover table-responsive">
-			<tr>
-				<th></th>
-				<th>Dataset</th>
-				<th># Items</th>
-				<th>Instrument</th>
-				<th>Telescope</th>
-				<th>Characteristics</th>
-			</tr>
-			<tr ng-repeat="dataset in ctrl.page.objects | noEmptyDataset as nonEmptyDatasets" ng-click="ctrl.open_detail(dataset)">
-				<td><input type="checkbox" checklist-model="ctrl.selected_datasets" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
-				<td>{{dataset.name}}</td>
-				<td>{{dataset.metadata.number_items}}</td>
-				<td>{{dataset.telescope}}</td>
-				<td>{{dataset.telescope}}</td>
-				<td>{{dataset.characteristics | getProp:'name':', '}}</td>
-			</tr>
-			<tr ng-switch="nonEmptyDatasets.length > 0">
-				<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see dataset content or refine search</td>
-				<td ng-switch-default class="text-center text-warning" colspan="100">No dataset correspond to your search criteria</td>
-			</tr>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Dataset</th>
+					<th># Items</th>
+					<th>Instrument</th>
+					<th>Telescope</th>
+					<th>Characteristics</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr ng-switch="nonEmptyDatasets.length > 0">
+					<td ng-switch-when="true" class="text-center small" colspan="100">Click on any row to see dataset content or refine search</td>
+					<td ng-switch-default class="text-center text-warning" colspan="100">No dataset correspond to your search criteria</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr ng-repeat="dataset in ctrl.page.objects | noEmptyDataset as nonEmptyDatasets" ng-click="ctrl.open_detail(dataset)">
+					<td><input type="checkbox" checklist-model="ctrl.selected_datasets" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
+					<td>{{dataset.name}}</td>
+					<td>{{dataset.metadata.number_items}}</td>
+					<td>{{dataset.telescope}}</td>
+					<td>{{dataset.telescope}}</td>
+					<td>{{dataset.characteristics | getProp:'name':', '}}</td>
+				</tr>
+			</tbody>
 		</table>
 		
 		<div role="group">

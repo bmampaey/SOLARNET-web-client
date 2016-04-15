@@ -82,11 +82,53 @@ angular
 		});
 	}
 })
-.controller('DataSelectionDetailController',
-function($uibModalInstance, DataSelection, data_selection) {
+.controller('DataSelectionDetailController', function($uibModalInstance, DataSelection, data_selection) {
 	var vm = this;
 	
 	vm.parent = data_selection;
 	// convert data selection objects to resource
 	vm.data_selections = data_selection.data_selections.map(function(object){return new DataSelection(object);});
+})
+.controller('GetDataSelectionController', function($uibModalInstance, UserDataSelection, authenticatedUser) {
+	var vm = this;
+	
+	// set auth
+	UserDataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
+
+	
+	// options for the multi selects
+	vm.user_data_selections = UserDataSelection.query(function(result){console.log('user_data_selections', result);});
+	// methods
+	vm.get_or_create = get_or_create;
+	vm.addOption = addOption;
+	
+	function get_or_create(name){
+		// TODO return a promise?
+		var user_data_selection = new UserDataSelection({user: authenticatedUser.id, name: name});
+		user_data_selection.$save(function (result) {$uibModalInstance.close(result);});
+		return user_data_selection;
+	}
+	
+	function addOption($select){
+		var search = $select.search;
+		var list = angular.copy($select.items);
+		
+		//remove last user input
+		list = list.filter(function(item) { 
+			return item.id != undefined; 
+		});
+		
+		if (!search) {
+			//use the predefined list
+			$select.items = list;
+		} else {
+			//manually add user input and set selection
+			var userInputItem = {
+				id: undefined, 
+				name: search
+			};
+			$select.items = [userInputItem].concat(list);
+			$select.selected = userInputItem;
+		}
+	}
 });

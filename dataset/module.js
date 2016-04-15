@@ -9,5 +9,5 @@ angular
 	'checklist-model',
 	'global',
 	'messagingApp',
-])
-;
+	'dataSelectionApp'
+]);

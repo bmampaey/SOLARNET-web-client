@@ -13,7 +13,7 @@
 			<tr ng-hide="ctrl.metadata.fits_header.length > 0"><td class="text-center text-warning" colspan="1">No FITS header available.</td></tr>
 		</tfoot>
 		<tbody>
-			<tr ng-repeat="card in ctrl.metadata.fits_header | splitText : 80 | filter : searchText track by $index">
+			<tr ng-repeat="card in ctrl.metadata.fits_header | splitText : 80 | regex : '\\S+' | filter : searchText track by $index">
 				<td>{{card}}</td>
 			</tr>
 		</tbody>

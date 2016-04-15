@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService) {
+.controller('DatasetController', function($location, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService) {
 	var vm = this;
 	
 	// set default search criteria
@@ -91,6 +91,8 @@ angular.module('datasetApp')
 		}
 		function load_metadata_service_error(error){
 			console.log('Error loading specific service for ', dataset.id, ': ', error);
+			console.log('Loading default metadata service');
+			return $ocLazyLoad.load('/SVO/metadata/services.js');
 		}
 	}
 	
@@ -98,5 +100,12 @@ angular.module('datasetApp')
 	function save_data_selection(selected_datasets)
 	{
 		console.log('Adding to data selection', selected_datasets);
+		var data_infos = selected_datasets.map(function(dataset){
+			return {
+				query_string: dataset.metadata.uri.split("?", 2)[1],
+				number_items: dataset.metadata.number_items
+			};
+		});
+		return dataSelectionService.createDataSelection(data_infos);
 	}
 });

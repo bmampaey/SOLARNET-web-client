@@ -107,8 +107,6 @@ angular.module('datasetApp')
 				number_items: dataset.metadata.number_items
 			};
 		});
-		dataSelectionService.createDataSelection(data_infos).catch(function(reason){
-			messagingService.error(['There was an error saving data selection', reason]);
-		});
+		return dataSelectionService.createDataSelection(data_infos);
 	}
 });

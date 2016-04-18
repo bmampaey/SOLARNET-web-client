@@ -1,3 +1,9 @@
+// TODO
+// - add an update prototype method that does put/patch?
+// - save should check if resource_uri is set
+// - save static should do patch instead of post with {'objects: [array of resources]}
+// - replace $save by create ? no we want $resource like
+
 angular
 .module('ngTastyResource', ['ngResource'])
 .provider("tastyResource", function(){
@@ -94,6 +100,13 @@ angular
 				},
 				'save': {
 					method: 'POST',
+					headers: {
+						'Authorization': config.authHeader
+					},
+					auth: config.auth
+				},
+				'save_bulk': {
+					method: 'PATCH',
 					headers: {
 						'Authorization': config.authHeader
 					},

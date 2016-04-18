@@ -30,17 +30,20 @@ angular
 		// get a user data selection promise and when resolved create the data selections
 		return getUserDataSelection().then(
 			function(user_data_selection){
-				// create a list of data selection promises
-				var data_selection_promises = data_infos.map(function (data_info) {
-					// create the data selection from the data info
-					var data_selection = new DataSelection(data_info);
-					// add the user data selection to the data selection
-					data_selection.user_data_selection = user_data_selection.resource_uri;
-					// save and return the promise
-					return data_selection.$save().$promise;
+				// attach the user data selection to the data info
+				angular.forEach(data_infos, function(data_info){
+					data_info.user_data_selection = user_data_selection.resource_uri;
 				});
-				// return a combined promise
-				return $q.all(promises);
+				// save the data selection
+				// TODO update the tasty library to do this
+				return DataSelection.save_bulk({'objects': data_infos},
+					function(result){
+						console.log(result);
+					},
+					function(reason){
+						messagingService.error(['There was an error saving data selection', reason.statusText]);
+					})
+					.$promise;
 			},
 			function(reason){
 				// ignore if backdrop was clicked

@@ -94,41 +94,51 @@ angular
 	
 	// set auth
 	UserDataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
-
 	
 	// options for the multi selects
-	vm.user_data_selections = UserDataSelection.query(function(result){console.log('user_data_selections', result);});
+	vm.user_data_selections = UserDataSelection.query(); 
+	
 	// methods
 	vm.get_or_create = get_or_create;
 	vm.addOption = addOption;
 	
-	function get_or_create(name){
-		// TODO return a promise?
-		var user_data_selection = new UserDataSelection({user: authenticatedUser.id, name: name});
-		user_data_selection.$save(function (result) {$uibModalInstance.close(result);});
-		return user_data_selection;
+	/* DEFINITIONS */
+	
+	// return a promise of a user data selection
+	function get_or_create(user_data_selection){
+		// if the user data selection id is undefined it means it is to be created
+		if(user_data_selection.id != undefined){
+			$uibModalInstance.close(user_data_selection);
+		} else {
+			user_data_selection.$save(function(result){
+				$uibModalInstance.close(result);
+			});
+		}
+		return $uibModalInstance.result;
 	}
 	
+
+	// method to allow adding option to ui select
 	function addOption($select){
-		var search = $select.search;
-		var list = angular.copy($select.items);
-		
-		//remove last user input
-		list = list.filter(function(item) { 
-			return item.id != undefined; 
-		});
-		
-		if (!search) {
-			//use the predefined list
-			$select.items = list;
-		} else {
-			//manually add user input and set selection
-			var userInputItem = {
-				id: undefined, 
-				name: search
-			};
-			$select.items = [userInputItem].concat(list);
-			$select.selected = userInputItem;
+		// only add option if select is open 
+		if ($select.open) {
+			// remove the ones added by user
+			// do it backward to do it in place
+			for (var i = $select.items.length - 1; i >= 0; i--) {
+				if($select.items[i].$added_by_user) {
+					$select.items.splice(i, 1);
+				}
+			}
+			// if there is a search term, then add an option
+			var search = $select.search;
+			if (search) {
+				var user_data_selection = new UserDataSelection({
+					'name': search,
+					'$added_by_user': true
+				});
+				$select.items.unshift(user_data_selection);
+				$select.selected = user_data_selection;
+			}
 		}
 	}
 });

@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.css">
 	<link rel="stylesheet" href="libs/datetime-picker/datetime-picker.css">
 	<link rel="stylesheet" href="metadata/style.css">
+	<link rel="stylesheet" href="style.css">
 	
 	<!-- Libs -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
@@ -84,8 +85,17 @@
 					<li ui-sref-active="active"><a ui-sref="event">Events</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" ng-switch on="svo_ctrl.authentication.user.is_authenticated()">
-					<li ng-switch-when="true"><button class="btn btn-default navbar-btn" ng-click="svo_ctrl.authentication.logout()">Logout</button></li>
-					<li ng-switch-default><button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.login()">Login</button></li>
+					<li ng-switch-when="true">
+						<div class="btn-group" uib-dropdown keyboard-nav>
+							<button type="button" class="btn btn-default navbar-btn" uib-dropdown-toggle><span>{{svo_ctrl.authentication.user.name}}</span> <span class="caret"></span></button>
+							<ul class="dropdown-menu" uib-dropdown-menu>
+								<li><a ng-click="svo_ctrl.authentication.logout()">Logout</a></li>
+							</ul>
+						</div>
+					</li>
+					<li ng-switch-default>
+						<button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.login()">Login</button>
+					</li>
 					<!-- ugly hack because of ?bug? in bootstrap -->
 					<li>&nbsp;&nbsp;&nbsp;</li>
 				</ul>

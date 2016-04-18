@@ -1,0 +1,21 @@
+.ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/* "overflow" must not be  "visible" */ 
+}
+
+span.ellipsis {
+	/* text-overflow only work on block */ 
+	display: inline-block;
+}
+
+#user_name {
+	/* set max size to force ellipsis */
+	max-width: 5em;
+}
+
+form {
+	/* force table and form align */ 
+    padding-top: 9px;
+}

@@ -17,14 +17,14 @@ angular
 		var self = this;
 		self.email = credentials.email;
 		self.api_key = undefined;
-		self.username = undefined;
+		self.name = undefined;
 		
 		return self.$login(function(){
 			// email is not sent back by the server so we have to set it from the credentials
 			self.email = credentials.email;
 			
 			$cookies.putObject('user', {
-				username: self.username,
+				name: self.name,
 				email: self.email,
 				api_key: self.api_key,
 			});
@@ -36,7 +36,7 @@ angular
 		return self.$logout({email: self.email, api_key: self.api_key}, function(){
 			self.email = undefined;
 			self.api_key = undefined;
-			self.username = undefined;
+			self.name = undefined;
 			$cookies.remove('user');
 		});
 	};

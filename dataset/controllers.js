@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService) {
+.controller('DatasetController', function($location, $httpParamSerializer, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService) {
 	var vm = this;
 	
 	// set default search criteria
@@ -102,10 +102,13 @@ angular.module('datasetApp')
 		console.log('Adding to data selection', selected_datasets);
 		var data_infos = selected_datasets.map(function(dataset){
 			return {
+				dataset: dataset.resource_uri,
 				query_string: dataset.metadata.uri.split("?", 2)[1],
 				number_items: dataset.metadata.number_items
 			};
 		});
-		return dataSelectionService.createDataSelection(data_infos);
+		dataSelectionService.createDataSelection(data_infos).catch(function(reason){
+			messagingService.error(['There was an error saving data selection', reason]);
+		});
 	}
 });

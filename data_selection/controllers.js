@@ -105,11 +105,24 @@ angular
 	
 	// methods
 	vm.saveDataSelection = saveDataSelection;
+	vm.closeModal = closeModal;
 	vm.addOption = addOption;
+	
+	// result of the modal
+	vm.data_selections = undefined;
+	vm.error_message = undefined;
 	
 	/* DEFINITIONS */
 	
-
+	
+	
+	function closeModal(){
+		if (vm.state == 'success') {
+			$uibModalInstance.close(vm.data_selections);
+		} else {
+			$uibModalInstance.dismiss(vm.error_message);
+		}
+	}
 	
 	// save the data selection
 	function saveDataSelection(user_data_selection){
@@ -135,20 +148,24 @@ angular
 		
 		// save the data selection
 		// TODO update the tasty library to do this
-		return DataSelection.save_bulk({'objects': data_infos}, saveDataSelectionSuccess, saveDataSelectionError);
+		DataSelection.save_bulk({'objects': data_infos}, saveDataSelectionSuccess, saveDataSelectionError);
 	}
 	
 	function saveDataSelectionSuccess(result){
 		console.log('Successfully saved data selection', result);
+		vm.data_selections = result;
 		vm.state = 'success';
-		$timeout($uibModalInstance.close, 5000, false, result);
-		return result;
 	}
 	
 	function saveDataSelectionError(reason){
-		vm.error_message = reason;
+		if(reason.status <= 0){
+			vm.error_message = 'The server seems down, please contact the website admins.';
+		} else if(reason.data){
+			vm.error_message = reason.data;
+		} else {
+			vm.error_message = reason.statusText;
+		}
 		vm.state = 'error';
-		return $q.reject(reason);
 	}
 	
 	// method to allow adding option to ui select

@@ -5,10 +5,16 @@
 	<div ng-switch-when="success" class="text-success">
 		<p>Succesfully saved data selection.</p>
 		<p>See <a ui-sref="data_selection">Data selections</a></p>
+		<div class="text-center"> 
+			<button type="button" class="btn btn-primary" ng-click="ctrl.closeModal()">Close</button>
+		</div>
 	</div>
 	<div ng-switch-when="error" class="text-danger">
 		<p>Error while saving data selection.</p>
 		<p>{{ctrl.error_message}}</p>
+		<div class="text-center"> 
+			<button type="button" class="btn btn-primary" ng-click="ctrl.closeModal()">Close</button>
+		</div>
 	</div>
 	<div ng-switch-default>
 		<form ng-submit="ctrl.saveDataSelection(ctrl.selected_user_data_selection)">

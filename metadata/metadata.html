@@ -36,7 +36,7 @@
 				<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.page.next_page_number())" ng-class="{'disabled':  !ctrl.page.has_next()}">&rarr;</button>
 		</div>
 		<div role="group">
-			<button type="button" class="btn btn-primary" ng-click="ctrl.create_user_data_selection(ctrl.selected_metadata)" ng-class="{'disabled': ctrl.selected_metadata.length == 0}" title="Select one or more metadata to add to/create a selection">Save selection</button>
+			<button type="button" class="btn btn-primary" ng-click="ctrl.save_data_selection(ctrl.selected_metadata)" ng-class="{'disabled': ctrl.selected_metadata.length == 0}" title="Select one or more metadata to add to/create a selection">Save selection</button>
 		</div>
 	</div>
 </div>

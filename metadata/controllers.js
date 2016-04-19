@@ -1,6 +1,6 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, DEFAULT_METADATA_SERVICE, getPropFilter, metadataService, dataSelectionService, dataset) {
+.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, DEFAULT_METADATA_SERVICE, getPropFilter, metadataService, dataSelectionService, dataset) {
 	
 	// merge metadata service and defaults
 	var service = {};
@@ -96,7 +96,7 @@ angular
 	{
 		console.log('Adding to data selection', selected_metadata);
 		var data_info = {
-				dataset: dataset.uri,
+				dataset: dataset.resource_uri,
 				query_string: $httpParamSerializer(vm.page.search_params),
 				metadata_oids : getPropFilter(selected_metadata, 'oid'),
 		};

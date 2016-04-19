@@ -100,7 +100,7 @@ angular
 				query_string: $httpParamSerializer(vm.page.search_params),
 				metadata_oids : getPropFilter(selected_metadata, 'oid'),
 		};
-		return dataSelectionService.createDataSelection([data_info]);
+		return dataSelectionService.saveDataSelection([data_info]);
 	}
 })
 .controller('MetadataDetailController', function(metadata, dataset) {

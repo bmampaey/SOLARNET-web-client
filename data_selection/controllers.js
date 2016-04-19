@@ -89,35 +89,68 @@ angular
 	// convert data selection objects to resource
 	vm.data_selections = data_selection.data_selections.map(function(object){return new DataSelection(object);});
 })
-.controller('GetDataSelectionController', function($uibModalInstance, UserDataSelection, authenticatedUser) {
-	var vm = this;
-	
+.controller('SaveDataSelectionController', function($q, $timeout, UserDataSelection, DataSelection, $uibModalInstance, authenticatedUser, data_infos) {
+
 	// set auth
 	UserDataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
+	DataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
+	
+	var vm = this;
+	
+	// set state of the modal
+	vm.state = "default";
 	
 	// options for the multi selects
 	vm.user_data_selections = UserDataSelection.query(); 
 	
 	// methods
-	vm.get_or_create = get_or_create;
+	vm.saveDataSelection = saveDataSelection;
 	vm.addOption = addOption;
 	
 	/* DEFINITIONS */
 	
-	// return a promise of a user data selection
-	function get_or_create(user_data_selection){
-		// if the user data selection id is undefined it means it is to be created
-		if(user_data_selection.id != undefined){
-			$uibModalInstance.close(user_data_selection);
-		} else {
-			user_data_selection.$save(function(result){
-				$uibModalInstance.close(result);
-			});
-		}
-		return $uibModalInstance.result;
+
+	
+	// save the data selection
+	function saveDataSelection(user_data_selection){
+		return getUserDataSelection(user_data_selection).then(getUserDataSelectionSuccess, saveDataSelectionError);
 	}
 	
-
+	// return a promise of a user data selection
+	function getUserDataSelection(user_data_selection){
+		// if the user data selection id is undefined it means it is to be created
+		if(user_data_selection.id == undefined){
+			return user_data_selection.$save();
+		} else {
+			return $q.resolve(user_data_selection);
+		}
+	}
+	
+	function getUserDataSelectionSuccess(result){
+		
+		// attach the user data selection to the data info
+		angular.forEach(data_infos, function(data_info){
+			data_info.user_data_selection = result.resource_uri;
+		});
+		
+		// save the data selection
+		// TODO update the tasty library to do this
+		return DataSelection.save_bulk({'objects': data_infos}, saveDataSelectionSuccess, saveDataSelectionError);
+	}
+	
+	function saveDataSelectionSuccess(result){
+		console.log('Successfully saved data selection', result);
+		vm.state = 'success';
+		$timeout($uibModalInstance.close, 5000, false, result);
+		return result;
+	}
+	
+	function saveDataSelectionError(reason){
+		vm.error_message = reason;
+		vm.state = 'error';
+		return $q.reject(reason);
+	}
+	
 	// method to allow adding option to ui select
 	function addOption($select){
 		// only add option if select is open 

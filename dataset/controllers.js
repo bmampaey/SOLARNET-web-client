@@ -107,6 +107,6 @@ angular.module('datasetApp')
 				number_items: dataset.metadata.number_items
 			};
 		});
-		return dataSelectionService.createDataSelection(data_infos);
+		return dataSelectionService.saveDataSelection(data_infos);
 	}
 });

@@ -1,11 +1,15 @@
 angular.module('metadataApp')
-.factory('xrt', function(getPropFilter){
+.factory('eit', function(getPropFilter){
 	
 	return {
 		parse_search_criteria: parse_search_criteria,
 		parse_location_search: parse_location_search,
-		form_template_url: '/SVO/metadata/xrt.html',
-		columns: null,
+		form_template_url: '/SVO/metadata/form_template.html',
+		columns: [
+			['corrected_date_obs', 'Observation date'],
+			['wavelnth', 'Wavelength [Å]'],
+			['sci_obj', 'Science objective'],
+		],
 	};
 	
 	// function to parse search criteria into search params for the Metadata resource

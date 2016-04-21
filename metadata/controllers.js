@@ -1,11 +1,11 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, DEFAULT_METADATA_SERVICE, getPropFilter, metadataService, dataSelectionService, dataset) {
+.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, defaultMetadataConfig, metadataConfig, getPropFilter, dataSelectionService, dataset) {
 	
 	// merge metadata service and defaults
-	var service = {};
-	angular.forEach(DEFAULT_METADATA_SERVICE, function(value, key){
-		service[key] = metadataService[key] != undefined ? metadataService[key]: value;
+	var config = {};
+	angular.forEach(defaultMetadataConfig, function(value, key){
+		config[key] = metadataConfig[key] != undefined ? metadataConfig[key]: value;
 	});
 	
 	var vm = this;
@@ -16,13 +16,13 @@ angular
 	vm.page = {};
 	
 	// set search criteria from search params
-	vm.search_criteria = service.parse_location_search($location.search());
+	vm.search_criteria = config.parse_location_search($location.search());
 	
 	// columns to display in table
-	vm.columns = service.columns;
+	vm.columns = config.columns;
 	
 	//form template url
-	vm.form_template_url = service.form_template_url;
+	vm.form_template_url = config.form_template_url;
 	
 	// list of selected datasets
 	vm.selected_metadata = [];
@@ -47,7 +47,7 @@ angular
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// filter the search criteria
-		var search_params = service.parse_search_criteria(search_criteria);
+		var search_params = config.parse_search_criteria(search_criteria);
 		search_params.metadata = dataset.id + '_metadata';
 		// get the page
 		vm.page = Metadata.paginator(search_params, load_objects_success, load_objects_error);

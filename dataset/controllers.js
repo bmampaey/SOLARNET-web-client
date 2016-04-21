@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location,$uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService) {
+.controller('DatasetController', function($location,$injector, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService) {
 	var vm = this;
 	
 	// set default search criteria
@@ -78,21 +78,31 @@ angular.module('datasetApp')
 					return dataset;
 				},
 				// load the metadata specific service
-				load_metadata_service: function() {
-					console.log('Loading specific service for ', dataset.id);
-					return $ocLazyLoad.load('/SVO/metadata/'+dataset.id+'.js').then(load_metadata_service_succes, load_metadata_service_error);
+				metadataConfig: function() {
+					if($injector.has(dataset.id)){
+						return $injector.get(dataset.id);
+					} else {
+						console.log('Loading specific config for ', dataset.id);
+						return $ocLazyLoad.load('/SVO/metadata/'+dataset.id+'.js')
+							.then(load_metadata_config_succes, load_metadata_config_error);
+					}
 				}
 			},
 		});
 		
-		function load_metadata_service_succes(result){
-			console.log('Loaded specific service for ', dataset.id);
-			return result;
+		function load_metadata_config_succes(result){
+			console.log('Loaded specific config for ', dataset.id);
+			if($injector.has(dataset.id)){
+				return $injector.get(dataset.id);
+			} else {
+				console.log('Specific config for ', dataset.id, 'probably misnommed');
+				console.log('Loaded modules :', $ocLazyLoad.getModules());
+				return {};
+			}
 		}
-		function load_metadata_service_error(error){
-			console.log('Error loading specific service for ', dataset.id, ': ', error);
-			console.log('Loading default metadata service');
-			return $ocLazyLoad.load('/SVO/metadata/services.js');
+		function load_metadata_config_error(error){
+			console.log('Error loading specific config for ', dataset.id, ': ', error);
+			return {};
 		}
 	}
 	

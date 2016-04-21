@@ -11,7 +11,7 @@ angular
 	'datasetApp'
 ])
 // default behavior for metadata service
-.constant('DEFAULT_METADATA_SERVICE',{
+.constant('defaultMetadataConfig',{
 	columns: [
 		['date_beg', 'Begin obs. date'],
 		['date_end', 'End obs. date'],

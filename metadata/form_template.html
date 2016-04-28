@@ -1,34 +1,34 @@
-<div class="row">
+<div class="row" ng-class="{'has-error': ctrl.search_criteria.date_end__gte > ctrl.search_criteria.date_beg__lte}">
 	<label class="control-label col-md-12">Observation date</label>
-	<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.start_date > ctrl.search_criteria.end_date}">
-		<label for="start_date" class="control-label">start</label>
+	<div class="form-group col-md-6">
+		<label for="date_end" class="control-label small">start</label>
 		<div class="input-group">
-			<input type="text" id="start_date" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" ng-model="ctrl.search_criteria.start_date" is-open="opened_datetime_picker['start_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+			<input type="text" id="date_end" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" ng-model="ctrl.search_criteria.date_end__gte" is-open="date_end_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 			<span class="input-group-btn">
-				<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['start_date'] = true" title="Click to open date picker">
+				<button type="button" class="btn btn-default" ng-click="date_end_picker = true" title="Click to open date picker">
 					<span class="glyphicon glyphicon-calendar"></span>
 				</button>
 			</span>
 		</div>
 	</div>
-	<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.start_date > ctrl.search_criteria.end_date}">
-		<label for="end_date" class="control-label">end</label>
+	<div class="form-group col-md-6">
+		<label for="date_beg" class="control-label small">end</label>
 		<div class="input-group">
-			<input type="text" id="end_date" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" ng-model="ctrl.search_criteria.end_date" is-open="opened_datetime_picker['end_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+			<input type="text" id="date_beg" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" ng-model="ctrl.search_criteria.date_beg__lte" is-open="date_beg_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 			<span class="input-group-btn">
-				<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['end_date'] = true" title="Click to open date picker">
+				<button type="button" class="btn btn-default" ng-click="date_beg_picker = true" title="Click to open date picker">
 					<span class="glyphicon glyphicon-calendar"></span>
 				</button>
 			</span>
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row" ng-class="{'has-error': ctrl.search_criteria.wavemin__lte < ctrl.search_criteria.wavemax__gte}">
 	<label class="control-label col-md-12">Observation wavelength</label>
-	<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.wavelength_min > ctrl.search_criteria.wavelength_max}">
-		<label for="wavelength_min" class="control-label">min</label>
+	<div class="form-group col-md-6">
+		<label for="wavemax" class="control-label small">min</label>
 		<div class="input-group">
-			<input type="number" id="wavelength_min" class="form-control" ng-model="ctrl.search_criteria.wavelength_min"/>
+			<input type="number" id="wavemax" class="form-control" ng-model="ctrl.search_criteria.wavemax__gte"/>
 			<span class="input-group-btn">
 				<button type="button" class="btn btn-default" ng-click="ctrl.search_criteria.angstrom = !ctrl.search_criteria.angstrom" title="Click to change from Ångström to nano meters">
 					{{ctrl.search_criteria.angstrom ? "&Aring;" : "nm"}}
@@ -36,10 +36,10 @@
 			</span>
 		</div>
 	</div>
-	<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.wavelength_min > ctrl.search_criteria.wavelength_max}">
-		<label for="wavelength_max" class="control-label">max</label>
+	<div class="form-group col-md-6">
+		<label for="wavemin" class="control-label small">max</label>
 		<div class="input-group">
-			<input type="number" id="wavelength_max" class="form-control" ng-model="ctrl.search_criteria.wavelength_max"/>
+			<input type="number" id="wavemin" class="form-control" ng-model="ctrl.search_criteria.wavemin__lte"/>
 			<span class="input-group-btn">
 				<button type="button" class="btn btn-default" ng-click="ctrl.search_criteria.angstrom = !ctrl.search_criteria.angstrom" title="Click to change from Ångström to nano meters">
 					{{ctrl.search_criteria.angstrom ? "&Aring;" : "nm"}}
@@ -47,13 +47,4 @@
 			</span>
 		</div>
 	</div>
-</div>
-<div class="form-group" ng-show="ctrl.tags.length > 0">
-	<label for="tags" class="control-label">Tags:</label>
-	<ui-select multiple="true" ng-model="ctrl.search_criteria.selected_tags" theme="bootstrap">
-		<ui-select-match placeholder="select or search tags">{{$item.name}}</ui-select-match>
-		<ui-select-choices repeat="tag in ctrl.tags | filter:{name: $select.search}">
-		  <div ng-bind-html="tag.name | highlight: $select.search"></div>
-		</ui-select-choices>
-	  </ui-select>
 </div>

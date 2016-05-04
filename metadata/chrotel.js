@@ -1,23 +1,21 @@
 angular.module('metadataApp')
-.factory('aia_lev1', function(getPropFilter){
+.factory('chrotel', function(getPropFilter){
 	
-	var wavelnth = [94, 131, 171, 193, 211, 304, 335, 1600, 1700, 4500];
+	var wavelnth = [393.4, 656.2, 1083.0];
 	
 	return {
 		columns: [
 			['date_obs', 'Observation date'],
-			['wavelnth', 'Wavelength (Å)'],
-			['quality', 'Quality'],
+			['wavelnth', 'Wavelength (nm)']
 		],
-		form_template_url: '/SVO/metadata/aia_lev1.html',
+		form_template_url: '/SVO/metadata/chrotel.html',
 		form_config: {
 			wavelnth: wavelnth
 		},
 		parse_location_search: parse_location_search
 	};
 	
-	
-	// parse the location search values into search criteria
+	// function to parse search criteria into search params for the Metadata resource
 	function parse_location_search(search_criteria) {
 		if(search_criteria.wavemin__lte != undefined || search_criteria.wavemax__gte != undefined)
 		{
@@ -25,16 +23,15 @@ angular.module('metadataApp')
 		}
 		
 		if(search_criteria.wavemin__lte != undefined) {
-			search_criteria.wavelnth__in = search_criteria.wavelnth__in.filter(function(w){return w/10. <= search_criteria.wavemin__lte});
+			search_criteria.wavelnth__in = search_criteria.wavelnth__in.filter(function(w){return w <= search_criteria.wavemin__lte});
 		}
 		
 		if(search_criteria.wavemax__gte != undefined) {
-			search_criteria.wavelnth__in = search_criteria.wavelnth__in.filter(function(w){return w/10. >= search_criteria.wavemax__gte});
+			search_criteria.wavelnth__in = search_criteria.wavelnth__in.filter(function(w){return w >= search_criteria.wavemax__gte});
 		}
 		delete search_criteria.wavemax__gte;
 		delete search_criteria.wavemin__lte;
 		
 		return search_criteria;
 	}
-
 });

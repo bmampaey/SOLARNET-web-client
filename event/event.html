@@ -2,7 +2,7 @@
 	<div class="col-md-4">
 		<form ng-submit="ctrl.search(ctrl.search_criteria)">
 			<div class="form-group">
-				<label for="event_types" class="control-label">Event types:</label>
+				<label for="event_types" class="control-label">Event types</label>
 				<ui-select multiple="true" ng-model="ctrl.search_criteria.selected_event_types" theme="bootstrap">
 					<ui-select-match placeholder="select or search event type">{{$item.name}}</ui-select-match>
 					<ui-select-choices repeat="event_type in ctrl.event_types | filter:{name: $select.search}">

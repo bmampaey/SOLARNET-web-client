@@ -12,11 +12,11 @@ angular.module('datasetApp')
 		var search_params = angular.copy(search_criteria);
 		
 		// check wavelength unit
-		if(search_params.wavemin__lt != undefined && search_params.angstrom) {
-			search_params.wavemin__lt /= 10.;
+		if(search_params.wavemin__lte != undefined && search_params.angstrom) {
+			search_params.wavemin__lte /= 10.;
 		}
-		if(search_params.wavemax__gt != undefined && search_params.angstrom) {
-			search_params.wavemax__gt /= 10.;
+		if(search_params.wavemax__gte != undefined && search_params.angstrom) {
+			search_params.wavemax__gte /= 10.;
 		}
 		
 		delete search_params.angstrom;

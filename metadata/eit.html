@@ -24,11 +24,20 @@
 	</div>
 </div>
 <div class="form-group">
-	<label for="obs_mode" class="control-label">Observation mode</label>
-	<ui-select multiple="true" id="obs_mode" ng-model="ctrl.search_criteria.obs_mode__in" theme="bootstrap">
-		<ui-select-match placeholder="select or search observation mode">{{$item}}</ui-select-match>
-		<ui-select-choices repeat="obs_mode in ctrl.form_config.obs_mode | filter: $select.search">
-		  <div ng-bind-html="obs_mode | highlight: $select.search"></div>
+	<label for="wavelnth" class="control-label">Wavelength (Å)</label>
+	<ui-select multiple="true" id="wavelnth" ng-model="ctrl.search_criteria.wavelnth__in" theme="bootstrap">
+		<ui-select-match placeholder="select wavelengths">{{$item}}</ui-select-match>
+		<ui-select-choices repeat="wavelnth in ctrl.form_config.wavelnth | filter: $select.search">
+		  <div ng-bind-html="wavelnth | highlight: $select.search"></div>
+		</ui-select-choices>
+	  </ui-select>
+</div>
+<div class="form-group">
+	<label for="sci_obj" class="control-label">Science objective</label>
+	<ui-select multiple="true" id="sci_obj" ng-model="ctrl.search_criteria.sci_obj__in" theme="bootstrap">
+		<ui-select-match placeholder="select or search science objective">{{$item}}</ui-select-match>
+		<ui-select-choices repeat="sci_obj in ctrl.form_config.sci_obj | filter: $select.search">
+		  <div ng-bind-html="sci_obj | highlight: $select.search"></div>
 		</ui-select-choices>
 	  </ui-select>
 </div>

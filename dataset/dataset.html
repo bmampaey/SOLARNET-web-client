@@ -2,7 +2,7 @@
 	<div class="col-md-4">
 		<form ng-submit="ctrl.search(ctrl.search_criteria)">
 			<div class="form-group">
-				<label for="telescope" class="control-label">Telescopes:</label>
+				<label for="telescope" class="control-label">Telescopes</label>
 				<ui-select id="telescope" multiple="true" ng-model="ctrl.search_criteria.telescope__in" theme="bootstrap">
 					<ui-select-match placeholder="select or search telescopes">{{$item}}</ui-select-match>
 					<ui-select-choices repeat="telescope in ctrl.telescopes | getProp: 'name'| filter: $select.search">
@@ -11,7 +11,7 @@
 				</ui-select>
 			</div>
 			<div class="form-group">
-				<label for="characteristic" class="control-label">Characteristics:</label>
+				<label for="characteristic" class="control-label">Characteristics</label>
 				<ui-select id="characteristic" multiple="true" ng-model="ctrl.search_criteria.characteristic__in" theme="bootstrap">
 					<ui-select-match placeholder="select or search characteristics">{{$item}}</ui-select-match>
 					<ui-select-choices repeat="characteristic in ctrl.characteristics | getProp: 'name'| filter: $select.search">
@@ -20,7 +20,7 @@
 				</ui-select>
 			</div>
 			<div class="form-group">
-				<label for="tag" class="control-label">Tags:</label>
+				<label for="tag" class="control-label">Tags</label>
 				<ui-select id="tag" multiple="true" ng-model="ctrl.search_criteria.tags__in" theme="bootstrap">
 					<ui-select-match placeholder="select or search tags">{{$item}}</ui-select-match>
 					<ui-select-choices repeat="tag in ctrl.tags | getProp: 'name' | filter: $select.search">
@@ -105,7 +105,7 @@
 					<td><input type="checkbox" checklist-model="ctrl.selected_datasets" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
 					<td>{{dataset.name}}</td>
 					<td>{{dataset.metadata.number_items}}</td>
-					<td>{{dataset.telescope}}</td>
+					<td>{{dataset.instrument}}</td>
 					<td>{{dataset.telescope}}</td>
 					<td>{{dataset.characteristics | getProp:'name':', '}}</td>
 				</tr>

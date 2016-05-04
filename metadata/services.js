@@ -31,11 +31,11 @@ angular.module('metadataApp')
 	}
 	
 	function parse_location_search(search_criteria) {
-		if(search_criteria.wavemin__lt != undefined && search_criteria.angstrom) {
-			search_criteria.wavemin__lt *= 10.;
+		if(search_criteria.wavemin__lte != undefined && search_criteria.angstrom) {
+			search_criteria.wavemin__lte *= 10.;
 		}
-		if(search_criteria.wavemax__gt != undefined && search_criteria.angstrom) {
-			search_criteria.wavemax__gt *= 10.;
+		if(search_criteria.wavemax__gte != undefined && search_criteria.angstrom) {
+			search_criteria.wavemax__gte *= 10.;
 		}
 		// '1990-12-01T00:00:00Z'.match(/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?([+-][0-2]\d:[0-5]\d|Z)/)
 		if(search_criteria.date_beg__lte != undefined){

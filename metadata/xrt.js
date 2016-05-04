@@ -3,13 +3,13 @@ angular.module('metadataApp')
 	
 	return {
 		columns: [
-			["date_obs", "Observation date"],
-			["noaa_num", "NOAA A.R. number"],
+			['date_obs', 'Observation date'],
+			['noaa_num', 'NOAA A.R. number'],
 			['target', 'Observation target']
 		],
 		form_template_url: '/SVO/metadata/xrt.html',
 		form_config: {
-			targets: ['AR', 'CH', 'FS', 'QR']
+			target: ['AR', 'CH', 'FS', 'QR']
 		}
 	};
 

@@ -1,6 +1,6 @@
 angular
 .module('eventApp')
-.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, messagingService, EVENT_TYPES, Event, eventService) {
+.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, messagingService, EVENT_TYPES, Event, eventService, Dataset) {
 	var vm = this;
 	
 	// set default search criteria
@@ -16,10 +16,14 @@ angular
 		return {name: EVENT_TYPES[key], value: key};
 	});
 	
+	// list of selected datasets
+	vm.selected_events = [];
+	
 	// methods
 	vm.search = search;
 	vm.change_page = change_page;
 	vm.open_detail = open_detail;
+	vm.search_datasets = search_datasets;
 	
 	// overlay id
 	vm.overlay_id = 'event_overlay';
@@ -68,6 +72,29 @@ angular
 			resolve: {
 				dataset: function () { return dataset }
 			},
+		});
+	}
+	
+	// function to search for datasets
+	function search_datasets(selected_events)
+	{
+		console.log('searching datasets for events', selected_events);
+		var search_filter = selected_events.map(function(e){
+			return '(date_beg__lt = ' + e.event_endtime + ' and date_end__gt = ' + e.event_starttime + ')';
+		})
+		.join(' or ');
+		console.log('search filter', search_filter);
+		$uibModal.open({
+			templateUrl: 'event/dataset_search.html',
+			size: 'xl',
+			controller: 'DatasetController',
+			controllerAs: 'ctrl',
+			resolve: {
+				 // pass the dataset
+				search_criteria: function () {
+					return {'search': search_filter};
+				}
+			}
 		});
 	}
 })

@@ -43,6 +43,7 @@
 		<table class="table table-hover table-responsive">
 			<thead>
 				<tr>
+					<th></th>
 					<th>Type</th>
 					<th>Start date</th>
 					<th>End date</th>
@@ -56,6 +57,7 @@
 			</tfoot>
 			<tbody>
 				<tr ng-repeat="object in ctrl.objects" ng-click="ctrl.open_detail(object)">
+					<td><input type="checkbox" checklist-model="ctrl.selected_events" checklist-value="object" ng-click="$event.stopPropagation();"/></td>
 					<td>{{object.event_type | fullType}}</td>
 					<td>{{object.event_starttime}}</td>
 					<td>{{object.event_endtime}}</td>
@@ -66,5 +68,9 @@
 				<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.objects.page_number - 1)" ng-class="{'disabled': ctrl.objects.page_number <= 1}">&larr;</button>
 				<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.objects.page_number + 1)">&rarr;</button>
 		</div>
+		<div role="group">
+			<button type="button" class="btn btn-primary" ng-click="ctrl.search_datasets(ctrl.selected_events)" ng-class="{'disabled': ctrl.selected_events.length == 0}" title="Select one or more event to search for data">Search datasets</button>
+		</div>
+
 	</div>
 </div>

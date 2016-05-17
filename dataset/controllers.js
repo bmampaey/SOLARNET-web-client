@@ -1,9 +1,9 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location,$injector, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService) {
+.controller('DatasetController', function($location, $injector, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService, search_criteria) {
 	var vm = this;
 	
 	// set default search criteria
-	vm.search_criteria = {
+	vm.search_criteria = search_criteria || {
 		angstrom: true, // specify wavelength units in angstrom
 		selected_telescopes: [], // filled automatically  by the multi select
 		selected_characteristics: [], // filled automatically  by the multi select

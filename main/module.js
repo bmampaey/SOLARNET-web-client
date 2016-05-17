@@ -19,6 +19,11 @@ angular
 		url: '/dataset',
 		templateUrl: 'dataset/dataset.html',
 		controller: 'DatasetController as ctrl',
+		resolve: {
+			search_criteria: function(){
+				return undefined;
+			}
+		},
 		reloadOnSearch: false,
 	})
 	.state('data_selection', {

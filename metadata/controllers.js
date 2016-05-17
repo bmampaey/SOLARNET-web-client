@@ -19,6 +19,7 @@ angular
 	vm.change_page = change_page;
 	vm.open_detail = open_detail;
 	vm.save_data_selection = save_data_selection;
+	vm.search_datasets = search_datasets;
 	
 	// overlay id
 	vm.overlay_id = 'metadata_overlay';
@@ -121,7 +122,28 @@ angular
 		return dataSelectionService.saveDataSelection([data_info]);
 	}
 	
-
+	// function to search for datasets
+	function search_datasets(selected_metadata)
+	{
+		console.log('searching datasets for metadata', selected_metadata);
+		var search_filter = selected_metadata.map(function(m){
+			return '(date_beg__lt = ' + m.date_end + ' and date_end__gt = ' + m.date_beg + ')';
+		})
+		.join(' or ');
+		console.log('search filter', search_filter);
+		$uibModal.open({
+			templateUrl: 'dataset/dataset_search.html',
+			size: 'xl',
+			controller: 'DatasetController',
+			controllerAs: 'ctrl',
+			resolve: {
+				 // pass the dataset
+				search_criteria: function () {
+					return {'search': search_filter};
+				}
+			}
+		});
+	}
 })
 .controller('MetadataDetailController', function(metadata, dataset) {
 	var vm = this;

@@ -85,7 +85,7 @@ angular
 		.join(' or ');
 		console.log('search filter', search_filter);
 		$uibModal.open({
-			templateUrl: 'event/dataset_search.html',
+			templateUrl: 'dataset/dataset_search.html',
 			size: 'xl',
 			controller: 'DatasetController',
 			controllerAs: 'ctrl',

@@ -1,6 +1,6 @@
 angular
 .module('dataSelectionApp')
-.controller('DataSelectionController', function($uibModal, bsLoadingOverlayService, messagingService, UserDataSelection, authenticatedUser) {
+.controller('DataSelectionController', function($uibModal, bsLoadingOverlayService, messagingService, DataSelectionGroup, authenticatedUser) {
 	
 	var vm = this;
 	
@@ -15,7 +15,7 @@ angular
 	vm.overlay_id = 'data_selection_overlay';
 	
 	// set auth
-	UserDataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
+	DataSelectionGroup.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
 	
 	// load some data selections
 	search();
@@ -26,7 +26,7 @@ angular
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// get the page
-		vm.page = UserDataSelection.paginator(search_criteria, load_objects_success, load_objects_error);
+		vm.page = DataSelectionGroup.paginator(search_criteria, load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {
@@ -77,22 +77,47 @@ angular
 			controller: 'DataSelectionDetailController',
 			controllerAs: 'ctrl',
 			resolve: {
-				data_selection: function () { return data_selection }
+				data_selection_group: function () { return data_selection }
 			},
 		});
 	}
 })
-.controller('DataSelectionDetailController', function($uibModalInstance, DataSelection, data_selection) {
+.controller('DataSelectionDetailController', function($uibModalInstance, messagingService, DataSelection, DataSelectionGroup, data_selection_group) {
 	var vm = this;
 	
-	vm.parent = data_selection;
+	vm.data_selection_group = data_selection_group;
 	// convert data selection objects to resource
-	vm.data_selections = data_selection.data_selections.map(function(object){return new DataSelection(object);});
+	vm.data_selections = data_selection_group.data_selections.map(function(object){return new DataSelection(object);});
+	
+	vm.delete_data_selection = delete_data_selection;
+	
+	// function to delete data selection
+	function delete_data_selection(data_selection) {
+		data_selection.$delete(
+			function(result){
+				console.log(result);
+				var index = vm.data_selections.indexOf(data_selection);
+				if(index > -1){
+					 vm.data_selections.splice(index, 1);
+				}
+				// When $refresh is available on tasty ressource change this and remove dependence on DataSelectionGroup
+				// data_selection_group.$refresh();
+				DataSelectionGroup.get({id: data_selection_group.id}, function (result) {
+					angular.extend(data_selection_group, result);
+				});
+			},
+			function(error){
+				console.log(error);
+				// display some error message
+				messagingService.error(['There was an error deleting object', error.statusText]);
+			}
+		);
+	}
 })
-.controller('SaveDataSelectionController', function($q, $timeout, UserDataSelection, DataSelection, $uibModalInstance, authenticatedUser, data_infos) {
+.controller('SaveDataSelectionController', function($q, $timeout, DataSelectionGroup, DataSelection, $uibModalInstance, authenticatedUser, data_infos) {
 
 	// set auth
-	UserDataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
+	DataSelectionGroup.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
 	DataSelection.setAuth({username: authenticatedUser.email, api_key: authenticatedUser.api_key});
 	
 	var vm = this;
@@ -101,7 +126,7 @@ angular
 	vm.state = "default";
 	
 	// options for the multi selects
-	vm.user_data_selections = UserDataSelection.query(); 
+	vm.data_selection_groups = DataSelectionGroup.query(); 
 	
 	// methods
 	vm.saveDataSelection = saveDataSelection;
@@ -125,25 +150,25 @@ angular
 	}
 	
 	// save the data selection
-	function saveDataSelection(user_data_selection){
-		return getUserDataSelection(user_data_selection).then(getUserDataSelectionSuccess, saveDataSelectionError);
+	function saveDataSelection(data_selection_group){
+		return getDataSelectionGroup(data_selection_group).then(getDataSelectionGroupSuccess, saveDataSelectionError);
 	}
 	
 	// return a promise of a user data selection
-	function getUserDataSelection(user_data_selection){
+	function getDataSelectionGroup(data_selection_group){
 		// if the user data selection id is undefined it means it is to be created
-		if(user_data_selection.id == undefined){
-			return user_data_selection.$save();
+		if(data_selection_group.id == undefined){
+			return data_selection_group.$save();
 		} else {
-			return $q.resolve(user_data_selection);
+			return $q.resolve(data_selection_group);
 		}
 	}
 	
-	function getUserDataSelectionSuccess(result){
+	function getDataSelectionGroupSuccess(result){
 		
 		// attach the user data selection to the data info
 		angular.forEach(data_infos, function(data_info){
-			data_info.user_data_selection = result.resource_uri;
+			data_info.data_selection_group = result.resource_uri;
 		});
 		
 		// save the data selection
@@ -182,12 +207,12 @@ angular
 			// if there is a search term, then add an option
 			var search = $select.search;
 			if (search) {
-				var user_data_selection = new UserDataSelection({
+				var data_selection_group = new DataSelectionGroup({
 					'name': search,
 					'$added_by_user': true
 				});
-				$select.items.unshift(user_data_selection);
-				$select.selected = user_data_selection;
+				$select.items.unshift(data_selection_group);
+				$select.selected = data_selection_group;
 			}
 		}
 	}

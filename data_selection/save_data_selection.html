@@ -17,13 +17,13 @@
 		</div>
 	</div>
 	<div ng-switch-default>
-		<form ng-submit="ctrl.saveDataSelection(ctrl.selected_user_data_selection)">
+		<form ng-submit="ctrl.saveDataSelection(ctrl.selected_data_selection_group)">
 			<div class="form-group">
 				<label for="data_selection" class="control-label">Selection name:</label>
-				<ui-select ng-model="ctrl.selected_user_data_selection" theme="bootstrap">
+				<ui-select ng-model="ctrl.selected_data_selection_group" theme="bootstrap">
 					<ui-select-match placeholder="select or type new name">{{$select.selected.name || $select.search}}</ui-select-match>
-					<ui-select-choices repeat="user_data_selection in ctrl.user_data_selections | filter:{name: $select.search}" refresh="ctrl.addOption($select)" refresh-delay="0">
-					  <div ng-bind-html="user_data_selection.name | highlight: $select.search"></div>
+					<ui-select-choices repeat="data_selection_group in ctrl.data_selection_groups | filter:{name: $select.search}" refresh="ctrl.addOption($select)" refresh-delay="0">
+					  <div ng-bind-html="data_selection_group.name | highlight: $select.search"></div>
 					</ui-select-choices>
 				  </ui-select>
 			</div>

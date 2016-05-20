@@ -40,7 +40,7 @@ angular
 		cancellable: true
 	};
 	
-	this.$get = function($http, $resource, TastyPaginator) {
+	provider.$get = function($http, $resource, TastyPaginator) {
 		
 		// tastypie return an object instead of an array on query
 		function transformObjectToList($http){

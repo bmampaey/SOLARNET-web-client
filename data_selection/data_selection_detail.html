@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{ctrl.parent.name}}</h3>
+	<h3 class="modal-title">{{ctrl.data_selection_group.name}}</h3>
 </div>
 <div class="modal-body">
 	<table class="table table-responsive">
@@ -9,7 +9,6 @@
 				<th># Items</th>
 				<th>Dataset</th>
 				<th>Date of creation</th>
-				<th>Search parameters</th>
 				<th>Delete</th>
 			</tr>
 		</thead>
@@ -26,7 +25,6 @@
 				<td>{{data_selection.number_items}}</td>
 				<td>{{data_selection.dataset.name}}</td>
 				<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>
-				<td>TODO</td>
 				<td>
 					<button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.delete_data_selection(data_selection); $event.stopPropagation();">
 						<span class="glyphicon glyphicon-trash"></span>

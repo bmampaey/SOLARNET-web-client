@@ -31,6 +31,9 @@ angular
 	// columns to display in table
 	vm.columns = metadataService.columns != undefined ? metadataService.columns : defaultMetadataService.columns;
 	
+	// config metadata resource
+	Metadata.config.paramDefaults.dataset = dataset.id;
+	
 	// get search criteria from search params
 	//var location_search = $location.search(); should be this when location is correctly set
 	if(dataset.metadata.uri.indexOf('?') > -1) {
@@ -65,11 +68,8 @@ angular
 	function search(search_criteria){
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
-		// filter the search criteria
-		var search_params = parse_search_criteria(search_criteria);
-		search_params.metadata = dataset.id + '_metadata';
 		// get the page
-		vm.page = Metadata.paginator(search_params, load_objects_success, load_objects_error);
+		vm.page = Metadata.paginator(parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {

@@ -28,6 +28,9 @@
 					</ui-select-choices>
 				</ui-select>
 			</div>
+			<!-- When directive works use this
+			<bootstrap-input-datetime-range label="Observation date" min-value="ctrl.search_criteria.date_end__gte" min-label="start" max-value="ctrl.search_criteria.date_beg__lte" max-label="end"></bootstrap-input-datetime-range>
+			-->
 			<div class="row" ng-class="{'has-error': ctrl.search_criteria.date_end__gte > ctrl.search_criteria.date_beg__lte}">
 				<label class="control-label col-md-12">Observation date</label>
 				<div class="form-group col-md-6">
@@ -53,31 +56,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" ng-class="{'has-error': ctrl.search_criteria.wavemin__lte < ctrl.search_criteria.wavemax__gte}">
-				<label class="control-label col-md-12">Observation wavelength</label>
-				<div class="form-group col-md-6">
-					<label for="wavemax" class="control-label small">min</label>
-					<div class="input-group">
-						<input type="number" id="wavemax" class="form-control" ng-model="ctrl.search_criteria.wavemax__gte"/>
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="ctrl.search_criteria.angstrom = !ctrl.search_criteria.angstrom" title="Click to change from Ångström to nano meters">
-								{{ctrl.search_criteria.angstrom ? "&Aring;" : "nm"}}
-							</button>
-						</span>
-					</div>
-				</div>
-				<div class="form-group col-md-6">
-					<label for="wavemin" class="control-label small">max</label>
-					<div class="input-group">
-						<input type="number" id="wavemin" class="form-control" ng-model="ctrl.search_criteria.wavemin__lte"/>
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="ctrl.search_criteria.angstrom = !ctrl.search_criteria.angstrom" title="Click to change from Ångström to nano meters">
-								{{ctrl.search_criteria.angstrom ? "&Aring;" : "nm"}}
-							</button>
-						</span>
-					</div>
-				</div>
-			</div>
+			<bootstrap-input-wavelength-range label="Observation wavelength" min-value="ctrl.search_criteria.wavemax__gte" max-value="ctrl.search_criteria.wavemin__lte"></bootstrap-input-wavelength-range>
 			<input type="submit" value="Search" class="btn btn-primary btn-md" />
 		</form>
 	</div>

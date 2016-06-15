@@ -108,7 +108,8 @@ angular
 				'save_bulk': {
 					method: 'PATCH',
 					headers: {
-						'Authorization': config.authHeader
+						'Authorization': config.authHeader,
+						'Content-Type': 'application/json'
 					},
 					auth: config.auth
 				},

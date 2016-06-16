@@ -17,5 +17,11 @@ span.ellipsis {
 
 form {
 	/* force table and form align */ 
-    padding-top: 9px;
+	padding-top: 9px;
+}
+
+input[type=checkbox] {
+	/* make checkboxes larger */
+	/*zoom:1.5;*/
+	font-size: xx-large;
 }

@@ -1,20 +1,16 @@
 angular
 .module('eventApp')
-.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, messagingService, EVENT_TYPES, Event, eventService, Dataset) {
+.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, messagingService, Event, eventConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
-	vm.search_criteria = {
-		selected_event_types: [], // filled automatically  by the multi select
-	}
+	vm.search_criteria = eventConfig.parse_query_dict(queryDict);
+	
+	// form config
+	vm.form_config = eventConfig.form_config;
 	
 	// events
 	vm.objects = [];
-	
-	// options for the multi selects
-	vm.event_types = Object.keys(EVENT_TYPES).map(function(key, index) {
-		return {name: EVENT_TYPES[key], value: key};
-	});
 	
 	// list of selected datasets
 	vm.selected_events = [];
@@ -37,7 +33,7 @@ angular
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// get the page
-		vm.objects = Event.query(eventService.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
+		vm.objects = Event.query(eventConfig.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {
@@ -81,8 +77,10 @@ angular
 		console.log('searching datasets for events', selected_events);
 		var search_filter = selected_events.map(function(e){
 			return '(date_beg__lt = ' + e.event_endtime + ' and date_end__gt = ' + e.event_starttime + ')';
-		})
-		.join(' or ');
+		}).join(' or ');
+		var query_dict = {
+			search: search_filter,
+		};
 		console.log('search filter', search_filter);
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_search.html',
@@ -90,9 +88,9 @@ angular
 			controller: 'DatasetController',
 			controllerAs: 'ctrl',
 			resolve: {
-				 // pass the dataset
-				search_criteria: function () {
-					return {'search': search_filter};
+				 // pass the init search criteria
+				queryDict: function () {
+					return query_dict;
 				}
 			}
 		});

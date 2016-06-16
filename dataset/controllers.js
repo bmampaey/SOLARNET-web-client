@@ -1,25 +1,18 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $injector, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, Telescope, Characteristic, Tag, datasetService, dataSelectionService, search_criteria) {
+.controller('DatasetController', function($location, $injector, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, dataSelectionService, datasetConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
-	vm.search_criteria = search_criteria || {
-		angstrom: true, // specify wavelength units in angstrom
-		selected_telescopes: [], // filled automatically  by the multi select
-		selected_characteristics: [], // filled automatically  by the multi select
-		selected_tags: [], // filled automatically  by the multi select
-	};
+	vm.search_criteria = datasetConfig.parse_query_dict(queryDict);
+	
+	// form config
+	vm.form_config = datasetConfig.form_config;
 	
 	// dataset paginator
 	vm.page = {};
 	
 	// list of selected datasets
 	vm.selected_datasets = [];
-	
-	// options for the multi selects
-	vm.telescopes = Telescope.query();
-	vm.characteristics = Characteristic.query();
-	vm.tags = Tag.query();
 	
 	// methods
 	vm.search = search;
@@ -39,7 +32,7 @@ angular.module('datasetApp')
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// get the page
-		vm.page = Dataset.paginator(datasetService.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
+		vm.page = Dataset.paginator(datasetConfig.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {

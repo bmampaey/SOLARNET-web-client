@@ -1,6 +1,6 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, defaultMetadataService, metadataService, getPropFilter, parseQueryFilter, dataSelectionService, dataset) {
+.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, defaultMetadataService, metadataService, getPropFilter, parseQueryStringFilter, dataSelectionService, dataset) {
 	
 	var vm = this;
 	vm.dataset = dataset;
@@ -38,7 +38,7 @@ angular
 	//var location_search = $location.search(); should be this when location is correctly set
 	if(dataset.metadata.uri.indexOf('?') > -1) {
 		var querystring = dataset.metadata.uri.substring(dataset.metadata.uri.indexOf('?')+1);
-	 	vm.search_criteria = defaultMetadataService.parse_location_search(parseQueryFilter(querystring));
+	 	vm.search_criteria = defaultMetadataService.parse_location_search(parseQueryStringFilter(querystring));
 	} else {
 		vm.search_criteria = defaultMetadataService.parse_location_search({});
 	}
@@ -129,20 +129,20 @@ angular
 	function search_datasets(selected_metadata)
 	{
 		console.log('searching datasets for metadata', selected_metadata);
-		var search_filter = selected_metadata.map(function(m){
-			return '(date_beg__lt = ' + m.date_end + ' and date_end__gt = ' + m.date_beg + ')';
-		})
-		.join(' or ');
-		console.log('search filter', search_filter);
+		var query_dict = {
+			'search': selected_metadata.map(function(m){
+				return '(date_beg__lt = ' + m.date_end + ' and date_end__gt = ' + m.date_beg + ')';
+			}).join(' or '),
+		};
+		
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_search.html',
 			size: 'xl',
 			controller: 'DatasetController',
 			controllerAs: 'ctrl',
 			resolve: {
-				 // pass the dataset
-				search_criteria: function () {
-					return {'search': search_filter};
+				queryDict: function () {
+					return query_dict;
 				}
 			}
 		});

@@ -5,16 +5,16 @@
 				<label for="telescope" class="control-label">Telescopes</label>
 				<ui-select id="telescope" multiple="true" ng-model="ctrl.search_criteria.telescope__in" theme="bootstrap">
 					<ui-select-match placeholder="select or search telescopes">{{$item}}</ui-select-match>
-					<ui-select-choices repeat="telescope in ctrl.telescopes | getProp: 'name'| filter: $select.search">
+					<ui-select-choices repeat="telescope in ctrl.form_config.telescopes | getProp: 'name'| filter: $select.search">
 					  <div ng-bind-html="telescope | highlight: $select.search"></div>
 					</ui-select-choices>
 				</ui-select>
 			</div>
 			<div class="form-group">
 				<label for="characteristic" class="control-label">Characteristics</label>
-				<ui-select id="characteristic" multiple="true" ng-model="ctrl.search_criteria.characteristic__in" theme="bootstrap">
+				<ui-select id="characteristic" multiple="true" ng-model="ctrl.search_criteria.characteristics__in" theme="bootstrap">
 					<ui-select-match placeholder="select or search characteristics">{{$item}}</ui-select-match>
-					<ui-select-choices repeat="characteristic in ctrl.characteristics | getProp: 'name'| filter: $select.search">
+					<ui-select-choices repeat="characteristic in ctrl.form_config.characteristics | getProp: 'name'| filter: $select.search">
 					  <div ng-bind-html="characteristic | highlight: $select.search"></div>
 					</ui-select-choices>
 				</ui-select>
@@ -23,7 +23,7 @@
 				<label for="tag" class="control-label">Tags</label>
 				<ui-select id="tag" multiple="true" ng-model="ctrl.search_criteria.tags__in" theme="bootstrap">
 					<ui-select-match placeholder="select or search tags">{{$item}}</ui-select-match>
-					<ui-select-choices repeat="tag in ctrl.tags | getProp: 'name' | filter: $select.search">
+					<ui-select-choices repeat="tag in ctrl.form_config.tags | getProp: 'name' | filter: $select.search">
 					  <div ng-bind-html="tag | highlight: $select.search"></div>
 					</ui-select-choices>
 				</ui-select>

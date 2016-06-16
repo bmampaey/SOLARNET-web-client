@@ -6,6 +6,7 @@ angular
 	'ui.bootstrap.datetimepicker'
 ])
 .constant('SDA_URL', 'http://solarnet.oma.be/SDA/api/v1/')
+.constant('queryDict', {})
 .config(function(tastyResourceProvider, SDA_URL){
 	tastyResourceProvider.config.api_url = SDA_URL;
 	tastyResourceProvider.config.cache = true;

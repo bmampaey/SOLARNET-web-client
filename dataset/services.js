@@ -1,45 +1,43 @@
 angular.module('datasetApp')
-.factory('datasetService', function(getPropFilter){
+.factory('datasetConfig', function(Telescope, Characteristic, Tag, getPropFilter){
 	
 	return {
 		parse_search_criteria: parse_search_criteria,
-		parse_location_search: parse_location_search,
+		parse_query_dict: parse_query_dict,
+		form_config: {
+			telescopes: Telescope.query(),
+			characteristics: Characteristic.query(),
+			tags: Tag.query(),
+		},
 	};
 	
-	// function to parse search criteria into search params for the Dataset resource
+	/* DEFINITIONS */
+	
+	// parse search criteria into search params for the Dataset resource
 	function parse_search_criteria(search_criteria) {
-		
 		var search_params = angular.copy(search_criteria);
-		
-		// check wavelength unit
-		if(search_params.wavemin__lte != undefined && search_params.angstrom) {
-			search_params.wavemin__lte /= 10.;
-		}
-		if(search_params.wavemax__gte != undefined && search_params.angstrom) {
-			search_params.wavemax__gte /= 10.;
-		}
-		
-		delete search_params.angstrom;
-		
+		// search params are the same as search criteria
 		return search_params;
 	}
 	
-	// parse the location search values into search criteria
-	function parse_location_search(search_criteria){
+	// parse query dict into search criteria
+	function parse_query_dict(query_dict){
+		var search_criteria = angular.copy(query_dict);
+		
 		// some search criteria must be arrays for the multi select
-		angular.forEach(['selected_telescopes', 'selected_characteristics', 'selected_tags'], function(array){
+		angular.forEach(['telescope__in', 'characteristics__in', 'tags__in'], function(array){
 			if(search_criteria[array] == undefined){
 				search_criteria[array] = [];
 			} else if(! (search_criteria[array] instanceof Array)) {
 				search_criteria[array] = [search_criteria[array]];
 			}
 		});
-		// dates need to be converted to Date objects
-		if(search_criteria.start_date != undefined) {
-			search_criteria.start_date = new Date(search_criteria.start_date);
+		// date strings need to be converted to date objects
+		if(search_criteria.date_end__gte instanceof String) {
+			search_criteria.date_end__gte = new Date(search_criteria.date_end__gte);
 		}
-		if(search_criteria.end_date != undefined) {
-			search_criteria.end_date = new Date(search_criteria.end_date);
+		if(search_criteria.date_beg__lte instanceof String) {
+			search_criteria.date_beg__lte = new Date(search_criteria.date_beg__lte);
 		}
 		return search_criteria;
 	}

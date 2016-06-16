@@ -5,30 +5,30 @@
 				<label for="event_types" class="control-label">Event types</label>
 				<ui-select multiple="true" ng-model="ctrl.search_criteria.selected_event_types" theme="bootstrap">
 					<ui-select-match placeholder="select or search event type">{{$item.name}}</ui-select-match>
-					<ui-select-choices repeat="event_type in ctrl.event_types | filter:{name: $select.search}">
+					<ui-select-choices repeat="event_type in ctrl.form_configevent_types | filter:{name: $select.search}">
 					  <div ng-bind-html="event_type.name | highlight: $select.search"></div>
 					</ui-select-choices>
 				  </ui-select>
 			</div>
 			<div class="row">
 				<label class="control-label col-md-12">Event date</label>
-				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.start_date > ctrl.search_criteria.end_date}">
-					<label for="start_date" class="control-label">start</label>
+				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.event_starttime > ctrl.search_criteria.event_endtime}">
+					<label for="start_time" class="control-label">start</label>
 					<div class="input-group">
-						<input type="text" id="start_date" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.start_date" is-open="opened_datetime_picker['start_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="start_time" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.event_starttime" is-open="start_time_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['start_date'] = true">
+							<button type="button" class="btn btn-default" ng-click="start_time_picker = true">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</button>
 						</span>
 					</div>
 				</div>
-				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.start_date > ctrl.search_criteria.end_date}">
-					<label for="end_date" class="control-label">end</label>
+				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.event_starttime > ctrl.search_criteria.event_endtime}">
+					<label for="end_time" class="control-label">end</label>
 					<div class="input-group">
-						<input type="text" id="end_date" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.end_date" is-open="opened_datetime_picker['end_date']" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="end_time" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.event_endtime" is-open="end_time_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="opened_datetime_picker['end_date'] = true">
+							<button type="button" class="btn btn-default" ng-click="end_time_picker = true">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</button>
 						</span>

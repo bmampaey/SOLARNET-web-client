@@ -139,8 +139,6 @@ angular
 	
 	/* DEFINITIONS */
 	
-	
-	
 	function closeModal(){
 		if (vm.state == 'success') {
 			$uibModalInstance.close(vm.data_selections);

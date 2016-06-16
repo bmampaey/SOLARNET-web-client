@@ -46,20 +46,5 @@ angular
 		templateUrl: 'event/event.html',
 		controller: 'EventController as ctrl',
 		reloadOnSearch: false,
-	})
-	.state('metadata', {
-		url: '/metadata/:dataset_id',
-		templateUrl: 'metadata/metadata.html',
-		controller: 'MetadataController as ctrl',
-		resolve: {
-			// metadata requires a dataset, TODO this is not correct, must return a promise resolved when we have the dataset
-			dataset: [
-				'Dataset',
-				function(Dataset){
-					return Dataset.get({id: dataset_id});
-				}
-			]
-		},
-		reloadOnSearch: false,
 	});
 });

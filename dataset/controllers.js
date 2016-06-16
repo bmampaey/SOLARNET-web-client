@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $injector, $uibModal, $ocLazyLoad, bsLoadingOverlayService, messagingService, Dataset, dataSelectionService, datasetConfig, queryDict) {
+.controller('DatasetController', function($location, $injector, $uibModal, $ocLazyLoad, parseQueryStringFilter, bsLoadingOverlayService, messagingService, Dataset, dataSelectionService, datasetConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
@@ -60,18 +60,23 @@ angular.module('datasetApp')
 	
 	// function to open dataset detail in modal
 	function open_detail(dataset) {
+		var query_string = dataset.metadata.uri.indexOf('?') > -1 ? dataset.metadata.uri.substring(dataset.metadata.uri.indexOf('?')+1) : "";
+		var query_dict = parseQueryStringFilter(query_string);
+		
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_detail.html',
 			size: 'xl',
 			controller: 'MetadataController',
 			controllerAs: 'ctrl',
 			resolve: {
-				 // pass the dataset
 				dataset: function () {
 					return dataset;
 				},
-				// load the metadata specific service
-				metadataService: function() {
+				queryDict: function () {
+					return query_dict;
+				},
+				metadataConfig: function() {
+					// load the metadata specific service
 					if($injector.has(dataset.id)){
 						return $injector.get(dataset.id);
 					} else {

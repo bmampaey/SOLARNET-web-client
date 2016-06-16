@@ -12,7 +12,7 @@ angular
 	// events
 	vm.objects = [];
 	
-	// list of selected datasets
+	// list of selected events
 	vm.selected_events = [];
 	
 	// methods
@@ -59,14 +59,14 @@ angular
 	}
 	
 	// function to open event detail in modal
-	function open_detail(dataset) {
+	function open_detail(event) {
 		$uibModal.open({
 			templateUrl: 'event/event_detail.html',
 			size: 'md',
 			controller: 'EventDetailController',
 			controllerAs: 'ctrl',
 			resolve: {
-				dataset: function () { return dataset }
+				event: function () { return event }
 			},
 		});
 	}
@@ -75,20 +75,18 @@ angular
 	function search_datasets(selected_events)
 	{
 		console.log('searching datasets for events', selected_events);
-		var search_filter = selected_events.map(function(e){
-			return '(date_beg__lt = ' + e.event_endtime + ' and date_end__gt = ' + e.event_starttime + ')';
-		}).join(' or ');
 		var query_dict = {
-			search: search_filter,
+			'search': selected_events.map(function(e){
+				return '(date_beg__lt = ' + e.event_endtime + ' and date_end__gt = ' + e.event_starttime + ')';
+			}).join(' or '),
 		};
-		console.log('search filter', search_filter);
+		
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_search.html',
 			size: 'xl',
 			controller: 'DatasetController',
 			controllerAs: 'ctrl',
 			resolve: {
-				 // pass the init search criteria
 				queryDict: function () {
 					return query_dict;
 				}
@@ -96,7 +94,7 @@ angular
 		});
 	}
 })
-.controller('EventDetailController', function(dataset) {
+.controller('EventDetailController', function(event) {
 	var vm = this;
-	vm.object = dataset;
+	vm.object = event;
 });

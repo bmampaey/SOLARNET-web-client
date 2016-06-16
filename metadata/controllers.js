@@ -1,8 +1,9 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, defaultMetadataService, metadataService, getPropFilter, parseQueryStringFilter, dataSelectionService, dataset) {
+.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, getPropFilter, dataSelectionService, cleanMetadataConfig, metadataConfig, queryDict, dataset) {
 	
 	var vm = this;
+	
 	vm.dataset = dataset;
 	
 	// metadata paginator
@@ -24,42 +25,21 @@ angular
 	// overlay id
 	vm.overlay_id = 'metadata_overlay';
 	
+	// clean up the config (so we are sure we have something good)
+	metadataConfig = cleanMetadataConfig(metadataConfig);
+	
+	// set default search criteria
+	vm.search_criteria = metadataConfig.parse_query_dict(queryDict);
+	
 	//form template url and config
-	vm.form_template_url = metadataService.form_template_url != undefined ? metadataService.form_template_url : defaultMetadataService.form_template_url;
-	vm.form_config = metadataService.form_config;
+	vm.form_template_url = metadataConfig.form_template_url;
+	vm.form_config = metadataConfig.form_config;
 	
 	// columns to display in table
-	vm.columns = metadataService.columns != undefined ? metadataService.columns : defaultMetadataService.columns;
+	vm.columns = metadataConfig.columns;
 	
 	// config metadata resource
 	Metadata.config.paramDefaults.dataset = dataset.id;
-	
-	// get search criteria from search params
-	//var location_search = $location.search(); should be this when location is correctly set
-	if(dataset.metadata.uri.indexOf('?') > -1) {
-		var querystring = dataset.metadata.uri.substring(dataset.metadata.uri.indexOf('?')+1);
-	 	vm.search_criteria = defaultMetadataService.parse_location_search(parseQueryStringFilter(querystring));
-	} else {
-		vm.search_criteria = defaultMetadataService.parse_location_search({});
-	}
-	
-	if (metadataService.parse_location_search != undefined)
-	{
-		vm.search_criteria = metadataService.parse_location_search(vm.search_criteria);
-	}
-	
-	// function to parse the search criteria
-	var parse_search_criteria;
-	if (metadataService.parse_search_criteria != undefined)
-	{
-		parse_search_criteria = function(search_criteria){
-			return metadataService.parse_search_criteria(defaultMetadataService.parse_search_criteria(search_criteria));
-		};
-	} else {
-		parse_search_criteria = function(search_criteria){
-			return defaultMetadataService.parse_search_criteria(search_criteria);
-		};
-	}
 	
 	// load metadata with current search criteria
 	search(vm.search_criteria);
@@ -69,7 +49,7 @@ angular
 		// display loading overlay
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// get the page
-		vm.page = Metadata.paginator(parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
+		vm.page = Metadata.paginator(metadataConfig.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
 	}
 	
 	function change_page(page_number) {

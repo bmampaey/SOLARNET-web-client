@@ -12,10 +12,12 @@ angular
 		},
 	};
 	
+	/* DEFINITIONS */
+	
 	// parse search criteria into search params for the Event resource
 	function parse_search_criteria(search_criteria) {
 		
-		var search_params = angular.copy(search_criteria);
+		var search_params = angular.extend({}, search_criteria);
 		// TODO check if correct normally event_type are separated by comma not a array
 		// check selected event type
 		if(search_params.selected_event_types != undefined && search_params.selected_event_types.length > 0) {
@@ -36,7 +38,7 @@ angular
 	
 	// parse query dict into search criteria
 	function parse_query_dict(query_dict){
-		var search_criteria = angular.copy(query_dict);
+		var search_criteria = angular.extend({}, query_dict);
 		
 		// selected_event_types are for now an array of objects
 		if (search_criteria.event_type == undefined || search_criteria.event_type == '**') {
@@ -50,12 +52,13 @@ angular
 		delete search_criteria.event_type;
 		
 		// date strings need to be converted to date objects
-		if(search_criteria.event_starttime instanceof String) {
+		if(typeof search_criteria.event_starttime === "string") {
 			search_criteria.event_starttime = new Date(search_criteria.event_starttime);
 		}
-		if(search_criteria.event_endtime instanceof String) {
+		if(typeof search_criteria.event_endtime === "string") {
 			search_criteria.event_endtime = new Date(search_criteria.event_endtime);
 		}
+		
 		return search_criteria;
 	}
 });

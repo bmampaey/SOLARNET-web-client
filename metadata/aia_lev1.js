@@ -13,12 +13,13 @@ angular.module('metadataApp')
 		form_config: {
 			wavelnth: wavelnth
 		},
-		parse_location_search: parse_location_search
+		parse_query_dict: parse_query_dict,
 	};
 	
 	
-	// parse the location search values into search criteria
-	function parse_location_search(search_criteria) {
+	// parse query dict into search criteria
+	function parse_query_dict(query_dict) {
+		var search_criteria = angular.extend({}, query_dict);
 		if(search_criteria.wavemin__lte != undefined || search_criteria.wavemax__gte != undefined)
 		{
 			search_criteria.wavelnth__in = wavelnth;

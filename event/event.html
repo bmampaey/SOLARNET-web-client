@@ -64,12 +64,12 @@
 				</tr>
 			</tbody>
 		</table>
-		<div class="pager">
-				<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.objects.page_number - 1)" ng-class="{'disabled': ctrl.objects.page_number <= 1}">&larr;</button>
-				<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.objects.page_number + 1)">&rarr;</button>
-		</div>
 		<div role="group">
-			<button type="button" class="btn btn-primary" ng-click="ctrl.search_datasets(ctrl.selected_events)" ng-class="{'disabled': ctrl.selected_events.length == 0}" title="Select one or more event to search for data">Search datasets</button>
+			<button type="button" class="btn btn-primary" ng-click="ctrl.search_datasets(ctrl.selected_events)" ng-class="{'disabled': ctrl.selected_events.length == 0}" title="Select one or more event to search for overlapping data">Search overlapping</button>
+			<div class="pull-right">
+					<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.objects.page_number - 1)" ng-class="{'disabled': ctrl.objects.page_number <= 1}">&larr;</button>
+					<button type="button" class="btn btn-default btn-sm next" ng-click="ctrl.change_page(ctrl.objects.page_number + 1)">&rarr;</button>
+			</div>
 		</div>
 
 	</div>

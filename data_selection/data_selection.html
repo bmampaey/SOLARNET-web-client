@@ -3,6 +3,7 @@
 		<thead>
 			<tr>
 				<th>FTP</th>
+				<th>ZIP</th>
 				<th># Items</th>
 				<th>Name</th>
 				<th>Date of creation</th>
@@ -21,6 +22,11 @@
 				<td>
 					<a href="{{data_selection.ftp_link}}" target="_blank" ng-click="$event.stopPropagation();">
 						<span class="glyphicon glyphicon-folder-open"></span>
+					</a>
+				</td>
+				<td>
+					<a href="/SDA/data_selection/data_selection_group/download_zip/{{data_selection.id}}" ng-click="$event.stopPropagation();">
+						<span class="glyphicon glyphicon-compressed"></span>
 					</a>
 				</td>
 				<td>{{data_selection.number_items}}</td>

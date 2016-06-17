@@ -94,10 +94,14 @@ angular
 	function save_data_selection(selected_metadata)
 	{
 		console.log('Adding to data selection', selected_metadata);
-		var query_dict = angular.extend({'oid__in' : getPropFilter(selected_metadata, 'oid')}, vm.page.search_params);
+		var query_dict = angular.extend({}, vm.page.search_params);
 		delete query_dict.limit;
 		delete query_dict.offset;
 		delete query_dict.metadata;
+		if (selected_metadata)
+		{
+			query_dict.oid__in = getPropFilter(selected_metadata, 'oid');
+		}
 		var data_info = {
 				dataset: dataset.resource_uri,
 				query_string: $httpParamSerializer(query_dict),

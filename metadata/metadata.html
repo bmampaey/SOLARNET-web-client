@@ -42,6 +42,7 @@
 		</table>
 		<div role="group">
 			<button type="button" class="btn btn-primary" ng-click="ctrl.save_data_selection(ctrl.selected_metadata)" ng-class="{'disabled': ctrl.selected_metadata.length == 0}" title="Select one or more metadata to add to/create a selection">Save selection</button>
+			<button type="button" class="btn btn-primary" ng-click="ctrl.save_data_selection()" title="Add to/create a selection with all data">Save all</button>
 			<button type="button" class="btn btn-default" ng-click="ctrl.search_datasets(ctrl.selected_metadata)" ng-class="{'disabled': ctrl.selected_metadata.length == 0}" title="Select one or more metadata to search for overlapping data">Search overlapping</button>
 			<div class="pull-right">
 					<button type="button" class="btn btn-default btn-sm previous" ng-click="ctrl.change_page(ctrl.page.previous_page_number())" ng-class="{'disabled': !ctrl.page.has_previous()}">&larr;</button>

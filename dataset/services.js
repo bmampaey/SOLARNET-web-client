@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.factory('datasetConfig', function(Telescope, Characteristic, Tag, getPropFilter){
+.factory('datasetConfig', function(Telescope, Characteristic, Tag){
 	
 	return {
 		parse_search_criteria: parse_search_criteria,

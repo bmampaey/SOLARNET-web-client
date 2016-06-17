@@ -86,4 +86,33 @@ angular.module('metadataApp')
 		 }
 		 return config;
 	};
- });
+ })
+.factory('loadMetadataConfig', function($injector, $ocLazyLoad){
+	
+	return function (dataset) {
+		
+		if($injector.has(dataset.id)){
+			return $injector.get(dataset.id);
+		} else {
+			console.log('Loading specific config for ', dataset.id);
+			return $ocLazyLoad.load('/SVO/metadata/'+dataset.id+'.js')
+				.then(load_metadata_config_succes, load_metadata_config_error);
+		}
+		
+		function load_metadata_config_succes(result){
+			console.log('Loaded specific config for ', dataset.id);
+			if($injector.has(dataset.id)){
+				return $injector.get(dataset.id);
+			} else {
+				console.log('Specific config for ', dataset.id, 'probably misnommed');
+				console.log('Loaded modules :', $ocLazyLoad.getModules());
+				return {};
+			}
+		}
+		
+		function load_metadata_config_error(error){
+			console.log('Error loading specific config for ', dataset.id, ': ', error);
+			return {};
+		}
+	}
+});

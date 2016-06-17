@@ -113,6 +113,8 @@ angular
 			'search': selected_metadata.map(function(m){
 				return '(date_beg__lt = ' + m.date_end + ' and date_end__gt = ' + m.date_beg + ')';
 			}).join(' or '),
+			'date_end__gte': getPropFilter(selected_metadata, 'date_beg').sort().shift(),
+			'date_beg__lte': getPropFilter(selected_metadata, 'date_end').sort().pop(),
 		};
 		
 		$uibModal.open({

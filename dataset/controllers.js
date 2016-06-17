@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $injector, $uibModal, $ocLazyLoad, parseQueryStringFilter, bsLoadingOverlayService, messagingService, Dataset, dataSelectionService, datasetConfig, queryDict) {
+.controller('DatasetController', function($location, $injector, $uibModal, parseQueryStringFilter, bsLoadingOverlayService, messagingService, loadMetadataConfig, Dataset, dataSelectionService, datasetConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
@@ -62,6 +62,9 @@ angular.module('datasetApp')
 	function open_detail(dataset) {
 		var query_string = dataset.metadata.uri.indexOf('?') > -1 ? dataset.metadata.uri.substring(dataset.metadata.uri.indexOf('?')+1) : "";
 		var query_dict = parseQueryStringFilter(query_string);
+		// ugly little hack to have the dates input preset
+		query_dict.date_end__gte = vm.page.search_params.date_end__gte;
+		query_dict.date_beg__lte = vm.page.search_params.date_beg__lte;
 		
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_detail.html',
@@ -76,32 +79,10 @@ angular.module('datasetApp')
 					return query_dict;
 				},
 				metadataConfig: function() {
-					// load the metadata specific service
-					if($injector.has(dataset.id)){
-						return $injector.get(dataset.id);
-					} else {
-						console.log('Loading specific service for ', dataset.id);
-						return $ocLazyLoad.load('/SVO/metadata/'+dataset.id+'.js')
-							.then(load_metadata_service_succes, load_metadata_service_error);
-					}
+					return loadMetadataConfig(dataset);
 				}
 			},
 		});
-		
-		function load_metadata_service_succes(result){
-			console.log('Loaded specific service for ', dataset.id);
-			if($injector.has(dataset.id)){
-				return $injector.get(dataset.id);
-			} else {
-				console.log('Specific service for ', dataset.id, 'probably misnommed');
-				console.log('Loaded modules :', $ocLazyLoad.getModules());
-				return {};
-			}
-		}
-		function load_metadata_service_error(error){
-			console.log('Error loading specific service for ', dataset.id, ': ', error);
-			return {};
-		}
 	}
 	
 	// function to save a data selection

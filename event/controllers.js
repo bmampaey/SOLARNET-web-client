@@ -1,6 +1,6 @@
 angular
 .module('eventApp')
-.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, messagingService, Event, eventConfig, queryDict) {
+.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, getPropFilter, messagingService, Event, eventConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
@@ -79,6 +79,8 @@ angular
 			'search': selected_events.map(function(e){
 				return '(date_beg__lt = ' + e.event_endtime + ' and date_end__gt = ' + e.event_starttime + ')';
 			}).join(' or '),
+			'date_end__gte': getPropFilter(selected_events, 'event_starttime').sort().shift(),
+			'date_beg__lte': getPropFilter(selected_events, 'event_endtime').sort().pop(),
 		};
 		
 		$uibModal.open({

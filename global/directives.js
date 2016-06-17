@@ -29,13 +29,14 @@ angular
 			}
 		
 			function parser(viewValue) {
-				var modelValue;
-				if (scope.inAngstrom && !scope.toAngstrom)
-					modelValue = viewValue / 10.0;
-				else if (!scope.inAngstrom && scope.toAngstrom)
-					modelValue = viewValue * 10;
-				else modelValue = viewValue;
-				
+				var modelValue = undefined;
+				if (viewValue != undefined && ! isNaN(viewValue)) {
+					if (scope.inAngstrom && !scope.toAngstrom)
+						modelValue = viewValue / 10.0;
+					else if (!scope.inAngstrom && scope.toAngstrom)
+						modelValue = viewValue * 10;
+					else modelValue = viewValue;
+				}
 				return modelValue;
 			}
 		}

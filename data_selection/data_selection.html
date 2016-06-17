@@ -24,11 +24,13 @@
 						<span class="glyphicon glyphicon-folder-open"></span>
 					</a>
 				</td>
-				<td>
-					<a href="/SDA/data_selection/data_selection_group/download_zip/{{data_selection.id}}" ng-click="$event.stopPropagation();">
+				<td ng-switch="data_selection.number_items <= 100">
+					<a ng-switch-when="true" href="/SDA/data_selection/data_selection_group/download_zip/{{data_selection.id}}" ng-click="$event.stopPropagation();" title="Download selection as zip file">
 						<span class="glyphicon glyphicon-compressed"></span>
 					</a>
+					<span ng-switch-when="false" class="glyphicon glyphicon-compressed text-muted" title="The selection is too large to be download as zip file"></span>
 				</td>
+
 				<td>{{data_selection.number_items}}</td>
 				<td>{{data_selection.name}}</td>
 				<td>{{data_selection.created | date : "yyyy-MM-dd HH:mm" }}</td>

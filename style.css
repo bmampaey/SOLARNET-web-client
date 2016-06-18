@@ -25,3 +25,9 @@ input[type=checkbox] {
 	/*zoom:1.5;*/
 	font-size: xx-large;
 }
+
+
+button.space-right {
+	/* add some space at the right of buttons*/
+	margin-right: 10px;
+}

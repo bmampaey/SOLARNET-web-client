@@ -33,6 +33,9 @@ angular.module('datasetApp')
 		bsLoadingOverlayService.start({referenceId: vm.overlay_id});
 		// get the page
 		vm.page = Dataset.paginator(datasetConfig.parse_search_criteria(search_criteria), load_objects_success, load_objects_error);
+		
+		// if we decide to have the url reflect the search, change this to true
+		//$location.search(vm.page.search_params);
 	}
 	
 	function change_page(page_number) {

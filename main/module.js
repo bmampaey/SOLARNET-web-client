@@ -20,9 +20,9 @@ angular
 		templateUrl: 'dataset/dataset.html',
 		controller: 'DatasetController as ctrl',
 		resolve: {
-			search_criteria: function(){
-				return undefined;
-			}
+			queryDict: ['$location', function($location){
+				return $location.search();
+			}]
 		},
 		reloadOnSearch: false,
 	})

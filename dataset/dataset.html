@@ -80,13 +80,13 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr ng-repeat="dataset in ctrl.page.objects | noEmptyDataset as nonEmptyDatasets" ng-click="ctrl.open_detail(dataset)">
-					<td><input type="checkbox" checklist-model="ctrl.selected_datasets" checklist-value="dataset" ng-click="$event.stopPropagation();"/></td>
-					<td>{{dataset.name}}</td>
-					<td>{{dataset.metadata.number_items}}</td>
-					<td>{{dataset.instrument}}</td>
-					<td>{{dataset.telescope}}</td>
-					<td>{{dataset.characteristics | getProp:'name':', '}}</td>
+				<tr ng-repeat="dataset in ctrl.page.objects | noEmptyDataset as nonEmptyDatasets">
+					<td><label class="wide-label"><input type="checkbox" checklist-model="ctrl.selected_datasets" checklist-value="dataset"/></label></td>
+					<td ng-click="ctrl.open_detail(dataset)">{{dataset.name}}</td>
+					<td ng-click="ctrl.open_detail(dataset)">{{dataset.metadata.number_items}}</td>
+					<td ng-click="ctrl.open_detail(dataset)">{{dataset.instrument}}</td>
+					<td ng-click="ctrl.open_detail(dataset)">{{dataset.telescope}}</td>
+					<td ng-click="ctrl.open_detail(dataset)">{{dataset.characteristics | getProp:'name':', '}}</td>
 				</tr>
 			</tbody>
 		</table>

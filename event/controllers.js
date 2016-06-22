@@ -1,6 +1,6 @@
 angular
 .module('eventApp')
-.controller('EventController', function($location, $uibModal, bsLoadingOverlayService, getPropFilter, messagingService, Event, eventConfig, queryDict) {
+.controller('EventController', function($location, $state, $uibModal, bsLoadingOverlayService, getPropFilter, messagingService, Event, eventConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
@@ -60,11 +60,15 @@ angular
 	
 	// function to open event detail in modal
 	function open_detail(event) {
+		var current_view = angular.element(document.getElementById($state.current.name));
+		console.log('Attaching event modal to', current_view);
+
 		$uibModal.open({
 			templateUrl: 'event/event_detail.html',
 			size: 'md',
 			controller: 'EventDetailController',
 			controllerAs: 'ctrl',
+			appendTo: current_view,
 			resolve: {
 				event: function () { return event }
 			},
@@ -83,11 +87,15 @@ angular
 			'date_beg__lte': getPropFilter(selected_events, 'event_endtime').sort().pop(),
 		};
 		
+		var current_view = angular.element(document.getElementById($state.current.name));
+		console.log('Attaching dataset modal to', current_view);
+
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_search.html',
 			size: 'xl',
 			controller: 'DatasetController',
 			controllerAs: 'ctrl',
+			appendTo: current_view,
 			resolve: {
 				queryDict: function () {
 					return query_dict;

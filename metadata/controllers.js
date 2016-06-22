@@ -1,6 +1,6 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, getPropFilter, dataSelectionService, cleanMetadataConfig, metadataConfig, queryDict, dataset) {
+.controller('MetadataController', function($location, $state, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, getPropFilter, dataSelectionService, cleanMetadataConfig, metadataConfig, queryDict, dataset) {
 	
 	var vm = this;
 	
@@ -76,13 +76,15 @@ angular
 	
 	// function to open metadata detail in modal
 	function open_detail(metadata) {
-		console.log('Opening metadata', metadata);
-		
+		var current_view = angular.element(document.getElementById($state.current.name));
+		console.log('Attaching metadata modal to', current_view);
+
 		$uibModal.open({
 			templateUrl: 'metadata/metadata_detail.html',
 			size: 'md',
 			controller: 'MetadataDetailController',
 			controllerAs: 'ctrl',
+			appendTo: current_view,
 			resolve: {
 				metadata: function () { return metadata; },
 				dataset: function () { return dataset; },
@@ -120,12 +122,15 @@ angular
 			'date_end__gte': getPropFilter(selected_metadata, 'date_beg').sort().shift(),
 			'date_beg__lte': getPropFilter(selected_metadata, 'date_end').sort().pop(),
 		};
-		
+		var current_view = angular.element(document.getElementById($state.current.name));
+		console.log('Attaching dataset modal to', current_view);
+
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_search.html',
 			size: 'xl',
 			controller: 'DatasetController',
 			controllerAs: 'ctrl',
+			appendTo: current_view,
 			resolve: {
 				queryDict: function () {
 					return query_dict;

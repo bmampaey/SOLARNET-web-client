@@ -1,5 +1,5 @@
 angular.module('datasetApp')
-.controller('DatasetController', function($location, $injector, $uibModal, parseQueryStringFilter, bsLoadingOverlayService, messagingService, loadMetadataConfig, Dataset, dataSelectionService, datasetConfig, queryDict) {
+.controller('DatasetController', function($location, $state, $injector, $uibModal, parseQueryStringFilter, bsLoadingOverlayService, messagingService, loadMetadataConfig, Dataset, dataSelectionService, datasetConfig, queryDict) {
 	var vm = this;
 	
 	// set default search criteria
@@ -69,11 +69,15 @@ angular.module('datasetApp')
 		query_dict.date_end__gte = vm.page.search_params.date_end__gte;
 		query_dict.date_beg__lte = vm.page.search_params.date_beg__lte;
 		
+		var current_view = angular.element(document.getElementById($state.current.name));
+		console.log('Attaching metadata modal to', current_view);
+		
 		$uibModal.open({
 			templateUrl: 'dataset/dataset_detail.html',
 			size: 'xl',
 			controller: 'MetadataController',
 			controllerAs: 'ctrl',
+			appendTo: current_view,
 			resolve: {
 				dataset: function () {
 					return dataset;

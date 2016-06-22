@@ -31,3 +31,11 @@ button.space-right {
 	/* add some space at the right of buttons*/
 	margin-right: 10px;
 }
+
+/* increase size of label */
+label.wide-label {
+	min-height: 100%; /* for the latest browsers which support min-height */
+	height: auto !important; /* for newer IE versions */
+	min-width: 100%; /* for the latest browsers which support min-height */
+	width: auto !important; /* for newer IE versions */
+}​

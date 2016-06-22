@@ -20,7 +20,8 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.5/ui-bootstrap-tpls.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ui-router-extras/0.1.2/ct-ui-router-extras.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/oclazyload/1.0.9/ocLazyLoad.js"></script>
 	
@@ -79,36 +80,40 @@
 </head>
 
 <body ng-controller="SVOController as svo_ctrl" class="container-fluid">
-		<nav id="menu" class="navbar navbar-default navbar-static-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/">
-						<img alt="SolarNet" src="solarnet_logo.png" style="max-width:100px; margin-top: -7px;">
-					</a>
-				</div>
-				<ul class="nav navbar-nav">
-					<li ui-sref-active="active"><a ui-sref="dataset">Datasets</a></li>
-					<li ui-sref-active="active"><a ui-sref="data_selection">Data selections</a></li>
-					<li ui-sref-active="active"><a ui-sref="event">Events</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right" ng-switch on="svo_ctrl.authentication.user.is_authenticated()">
-					<li ng-switch-when="true">
-						<div class="btn-group" uib-dropdown keyboard-nav>
-							<button type="button" class="btn btn-default navbar-btn" uib-dropdown-toggle><span>{{svo_ctrl.authentication.user.name}}</span> <span class="caret"></span></button>
-							<ul class="dropdown-menu" uib-dropdown-menu>
-								<li><a ng-click="svo_ctrl.authentication.logout()">Logout</a></li>
-							</ul>
-						</div>
-					</li>
-					<li ng-switch-default>
-						<button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.login()">Login</button>
-					</li>
-					<!-- ugly hack because of ?bug? in bootstrap -->
-					<li>&nbsp;&nbsp;&nbsp;</li>
-				</ul>
+	<nav id="menu" class="navbar navbar-default navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img alt="SolarNet" src="solarnet_logo.png" style="max-width:100px; margin-top: -7px;">
+				</a>
 			</div>
-		</nav>
-	<div ui-view id="content" class="container-fluid"></div>
+			<ul class="nav navbar-nav">
+				<li ui-sref-active="active"><a ui-sref="dataset">Datasets</a></li>
+				<li ui-sref-active="active"><a ui-sref="data_selection">Data selections</a></li>
+				<li ui-sref-active="active"><a ui-sref="event">Events</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" ng-switch on="svo_ctrl.authentication.user.is_authenticated()">
+				<li ng-switch-when="true">
+					<div class="btn-group" uib-dropdown keyboard-nav>
+						<button type="button" class="btn btn-default navbar-btn" uib-dropdown-toggle><span>{{svo_ctrl.authentication.user.name}}</span> <span class="caret"></span></button>
+						<ul class="dropdown-menu" uib-dropdown-menu>
+							<li><a ng-click="svo_ctrl.authentication.logout()">Logout</a></li>
+						</ul>
+					</div>
+				</li>
+				<li ng-switch-default>
+					<button class="btn btn-default navbar-btn"  ng-click="svo_ctrl.authentication.login()">Login</button>
+				</li>
+				<!-- ugly hack because of ?bug? in bootstrap -->
+				<li>&nbsp;&nbsp;&nbsp;</li>
+			</ul>
+		</div>
+	</nav>
+	<div id="content" class="container-fluid">
+		<div id="dataset" ui-view="dataset" ng-show="$state.includes('dataset')"></div>
+		<div id="data_selection" ui-view="data_selection" ng-show="$state.includes('data_selection')"></div>
+		<div id="event" ui-view="event" ng-show="$state.includes('event')"></div>
+	</div>
 </body>
 </html>
 

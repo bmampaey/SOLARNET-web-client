@@ -1,10 +1,13 @@
 <div class="modal-header" ng-class="{ 'bg-success': ctrl.state == 'success', 'bg-danger': ctrl.state == 'error' }">
+	<button type="button" class="pull-right close" ng-click="$dismiss()" title="Close the window">
+		<span >&times;</span>
+	</button>
 	<h3 class="modal-title" >Save selection</h3>
 </div>
 <div class="modal-body" ng-switch="ctrl.state">
 	<div ng-switch-when="success" class="text-success">
 		<p>Succesfully saved data selection.</p>
-		<p>See <a ui-sref="data_selection">Data selections</a></p>
+		<p>See <a ui-sref="data_selection" ng-click="$dismiss()">"Data selections"</a></p>
 		<div class="text-center"> 
 			<button type="button" class="btn btn-primary" ng-click="ctrl.closeModal()">Close</button>
 		</div>

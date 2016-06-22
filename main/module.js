@@ -1,6 +1,8 @@
+var rootScope;
 angular
 .module('SVOApp', [
 	'ui.router',
+	'ct.ui.router.extras.sticky',
 	'ui.bootstrap',
 	'oc.lazyLoad',
 	'authenticationApp',
@@ -17,34 +19,52 @@ angular
 	$stateProvider
 	.state('dataset', {
 		url: '/dataset',
-		templateUrl: 'dataset/dataset.html',
-		controller: 'DatasetController as ctrl',
-		resolve: {
-			queryDict: ['$location', function($location){
-				return $location.search();
-			}]
+		views: {
+			'dataset': {
+				templateUrl: 'dataset/dataset.html',
+				controller: 'DatasetController as ctrl',
+				resolve: {
+					queryDict: ['$location', function($location){
+						return $location.search();
+					}]
+				}
+			}
 		},
 		reloadOnSearch: false,
+		sticky: true
 	})
 	.state('data_selection', {
 		url: '/data_selection',
-		templateUrl: 'data_selection/data_selection.html',
-		controller: 'DataSelectionController as ctrl',
-		resolve: {
-			// data selection requires authentication
-			authenticatedUser: [
-				'authenticationService',
-				function(authenticationService){
-					return authenticationService.authenticatedUser();
+		views: {
+			'data_selection': {
+				templateUrl: 'data_selection/data_selection.html',
+				controller: 'DataSelectionController as ctrl',
+				resolve: {
+					authenticatedUser: [
+						'authenticationService',
+						function(authenticationService){
+							return authenticationService.authenticatedUser();
+						}
+					]
 				}
-			]
+			}
 		},
 		reloadOnSearch: false,
+		sticky: false
 	})
 	.state('event', {
 		url: '/event',
-		templateUrl: 'event/event.html',
-		controller: 'EventController as ctrl',
+		views: {
+			'event': {
+				templateUrl: 'event/event.html',
+				controller: 'EventController as ctrl',
+			}
+		},
 		reloadOnSearch: false,
+		sticky: true
 	});
+})
+.run(function ($rootScope, $state) {
+  $rootScope.$state = $state;
+  rootScope = $rootScope;
 });

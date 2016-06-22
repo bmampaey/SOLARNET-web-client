@@ -33,10 +33,10 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr ng-repeat="metadata in ctrl.page.objects" ng-click="ctrl.open_detail(metadata)">
-					<td><input type="checkbox" checklist-model="ctrl.selected_metadata" checklist-value="metadata" ng-click="$event.stopPropagation();"/></td>
-					<td ng-repeat="column in ctrl.columns">{{metadata[column[0]]}}</td>
-					<td>{{metadata.tags | getProp:'name':', '}}</td>
+				<tr ng-repeat="metadata in ctrl.page.objects">
+					<td><label class="wide-label"><input type="checkbox" checklist-model="ctrl.selected_metadata" checklist-value="metadata"/></label></td>
+					<td ng-repeat="column in ctrl.columns"  ng-click="ctrl.open_detail(metadata)">{{metadata[column[0]]}}</td>
+					<td  ng-click="ctrl.open_detail(metadata)">{{metadata.tags | getProp:'name':', '}}</td>
 				</tr>
 			</tbody>
 		</table>

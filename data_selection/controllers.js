@@ -1,6 +1,6 @@
 angular
 .module('dataSelectionApp')
-.controller('DataSelectionController', function($uibModal, bsLoadingOverlayService, messagingService, DataSelectionGroup, authenticatedUser) {
+.controller('DataSelectionController', function($uibModal, $state, bsLoadingOverlayService, messagingService, DataSelectionGroup, authenticatedUser) {
 	
 	var vm = this;
 	
@@ -71,18 +71,22 @@ angular
 	
 	// function to open data selection detail in modal
 	function open_detail(data_selection) {
+		var current_view = angular.element(document.getElementById($state.current.name));
+		console.log('Attaching data_selection modal to', current_view);
+
 		$uibModal.open({
 			templateUrl: '/SVO/data_selection/data_selection_detail.html',
 			size: 'lg',
 			controller: 'DataSelectionDetailController',
 			controllerAs: 'ctrl',
+			appendTo: current_view,
 			resolve: {
 				data_selection_group: function () { return data_selection }
 			},
 		});
 	}
 })
-.controller('DataSelectionDetailController', function($uibModalInstance, messagingService, DataSelection, DataSelectionGroup, data_selection_group) {
+.controller('DataSelectionDetailController', function(messagingService, DataSelection, DataSelectionGroup, data_selection_group) {
 	var vm = this;
 	
 	vm.data_selection_group = data_selection_group;

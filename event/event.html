@@ -56,11 +56,11 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr ng-repeat="object in ctrl.objects" ng-click="ctrl.open_detail(object)">
-					<td><input type="checkbox" checklist-model="ctrl.selected_events" checklist-value="object" ng-click="$event.stopPropagation();"/></td>
-					<td>{{object.event_type | fullType}}</td>
-					<td>{{object.event_starttime}}</td>
-					<td>{{object.event_endtime}}</td>
+				<tr ng-repeat="object in ctrl.objects">
+					<td><label class="wide-label"><input type="checkbox" checklist-model="ctrl.selected_events" checklist-value="object"/></label></td>
+					<td ng-click="ctrl.open_detail(object)">{{object.event_type | fullType}}</td>
+					<td ng-click="ctrl.open_detail(object)">{{object.event_starttime}}</td>
+					<td ng-click="ctrl.open_detail(object)">{{object.event_endtime}}</td>
 				</tr>
 			</tbody>
 		</table>

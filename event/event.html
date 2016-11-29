@@ -5,7 +5,7 @@
 				<label for="event_types" class="control-label">Event types</label>
 				<ui-select multiple="true" ng-model="ctrl.search_criteria.selected_event_types" theme="bootstrap">
 					<ui-select-match placeholder="select or search event type">{{$item.name}}</ui-select-match>
-					<ui-select-choices repeat="event_type in ctrl.form_configevent_types | filter:{name: $select.search}">
+					<ui-select-choices repeat="event_type in ctrl.form_config.event_types | filter:{name: $select.search}">
 					  <div ng-bind-html="event_type.name | highlight: $select.search"></div>
 					</ui-select-choices>
 				  </ui-select>
@@ -15,7 +15,7 @@
 				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.event_starttime > ctrl.search_criteria.event_endtime}">
 					<label for="start_time" class="control-label">start</label>
 					<div class="input-group">
-						<input type="text" id="start_time" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.event_starttime" is-open="start_time_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="start_time" datetime-picker ng-model-options="{timezone: 'UTC'}" timepicker-options="{readonlyInput: false, showMeridian: false}" class="form-control" ng-model="ctrl.search_criteria.event_starttime" is-open="start_time_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="start_time_picker = true">
 								<span class="glyphicon glyphicon-calendar"></span>
@@ -26,7 +26,7 @@
 				<div class="form-group col-md-6" ng-class="{'has-error': ctrl.search_criteria.event_starttime > ctrl.search_criteria.event_endtime}">
 					<label for="end_time" class="control-label">end</label>
 					<div class="input-group">
-						<input type="text" id="end_time" datetime-picker ng-model-options="{timezone: 'UTC'}" class="form-control" ng-model="ctrl.search_criteria.event_endtime" is-open="end_time_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="end_time" datetime-picker ng-model-options="{timezone: 'UTC'}" timepicker-options="{readonlyInput: false, showMeridian: false}" class="form-control" ng-model="ctrl.search_criteria.event_endtime" is-open="end_time_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="end_time_picker = true">
 								<span class="glyphicon glyphicon-calendar"></span>

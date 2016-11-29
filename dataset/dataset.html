@@ -36,7 +36,7 @@
 				<div class="form-group col-md-6">
 					<label for="date_end" class="control-label small">start</label>
 					<div class="input-group">
-						<input type="text" id="date_end" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" ng-model="ctrl.search_criteria.date_end__gte" is-open="date_end_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="date_end" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" timepicker-options="{readonlyInput: false, showMeridian: false}" ng-model="ctrl.search_criteria.date_end__gte" is-open="date_end_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="date_end_picker = true" title="Click to open date picker">
 								<span class="glyphicon glyphicon-calendar"></span>
@@ -47,7 +47,7 @@
 				<div class="form-group col-md-6">
 					<label for="date_beg" class="control-label small">end</label>
 					<div class="input-group">
-						<input type="text" id="date_beg" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" ng-model="ctrl.search_criteria.date_beg__lte" is-open="date_beg_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
+						<input type="text" id="date_beg" class="form-control" datetime-picker ng-model-options="{timezone: 'UTC'}" timepicker-options="{readonlyInput: false, showMeridian: false}" ng-model="ctrl.search_criteria.date_beg__lte" is-open="date_beg_picker" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="date_beg_picker = true" title="Click to open date picker">
 								<span class="glyphicon glyphicon-calendar"></span>

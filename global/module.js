@@ -17,4 +17,14 @@ angular
 		activeClass: null, // Class that is added to the element where bs-loading-overlay is applied when the overlay is active.
 		templateUrl: "libs/angular-loading-overlay/angular-loading-overlay.html" // Template url for overlay element. If not specified - no overlay element is created.
 	});
-});
+})
+/* THis does not work :(((
+.config(function ($provide, uiDatetimePickerConfig) {
+	$provide.constant(uiDatetimePickerConfig, angular.extend(uiDatetimePickerConfig, {
+		ngModelOptions: { timezone: 'UTC' },
+		timepickerOptions: { readonlyInput: false, showMeridian: false }
+	}));
+})
+*/
+;
+

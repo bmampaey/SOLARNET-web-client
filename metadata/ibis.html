@@ -25,7 +25,7 @@
 </div>
 <bootstrap-input-wavelength-range label="Observation wavelength" min-value="ctrl.search_criteria.wavemax__gte" max-value="ctrl.search_criteria.wavemin__lte"></bootstrap-input-wavelength-range>
 <div class="form-group">
-	<label for="channel" class="control-label">Science objective</label>
+	<label for="channel" class="control-label">Channel</label>
 	<ui-select multiple="false" id="channel" ng-model="ctrl.search_criteria.channel" theme="bootstrap">
 		<ui-select-match placeholder="select channel">{{$item}}</ui-select-match>
 		<ui-select-choices repeat="channel in ctrl.form_config.channel | filter: $select.search">

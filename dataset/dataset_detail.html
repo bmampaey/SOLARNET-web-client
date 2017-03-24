@@ -3,7 +3,7 @@
 		<span >&times;</span>
 	</button>
 	<h3 class="modal-title">{{ctrl.dataset.name}}</h3>
-	<p>{{ctrl.dataset.description}}</p>
+	<p ng-bind-html="ctrl.dataset.description"></p>
 </div>
 <div class="modal-body" ng-include src="'/SVO/metadata/metadata.html'">
 

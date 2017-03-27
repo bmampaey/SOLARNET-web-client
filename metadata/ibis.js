@@ -5,15 +5,19 @@ angular.module('metadataApp')
 		'Narrowband',
 		'Whitelight'
 	];
+	var target = ['pore'];
+	
 	return {
 		columns: [
 			['date_obs', 'Observation date'],
 			['wavelnth', 'Wavelength (Å)'],
 			['channel', 'Channel'],
+			['target', 'Observation target'],
 		],
 		form_template_url: '/SVO/metadata/ibis.html',
 		form_config: {
-			channel: channel
+			channel: channel,
+			target: target,
 		},
 		parse_query_dict: parse_query_dict,
 	};

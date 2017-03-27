@@ -33,3 +33,12 @@
 		</ui-select-choices>
 	  </ui-select>
 </div>
+<div class="form-group">
+	<label for="target" class="control-label">Observation target</label>
+	<ui-select multiple="true" id="target" ng-model="ctrl.search_criteria.target__in" theme="bootstrap">
+		<ui-select-match placeholder="select or search target">{{$item}}</ui-select-match>
+		<ui-select-choices repeat="target in ctrl.form_config.target | filter: $select.search">
+		  <div ng-bind-html="target | highlight: $select.search"></div>
+		</ui-select-choices>
+	  </ui-select>
+</div>

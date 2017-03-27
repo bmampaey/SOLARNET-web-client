@@ -5,7 +5,7 @@
 	<h3 class="modal-title">{{ctrl.dataset.name}}</h3>
 </div>
 <div class="modal-body">
-	<img ng-if="ctrl.metadata.data_location.thumbnail_url" ng-src="{{ctrl.metadata.data_location.thumbnail_url}}" class="img-responsive center-block" alt="Data thumbnail"/>
+	<img ng-src="{{ctrl.metadata.data_location.thumbnail_url ? ctrl.metadata.data_location.thumbnail_url : './no_preview_available.jpg'}}" class="img-responsive center-block" alt="Data thumbnail"/>
 	<table class="table table-condensed table-responsive">
 		<thead>
 			<tr>

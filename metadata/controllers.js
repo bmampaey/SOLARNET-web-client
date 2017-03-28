@@ -1,11 +1,13 @@
 angular
 .module('metadataApp')
-.controller('MetadataController', function($location, $state, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, getPropFilter, dataSelectionService, cleanMetadataConfig, metadataConfig, queryDict, dataset) {
+.controller('MetadataController', function($location, $state, $httpParamSerializer, $uibModal, bsLoadingOverlayService, messagingService, Metadata, Tag, Telescope, Instrument, getPropFilter, dataSelectionService, cleanMetadataConfig, metadataConfig, queryDict, dataset) {
 	
 	var vm = this;
 	
 	vm.dataset = dataset;
-	
+	// TODO put in a controller by itself?
+	vm.telescope = Telescope.get({name: dataset.telescope});
+	vm.instrument = Instrument.get({name: dataset.instrument});
 	// metadata paginator
 	vm.page = {};
 	

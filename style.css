@@ -38,4 +38,9 @@ label.wide-label {
 	height: auto !important; /* for newer IE versions */
 	min-width: 100%; /* for the latest browsers which support min-height */
 	width: auto !important; /* for newer IE versions */
-}​
+}
+
+/* increase size of popover */
+div.large-popover {
+	max-width: 50%;
+}

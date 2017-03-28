@@ -6,6 +6,9 @@ angular
 .factory('Telescope',function(tastyResource) {
 		return new tastyResource('telescope/:name');
 })
+.factory('Instrument',function(tastyResource) {
+		return new tastyResource('instrument/:name');
+})
 .factory('Characteristic',function(tastyResource) {
 		return new tastyResource('characteristic/:name');
 })

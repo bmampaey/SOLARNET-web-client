@@ -100,7 +100,7 @@ export default {
 				this.$SVO.data_selection.delete(dataSelection.resource_uri);
 				this.dataSelectionList = this.dataSelectionList.filter(v => v.resource_uri != dataSelection.resource_uri);
 			} catch (error) {
-				console.debug('TODO deleteDataSelection error');
+				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		}
 	}

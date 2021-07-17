@@ -1,6 +1,6 @@
 /* The Paginator is the interface between the API, the bootstrap table displaying the items and the pagination buttons */
 
-import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { SVO_DEFAULT_PAGESIZE } from '@/constants';
 
 export default class Paginator {
 	static #lastId = 0;
@@ -9,7 +9,7 @@ export default class Paginator {
 	#searchParams = null;
 	#pageNumber = 1;
 	// Vue does not make private fields responsive, and the Bootsrap table and pagination components need the following
-	pageSize = DEFAULT_PAGE_SIZE;
+	pageSize = SVO_DEFAULT_PAGESIZE;
 	totalRows = 0;
 	items = [];
 	loading = false;

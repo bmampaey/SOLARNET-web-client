@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<b-overlay :show="metadataPaginator.loading" rounded="sm">
+		<b-overlay :show="paginator.loading" rounded="sm">
 			<b-table
-				:id="metadataPaginator.ariaControl"
+				:id="paginator.ariaControl"
 				ref="metadataTable"
-				:items="metadataPaginator.items"
+				:items="paginator.items"
 				:fields="metadataTableFields"
 				:caption="metadataTableCaption"
 				primary-key="oid"
@@ -15,7 +15,7 @@
 				@row-selected="showMetadataDetailModal"
 			>
 				<template #cell(checkbox)="data">
-					<b-form-checkbox v-model="selectedMetadata" :value="data.item" size="lg"></b-form-checkbox>
+					<b-form-checkbox v-model="selection" :value="data.item" size="lg"></b-form-checkbox>
 				</template>
 				<template #cell(download_button)="data">
 					<b-button :href="data.value" target="_blank" title="Download file" size="sm" variant="primary" :disabled="data.item.data_location.offline">
@@ -25,20 +25,13 @@
 			</b-table>
 
 			<b-button-toolbar key-nav>
-				<b-button :disabled="selectedMetadataEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection"
-					>Save selection ({{ selectedMetadata.length }})</b-button
+				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection"
+					>Save selection ({{ selection.length }})</b-button
 				>
 				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
-				<b-button :disabled="selectedMetadataEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
+				<b-button :disabled="selectionEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 				<span class="button-toolbar-spacer"></span>
-				<b-pagination
-					v-model="metadataPaginator.pageNumber"
-					:total-rows="metadataPaginator.totalRows"
-					:per-page="metadataPaginator.pageSize"
-					:aria-controls="metadataPaginator.ariaControl"
-					limit="5"
-					class="mb-0"
-				></b-pagination>
+				<b-pagination v-model="paginator.pageNumber" :total-rows="paginator.totalRows" :per-page="paginator.pageSize" :aria-controls="paginator.ariaControl" limit="5" class="mb-0"></b-pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -74,8 +67,8 @@ export default {
 	},
 	data: function() {
 		return {
-			metadataPaginator: this.$SVO.getPaginator(this.dataset.metadata.resource_uri),
-			selectedMetadata: [],
+			paginator: this.$SVO.getPaginator(this.dataset.metadata.resource_uri),
+			selection: [],
 			metadataDetailModalTitle: this.dataset.name,
 			metadataDetailModalMetadata: null,
 			overlappingDatasetsModalSearchFilter: new DatasetSearchFilter(),
@@ -96,24 +89,24 @@ export default {
 			];
 		},
 		metadataTableCaption: function() {
-			return this.metadataPaginator.items.length > 0 ? 'Click on any row to see data details' : 'No metadata correspond to your search criteria';
+			return this.paginator.items.length > 0 ? 'Click on any row to see data details' : 'No metadata correspond to your search criteria';
 		},
-		selectedMetadataEmpty: function() {
-			return this.selectedMetadata.length == 0;
+		selectionEmpty: function() {
+			return this.selection.length == 0;
 		}
 	},
 	watch: {
 		searchParams: {
-			handler: 'updateMetadataPaginator',
+			handler: 'updatePaginator',
 			immediate: true
 		}
 	},
 	methods: {
-		updateMetadataPaginator: function(searchParams) {
-			this.selectedMetadata = [];
+		updatePaginator: function(searchParams) {
+			this.selection = [];
 			try {
-				this.metadataPaginator.searchParams = searchParams;
-				this.metadataPaginator.loadPage(1);
+				this.paginator.searchParams = searchParams;
+				this.paginator.loadPage(1);
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
@@ -132,7 +125,7 @@ export default {
 		},
 		saveSelection: function() {
 			let searchParams = new URLSearchParams();
-			this.selectedMetadata.forEach(metadata => searchParams.append('oid__in', metadata.oid));
+			this.selection.forEach(metadata => searchParams.append('oid__in', metadata.oid));
 			this.$refs.dataSelectionSave.save(this.dataset, searchParams.toString());
 		},
 		saveAll: function() {
@@ -142,10 +135,10 @@ export default {
 			this.overlappingDatasetsModalTitle = `Datasets overlapping selected ${this.dataset.name} data`;
 			this.overlappingDatasetsModalSearchFilter = new DatasetSearchFilter({
 				dateRange: {
-					min: new Date(Math.min(...this.selectedMetadata.map(m => new Date(m.date_beg)))),
-					max: new Date(Math.max(...this.selectedMetadata.map(m => new Date(m.date_end))))
+					min: new Date(Math.min(...this.selection.map(m => new Date(m.date_beg)))),
+					max: new Date(Math.max(...this.selection.map(m => new Date(m.date_end))))
 				},
-				search: this.selectedMetadata.map(m => `(date_beg__lt = ${m.date_end} and date_end__gt = ${m.date_beg})`).join(' or ')
+				search: this.selection.map(m => `(date_beg__lt = ${m.date_end} and date_end__gt = ${m.date_beg})`).join(' or ')
 			});
 			this.$refs.overlappingDatasetsModal.show();
 		}

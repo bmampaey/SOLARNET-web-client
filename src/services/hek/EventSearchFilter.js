@@ -1,6 +1,6 @@
 /* The EventSearchFilter holds the data for the HEKEventForm and generate corresponding URLSerachParams for the HEK API */
 
-import { HEK_EVENT_TYPE_NAMES } from '@/constants';
+import { HEK_EVENT_TYPE_NAMES, HEK_EVENT_LIST_SEARCH_PARAMS } from '@/constants';
 
 export default class EventSearchFilter {
 	eventType = [];
@@ -22,7 +22,7 @@ export default class EventSearchFilter {
 	}
 
 	getSearchParams() {
-		let searchParams = new URLSearchParams();
+		let searchParams = new URLSearchParams(HEK_EVENT_LIST_SEARCH_PARAMS);
 
 		if (this.eventType && this.eventType.length > 0) {
 			searchParams.set('event_type', this.eventType.join(','));

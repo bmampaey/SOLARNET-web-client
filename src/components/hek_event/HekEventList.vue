@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<b-overlay :show="eventPaginator.loading" rounded="sm">
+		<b-overlay :show="paginator.loading" rounded="sm">
 			<b-table
-				:id="eventPaginator.ariaControl"
+				:id="paginator.ariaControl"
 				ref="eventTable"
-				:items="eventPaginator.items"
+				:items="paginator.items"
 				:fields="eventTableFields"
 				:caption="eventTableCaption"
 				primary-key="id"
@@ -15,20 +15,20 @@
 				@row-selected="showEventDetailModal"
 			>
 				<template #cell(checkbox)="data">
-					<b-form-checkbox v-model="selectedEvents" :value="data.item" size="lg"></b-form-checkbox>
+					<b-form-checkbox v-model="selection" :value="data.item" size="lg"></b-form-checkbox>
 				</template>
 			</b-table>
 
 			<b-button-toolbar key-nav>
-				<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal"
-					>Search overlapping ({{ selectedEvents.length }})</b-button
+				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal"
+					>Search overlapping ({{ selection.length }})</b-button
 				>
 				<span class="button-toolbar-spacer"></span>
 				<b-pagination
-					v-model="eventPaginator.pageNumber"
-					:total-rows="eventPaginator.totalRows"
-					:per-page="eventPaginator.pageSize"
-					:aria-controls="eventPaginator.ariaControl"
+					v-model="paginator.pageNumber"
+					:total-rows="paginator.totalRows"
+					:per-page="paginator.pageSize"
+					:aria-controls="paginator.ariaControl"
 					limit="3"
 					class="mb-0"
 					hide-goto-end-buttons
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import Paginator from '@/services/hek/Paginator';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import Dataset from '@/components/dataset/Dataset';
@@ -64,8 +63,8 @@ export default {
 	},
 	data: function() {
 		return {
-			eventPaginator: new Paginator(this.$HEK),
-			selectedEvents: [],
+			paginator: this.$HEK.getPaginator(),
+			selection: [],
 			eventDetailModalEvent: null,
 			eventDetailModalTitle: '',
 			overlappingDatasetsModalSearchFilter: new DatasetSearchFilter(),
@@ -82,26 +81,26 @@ export default {
 			];
 		},
 		eventTableCaption: function() {
-			return this.eventPaginator.items.length > 0 ? 'Click on any row to see the event details' : 'No event correspond to your search criteria';
+			return this.paginator.items.length > 0 ? 'Click on any row to see the event details' : 'No event correspond to your search criteria';
 		},
-		selectedEventsEmpty: function() {
-			return this.selectedEvents.length == 0;
+		selectionEmpty: function() {
+			return this.selection.length == 0;
 		}
 	},
 	watch: {
 		searchFilter: {
-			handler: 'updateEventPaginator',
+			handler: 'updatePaginator',
 			immediate: true
 		}
 	},
 	methods: {
-		updateEventPaginator: function(searchFilter) {
-			this.eventPaginator.searchParams = searchFilter.getSearchParams();
+		updatePaginator: function(searchFilter) {
+			this.paginator.searchParams = searchFilter.getSearchParams();
 			try {
-				this.eventPaginator.loadPage(1);
-				this.selectedEvents = [];
+				this.paginator.loadPage(1);
+				this.selection = [];
 			} catch (error) {
-				this.$displayErrorMessage(this.$HEK.parseError(error));
+				this.$displayErrorMessage(error);
 			}
 		},
 		showEventDetailModal: function(selectedRows) {
@@ -118,14 +117,14 @@ export default {
 			}
 		},
 		showOverlappingDatasetModal: function() {
-			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
-			this.overlappingDatasetsModalTitle = `Datasets overlapping selected events: ${Array.from(selectedEventTypes).join(', ')}`;
+			let selectedEventTypes = new Set(this.selection.map(event => event.type));
+			this.overlappingDatasetsModalTitle = `Datasets overlapping selected ${Array.from(selectedEventTypes).join(', ')} events`;
 			this.overlappingDatasetsModalSearchFilter = new DatasetSearchFilter({
 				dateRange: {
-					min: new Date(Math.min(...this.selectedEvents.map(e => e.startTime))),
-					max: new Date(Math.max(...this.selectedEvents.map(e => e.endTime)))
+					min: new Date(Math.min(...this.selection.map(e => e.startTime))),
+					max: new Date(Math.max(...this.selection.map(e => e.endTime)))
 				},
-				search: this.selectedEvents.map(e => `(date_beg__lt = ${e.endTime.toISOString()} and date_end__gt = ${e.startTime.toISOString()})`).join(' or ')
+				search: this.selection.map(e => `(date_beg__lt = ${e.endTime.toISOString()} and date_end__gt = ${e.startTime.toISOString()})`).join(' or ')
 			});
 
 			this.$refs.overlappingDatasetsModal.show();

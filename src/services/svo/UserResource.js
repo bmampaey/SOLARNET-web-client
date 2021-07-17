@@ -17,6 +17,7 @@ export default class UserResource {
 	constructor(axios, resourceUri) {
 		this.#axios = axios;
 		this.#resourceUri = resourceUri;
+		this.updateFullName();
 	}
 
 	get firstName() {

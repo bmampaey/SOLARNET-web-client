@@ -42,7 +42,7 @@ export default {
 			try {
 				this.dataSelection = await this.$SVO.data_selection.create({ description: this.description, dataset: this.dataset.resource_uri, query_string: this.query_string });
 			} catch (error) {
-				console.debug('What to do incase of error', error);
+				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 			this.showOverlay = false;
 		},

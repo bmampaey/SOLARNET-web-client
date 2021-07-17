@@ -13,8 +13,8 @@ export default class AiALev1SearchFilter extends MetadataSearchFilter {
 			if (Array.isArray(searchFilter.wavelengths)) {
 				this.wavelengths = [...searchFilter.wavelengths];
 			} else if (searchFilter.wavelengthRange) {
-				let min = searchFilter.wavelengthRange.min != null ? searchFilter.wavelengthRange.min / 10 : -Infinity;
-				let max = searchFilter.wavelengthRange.max != null ? searchFilter.wavelengthRange.max / 10 : Infinity;
+				let min = searchFilter.wavelengthRange.min != null ? searchFilter.wavelengthRange.min * 10 : -Infinity;
+				let max = searchFilter.wavelengthRange.max != null ? searchFilter.wavelengthRange.max * 10 : Infinity;
 				if (isFinite(min) || isFinite(max)) {
 					this.wavelengths = WAVELENGTHS.filter(w => min <= w && w <= max);
 				}

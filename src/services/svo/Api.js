@@ -1,4 +1,4 @@
-/* The API makes the requests to the SVO server and manages authentication */
+/* The API makes the requests to the SVO apiUrl and manages authentication */
 
 import axios from 'axios';
 import Resource from './Resource';
@@ -8,16 +8,15 @@ import Paginator from './Paginator';
 export default class Api {
 	#isSetup = false;
 
-	constructor(server, apiUrl, timeout = 15000) {
-		this.server = server;
-		this.apiUrl = apiUrl;
+	constructor(apiUrl, timeout, apiSchemaUrl) {
+		this.apiSchemaUrl = apiSchemaUrl;
 		this.resourceUris = {};
 		this.axios = axios.create({
-			baseURL: server,
+			baseURL: apiUrl,
 			timeout: timeout
 		});
 		this.authenticatedAxios = axios.create({
-			baseURL: server,
+			baseURL: apiUrl,
 			timeout: timeout
 		});
 		this.authenticatedAxios.interceptors.request.use(config => this.setAuthentication(config), null, { synchronous: true });
@@ -25,8 +24,8 @@ export default class Api {
 
 	async setup() {
 		if (!this.#isSetup) {
-			// The api URL will list all the resources and their URIs (or list endpoint)
-			let response = await this.axios.get(this.apiUrl);
+			// The api schema list all the resources and their URIs (or list endpoint)
+			let response = await this.axios.get(this.apiSchemaUrl);
 			// For each resource, add the URI and create a Resource object
 			// passing an authenticated axios instance to it so that all request have the proper headers set
 			for (const [name, value] of Object.entries(response.data)) {
@@ -62,6 +61,7 @@ export default class Api {
 
 	parseError(error) {
 		if (error.response) {
+			// TODO add better error parsing check notfound, authentication error, etc e.g. if error.response.status is 404, etc
 			// The request was made and the server responded with a status code that falls out of the range of 2xx
 			// Most of the time, the SVO api will return an error as JSON object with an error attribute
 			if (error.response.data.error) {

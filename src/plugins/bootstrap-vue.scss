@@ -1,0 +1,31 @@
+// Define variable defaults
+$modal-xl: 90%;
+
+// Then import Bootstrap an BootstrapVue SCSS files (order is important)
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+/* center table caption */
+caption {
+	text-align: center;
+}
+
+/* add space between toolbar elements */
+.btn-toolbar > *:not(:last-child) {
+	margin-right: $spacer * 0.5;
+}
+
+/* element that pushes the button toolbar elements to the sides */
+.button-toolbar-spacer {
+	flex-grow: 1;
+}
+
+/* increase size of popover */
+.popover-lg {
+	max-width: 50%;
+}
+
+/* class that simulates the pre element */
+.preformatted {
+	white-space: pre-wrap;
+}

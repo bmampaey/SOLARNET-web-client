@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e5e97"],{9703:function(t,e,n){"use strict";n.r(e);var o=function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("b-container",{attrs:{fluid:""}},[n("b-card",{staticClass:"w-50 mx-auto mt-5",attrs:{header:"Error"}},[n("b-card-text",[t._v("The page you are looking for was not found. Go "),n("b-link",{attrs:{to:{name:"Root"}}},[t._v("home")])],1)],1)],1)},a=[],r={name:"NotFound"},s=r,u=n("2877"),c=Object(u["a"])(s,o,a,!1,null,null,null);e["default"]=c.exports}}]);
-//# sourceMappingURL=chunk-2d0e5e97.c1d8dafb.js.map
+//# sourceMappingURL=chunk-2d0e5e97.15cba559.js.map

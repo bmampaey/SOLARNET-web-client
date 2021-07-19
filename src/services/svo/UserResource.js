@@ -29,7 +29,11 @@ export default class UserResource {
 
 	set firstName(value) {
 		this.#firstName = value;
-		window.localStorage.setItem('userFirstName', value);
+		if (value) {
+			window.localStorage.setItem('userFirstName', value);
+		} else {
+			window.localStorage.removeItem('userFirstName');
+		}
 		this.updateFullName();
 	}
 
@@ -42,7 +46,11 @@ export default class UserResource {
 
 	set lastName(value) {
 		this.#lastName = value;
-		window.localStorage.setItem('userLastName', value);
+		if (value) {
+			window.localStorage.setItem('userLastName', value);
+		} else {
+			window.localStorage.removeItem('userLastName');
+		}
 		this.updateFullName();
 	}
 
@@ -55,7 +63,11 @@ export default class UserResource {
 
 	set email(value) {
 		this.#email = value;
-		window.localStorage.setItem('userEmail', value);
+		if (value) {
+			window.localStorage.setItem('userEmail', value);
+		} else {
+			window.localStorage.removeItem('userEmail');
+		}
 	}
 
 	get apiKey() {
@@ -67,7 +79,11 @@ export default class UserResource {
 
 	set apiKey(value) {
 		this.#apiKey = value;
-		window.localStorage.setItem('userApiKey', value);
+		if (value) {
+			window.localStorage.setItem('userApiKey', value);
+		} else {
+			window.localStorage.removeItem('userApiKey');
+		}
 	}
 
 	get isAuthenticated() {

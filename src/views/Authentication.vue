@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import LoginForm from '@/components/authentication/LoginForm';
-import RegisterForm from '@/components/authentication/RegisterForm';
+import LoginForm from '@/components/user/LoginForm';
+import RegisterForm from '@/components/user/RegisterForm';
 
 export default {
 	name: 'Login',

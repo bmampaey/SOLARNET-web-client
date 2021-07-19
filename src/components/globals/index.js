@@ -3,9 +3,6 @@
 
 import Vue from 'vue';
 
-import AppMenu from './AppMenu';
-Vue.component('app-menu', AppMenu);
-
 import BaseDatetimeRange from './BaseDatetimeRange';
 Vue.component('base-datetime-range', BaseDatetimeRange);
 

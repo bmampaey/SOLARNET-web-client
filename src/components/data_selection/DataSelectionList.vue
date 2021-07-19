@@ -68,9 +68,9 @@ export default {
 			return this.dataSelectionList.length > 0 ? 'Click on any row to see data selection details' : 'You have not saved any data selection yet';
 		}
 	},
-	activated: async function() {
+	activated: function() {
 		// Refresh the dataSelectionList each time the view is displayed because the User may have added or deleted dataSelection since the view was last displayed
-		await this.updateDataSelectionList();
+		this.updateDataSelectionList();
 	},
 	methods: {
 		updateDataSelectionList: async function() {

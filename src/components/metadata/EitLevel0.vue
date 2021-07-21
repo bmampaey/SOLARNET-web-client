@@ -6,8 +6,8 @@
 				<b-form-group label="Wavelength" label-for="wavelengths">
 					<b-form-select id="wavelengths" v-model="searchFilter.wavelengths" :options="searchFilter.wavelengthOptions" multiple></b-form-select>
 				</b-form-group>
-				<b-form-group description="Only display data with a quality of 0">
-					<b-form-checkbox v-model="searchFilter.bestQuality">Best quality only</b-form-checkbox>
+				<b-form-group label="Science objective" label-for="scienceObjectives">
+					<b-form-select id="scienceObjectives" v-model="searchFilter.scienceObjectives" :options="searchFilter.scienceObjectiveOptions" multiple></b-form-select>
 				</b-form-group>
 				<b-overlay :show="showOverlay" rounded="sm">
 					<b-form-group label="Tags" label-for="tags">
@@ -27,12 +27,40 @@
 import MetadataMixin from './MetadataMixin';
 import MetadataSearchFilter from '@/services/svo/MetadataSearchFilter';
 
-const WAVELENGTHS = [94, 131, 171, 193, 211, 304, 335, 1600, 1700, 4500];
+const WAVELENGTHS = [171, 195, 284, 304];
+const SCIENCE_OBJECTIVES = [
+	'171 BINNED TEST',
+	'CALIBRATION LAMP',
+	'CHARGE TRANSFER',
+	'CHARGE TRANSFER 171',
+	'CME WATCH 171',
+	'CME WATCH 195',
+	'CME WATCH 195 (SM5)',
+	'CONTINUOUS RO 304',
+	'DARK FRONTSIDE A',
+	'DARK FRONTSIDE B',
+	'DARK FRONTSIDE C',
+	'DARK FRONTSIDE D',
+	'DARK IMAGE',
+	'DARK IMAGE HTR ON',
+	'FULL SUN 171',
+	'FULL SUN 171/284/195/304',
+	'FULL SUN 195',
+	'FULL SUN 284',
+	'FULL SUN 304',
+	'HIGH CADENCE 195',
+	'HIGH CADENCE 304',
+	'SECTOR HANG',
+	'SHUTTERLESS',
+	'SUBFIELD 171',
+	'TEST'
+];
 
-class AiaLevel1SearchFilter extends MetadataSearchFilter {
+class EitLevel0SearchFilter extends MetadataSearchFilter {
 	wavelengthOptions = WAVELENGTHS.map(w => ({ value: w, text: `${w} Å` }));
+	scienceObjectiveOptions = SCIENCE_OBJECTIVES;
 	wavelengths = [];
-	bestQuality;
+	scienceObjectives = [];
 
 	constructor(searchFilter) {
 		super(searchFilter);
@@ -46,7 +74,9 @@ class AiaLevel1SearchFilter extends MetadataSearchFilter {
 					this.wavelengths = WAVELENGTHS.filter(w => min <= w && w <= max);
 				}
 			}
-			this.bestQuality = searchFilter.bestQuality;
+			if (Array.isArray(searchFilter.scienceObjectives)) {
+				this.scienceObjectives = [...searchFilter.scienceObjectives];
+			}
 		}
 	}
 
@@ -57,8 +87,8 @@ class AiaLevel1SearchFilter extends MetadataSearchFilter {
 			searchParams.append('wavelnth__in', wavelength);
 		}
 
-		if (this.bestQuality) {
-			searchParams.set('quality', 0);
+		for (const scienceObjective of this.scienceObjectives) {
+			searchParams.append('sci_obj__in', scienceObjective);
 		}
 
 		return searchParams;
@@ -66,15 +96,15 @@ class AiaLevel1SearchFilter extends MetadataSearchFilter {
 }
 
 export default {
-	name: 'AiaLevel1',
+	name: 'EitLevel0',
 	mixins: [MetadataMixin],
 	data: function() {
 		return {
-			searchFilter: new AiaLevel1SearchFilter(this.initialSearchFilter),
+			searchFilter: new EitLevel0SearchFilter(this.initialSearchFilter),
 			columns: [
 				{ label: 'Observation date', key: 'date_obs', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength (Å)', key: 'wavelnth' },
-				{ label: 'Quality', key: 'quality' }
+				{ label: 'Science objective', key: 'sci_obj' }
 			]
 		};
 	}

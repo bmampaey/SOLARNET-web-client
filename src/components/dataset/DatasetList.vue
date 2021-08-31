@@ -13,36 +13,23 @@
 				selectable
 				@row-selected="showDatasetDetailModal"
 			>
-				<template #cell(checkbox)="data">
-					<b-form-checkbox v-model="selectedDatasets" :value="data.item" size="lg"></b-form-checkbox>
-				</template>
 			</b-table>
-
-			<b-button-toolbar key-nav>
-				<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection"
-					>Save selection ({{ selectedDatasets.length }})</b-button
-				>
-			</b-button-toolbar>
 		</b-overlay>
 
 		<b-modal ref="datasetDetailModal" size="xl" :title="datasetDetailModalTitle" hide-footer static lazy>
 			<dataset-detail v-if="datasetDetailModalDataset" :dataset="datasetDetailModalDataset" :search-filter="searchFilter"></dataset-detail>
 		</b-modal>
-
-		<data-selection-save ref="dataSelectionSave"></data-selection-save>
 	</div>
 </template>
 
 <script>
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
-import DataSelectionSave from '@/components/data_selection/DataSelectionSave';
-import DatasetDetail from './DatasetDetail.vue';
+import DatasetDetail from './DatasetDetail';
 
 export default {
 	name: 'DatasetList',
 	components: {
-		DatasetDetail,
-		DataSelectionSave
+		DatasetDetail
 	},
 	props: {
 		searchFilter: { type: DatasetSearchFilter, required: true }
@@ -50,7 +37,6 @@ export default {
 	data: function() {
 		return {
 			datasetList: [],
-			selectedDatasets: [],
 			datasetDetailModalDataset: null,
 			datasetDetailModalTitle: '',
 			showOverlay: true
@@ -59,7 +45,6 @@ export default {
 	computed: {
 		datasetTableFields: function() {
 			return [
-				{ key: 'checkbox', label: '' },
 				{ key: 'name', label: 'Dataset' },
 				{ key: 'metadata', label: 'Estimated count', formatter: metadata => metadata.estimated_count },
 				{
@@ -81,9 +66,6 @@ export default {
 		},
 		datasetTableCaption: function() {
 			return this.datasetList.length > 0 ? 'Click on any row to see dataset content or refine search' : 'No dataset correspond to your search criteria';
-		},
-		selectedDatasetsEmpty: function() {
-			return this.selectedDatasets.length == 0;
 		}
 	},
 	watch: {
@@ -117,10 +99,6 @@ export default {
 					this.$refs.datasetDetailModal.show();
 				});
 			}
-		},
-		saveSelection: function() {
-			// TODO how to save multiple dataset in 1 data_selection
-			this.$refs.dataSelectionSave.save(this.selectedDatasets[0], this.searchFilter.getSearchParams().toString());
 		}
 	}
 };

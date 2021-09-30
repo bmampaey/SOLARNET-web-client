@@ -6,5 +6,6 @@ export default {
 	'EIT level 0': 'EitLevel0',
 	'HMI magnetogram': 'HmiMagnetogram',
 	'SWAP level 1': 'SwapLevel1',
+	'LYRA level 2': 'LyraLevel2',
 	XRT: 'Xrt'
 };

@@ -7,5 +7,6 @@ export default {
 	'HMI magnetogram': 'HmiMagnetogram',
 	'SWAP level 1': 'SwapLevel1',
 	'LYRA level 2': 'LyraLevel2',
+	'LYRA level 3': 'LyraLevel2',
 	XRT: 'Xrt'
 };

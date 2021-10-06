@@ -9,9 +9,10 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "@adapttive/vue-markdown": "^4.0.1",
+    "axios": "^0.21.4",
     "bootstrap-vue": "^2.21.2",
-    "core-js": "^3.16.4",
+    "core-js": "^3.18.2",
     "jsonp-promise": "^0.1.2",
     "vue": "^2.6.14",
     "vue-router": "^3.5.2"
@@ -33,7 +34,7 @@
     "popper.js": "^1.16.0",
     "portal-vue": "^2.1.6",
     "prettier": "^1.19.1",
-    "sass": "^1.38.2",
+    "sass": "^1.42.1",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-bootstrap-vue": "^0.7.0",
     "vue-template-compiler": "^2.6.14"

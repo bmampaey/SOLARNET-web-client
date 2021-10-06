@@ -7,7 +7,7 @@ All resources URI in the SVO API will be relative to that */
 export const SVO_API_URL = DEBUG ? 'http://localhost:8800/' : 'https://solarnet2.oma.be/';
 
 /* The URL of the SVO API schema */
-export const SVO_API_SCHEMA_URL = '/service/api/svo';
+export const SVO_API_SCHEMA_URL = DEBUG ? '/api/svo' : '/service/api/svo';
 
 /* The default timeout for SVO API requests */
 export const SVO_API_TIMEOUT = 15000;
@@ -16,7 +16,7 @@ export const SVO_API_TIMEOUT = 15000;
 export const SVO_DEFAULT_PAGESIZE = 10;
 
 /* The URL of the HEK API */
-export const HEK_API_URL = DEBUG ? 'http://www.lmsal.com/hek/her/' : 'https://www.lmsal.com/hek/her/';
+export const HEK_API_URL = 'http://www.lmsal.com/hek/her/';
 
 /* The default timeout for HEK API requests */
 export const HEK_API_TIMEOUT = 15000;

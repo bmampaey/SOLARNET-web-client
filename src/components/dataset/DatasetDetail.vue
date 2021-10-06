@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<b-card class="mb-2">
-			<b-card-text v-html="dataset.description"></b-card-text>
+			<b-card-text><vue-markdown :source="dataset.description" :html="false" :anchor-attributes="{ target: '_blank' }"></vue-markdown></b-card-text>
 			<b-button-toolbar key-nav>
 				<b-button v-b-popover="telescopePopover" pill size="sm" variant="outline-info">{{ telescope.name }}</b-button>
 				<b-button v-b-popover="instrumentPopover" pill size="sm" variant="outline-info">{{ instrument.name }}</b-button>
@@ -13,10 +13,14 @@
 </template>
 
 <script>
+import VueMarkdown from '@adapttive/vue-markdown';
 import metadataComponents from '@/components/metadata';
 
 export default {
 	name: 'DatasetDetail',
+	components: {
+		VueMarkdown
+	},
 	props: {
 		dataset: { type: Object, required: true },
 		searchFilter: { type: Object, required: true }

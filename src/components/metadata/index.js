@@ -4,6 +4,7 @@ export default {
 	CRISP: 'Crisp',
 	CHROMIS: 'Chromis',
 	'EIT level 0': 'EitLevel0',
+	'EUI level 1': 'EuiLevel2',
 	'EUI level 2': 'EuiLevel2',
 	'HMI magnetogram': 'HmiMagnetogram',
 	'SWAP level 1': 'SwapLevel1',

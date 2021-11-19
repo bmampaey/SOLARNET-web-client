@@ -16,7 +16,7 @@ export const SVO_API_TIMEOUT = 15000;
 export const SVO_DEFAULT_PAGESIZE = 10;
 
 /* The URL of the HEK API */
-export const HEK_API_URL = 'http://www.lmsal.com/hek/her/';
+export const HEK_API_URL = 'https://www.lmsal.com/hek/her/';
 
 /* The default timeout for HEK API requests */
 export const HEK_API_TIMEOUT = 15000;

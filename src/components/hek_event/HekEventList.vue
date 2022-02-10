@@ -124,7 +124,7 @@ export default {
 					min: new Date(Math.min(...this.selection.map(e => e.startTime))),
 					max: new Date(Math.max(...this.selection.map(e => e.endTime)))
 				},
-				search: this.selection.map(e => `(date_beg__lt = ${e.endTime.toISOString()} and date_end__gt = ${e.startTime.toISOString()})`).join(' or ')
+				search: this.selection.map(e => `(date_beg__lte = ${e.endTime.toISOString()} and date_end__gte = ${e.startTime.toISOString()})`).join(' or ')
 			});
 
 			this.$refs.overlappingDatasetsModal.show();

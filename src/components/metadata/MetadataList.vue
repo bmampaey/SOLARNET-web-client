@@ -138,7 +138,7 @@ export default {
 					min: new Date(Math.min(...this.selection.map(m => new Date(m.date_beg)))),
 					max: new Date(Math.max(...this.selection.map(m => new Date(m.date_end))))
 				},
-				search: this.selection.map(m => `(date_beg__lt = ${m.date_end} and date_end__gt = ${m.date_beg})`).join(' or ')
+				search: this.selection.map(m => `(date_beg__lte = ${m.date_end} and date_end__gte = ${m.date_beg})`).join(' or ')
 			});
 			this.$refs.overlappingDatasetsModal.show();
 		}

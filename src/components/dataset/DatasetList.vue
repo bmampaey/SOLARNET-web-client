@@ -60,7 +60,7 @@ export default {
 				{
 					key: 'characteristics',
 					label: 'Characteristics',
-					formatter: characteristics => characteristics.map(characteristic => characteristic.name).join(', ')
+					formatter: characteristics => characteristics.map(characteristic => characteristic.name).sort().join(', ')
 				}
 			];
 		},

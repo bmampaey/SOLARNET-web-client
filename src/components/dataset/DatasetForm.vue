@@ -48,7 +48,7 @@ export default {
 		loadTelescopeOptions: async function() {
 			try {
 				let telescopes = await this.$SVO.telescope.getAll();
-				this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
+				this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort((a, b) => a.text.localeCompare(b.text, 'en', { sensitivity: 'base' }));
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
@@ -56,7 +56,9 @@ export default {
 		loadCharacteristicOptions: async function() {
 			try {
 				let characteristics = await this.$SVO.characteristic.getAll();
-				this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
+				this.characteristicOptions = characteristics
+					.map(characteristic => ({ value: characteristic.name, text: characteristic.name }))
+					.sort((a, b) => a.text.localeCompare(b.text, 'en', { sensitivity: 'base' }));
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
@@ -64,7 +66,7 @@ export default {
 		loadTagOptions: async function() {
 			try {
 				let tags = await this.$SVO.tag.getAll();
-				this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
+				this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name })).sort((a, b) => a.text.localeCompare(b.text, 'en', { sensitivity: 'base' }));
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}

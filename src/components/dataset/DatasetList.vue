@@ -46,7 +46,7 @@ export default {
 		datasetTableFields: function() {
 			return [
 				{ key: 'name', label: 'Dataset' },
-				{ key: 'metadata', label: 'Estimated count', formatter: metadata => metadata.estimated_count },
+				{ key: 'metadata', label: 'Count', formatter: metadata => metadata.count },
 				{
 					key: 'telescope',
 					label: 'Telescope',
@@ -84,7 +84,7 @@ export default {
 			try {
 				let datasetList = await this.$SVO.dataset.getAll(searchFilter.getSearchParams());
 				// Discard empty datasets
-				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.estimated_count > 0);
+				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.count > 0);
 				this.selectedDatasets = [];
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));

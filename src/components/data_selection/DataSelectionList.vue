@@ -59,7 +59,7 @@ export default {
 				{ key: 'zip_button', label: 'ZIP' },
 				{ key: 'dataset', label: 'Dataset', formatter: dataset => dataset.name },
 				{ key: 'description', label: 'Description', tdClass: 'preformatted' },
-				{ key: 'metadata', label: 'Estimated count', formatter: metadata => metadata.estimated_count },
+				{ key: 'metadata', label: 'Count', formatter: metadata => metadata.count },
 				{ key: 'creation_time', label: 'Date of creation', formatter: this.$utils.formatDate },
 				{ key: 'delete_button', label: 'Delete' }
 			];

@@ -2,7 +2,7 @@
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
 			<b-table
-				:id="paginator.ariaControl"
+				:id="paginator.ariaControls"
 				ref="metadataTable"
 				:items="paginator.items"
 				:fields="metadataTableFields"
@@ -31,7 +31,7 @@
 				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
 				<b-button :disabled="selectionEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 				<span class="button-toolbar-spacer"></span>
-				<b-pagination v-model="paginator.pageNumber" :total-rows="paginator.totalRows" :per-page="paginator.pageSize" :aria-controls="paginator.ariaControl" limit="5" class="mb-0"></b-pagination>
+				<pagination v-model="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="paginator.ariaControls" class="mb-0"></pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -51,6 +51,7 @@
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import DataSelectionSave from '@/components/data_selection/DataSelectionSave';
 import Dataset from '@/components/dataset/Dataset';
+import Pagination from '@/components/globals/Pagination';
 import MetadataDetail from './MetadataDetail';
 
 export default {
@@ -58,7 +59,8 @@ export default {
 	components: {
 		MetadataDetail,
 		Dataset,
-		DataSelectionSave
+		DataSelectionSave,
+		Pagination
 	},
 	props: {
 		dataset: { type: Object, required: true },

@@ -2,7 +2,7 @@
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
 			<b-table
-				:id="paginator.ariaControl"
+				:id="paginator.ariaControls"
 				ref="eventTable"
 				:items="paginator.items"
 				:fields="eventTableFields"
@@ -24,15 +24,7 @@
 					>Search overlapping ({{ selection.length }})</b-button
 				>
 				<span class="button-toolbar-spacer"></span>
-				<b-pagination
-					v-model="paginator.pageNumber"
-					:total-rows="paginator.totalRows"
-					:per-page="paginator.pageSize"
-					:aria-controls="paginator.ariaControl"
-					limit="3"
-					class="mb-0"
-					hide-goto-end-buttons
-				></b-pagination>
+				<pagination v-model="paginator.pageNumber" :page-count="paginator.pageCount" :page-jump="1" :page-displayed="3" :aria-controls="paginator.ariaControls" class="mb-0"></pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -50,13 +42,15 @@
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import Dataset from '@/components/dataset/Dataset';
+import Pagination from '@/components/globals/Pagination';
 import HekEventDetail from './HekEventDetail';
 
 export default {
 	name: 'HekEventList',
 	components: {
 		HekEventDetail,
-		Dataset
+		Dataset,
+		Pagination
 	},
 	props: {
 		searchFilter: { type: HekEventSearchFilter, required: true }

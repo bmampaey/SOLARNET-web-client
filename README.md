@@ -12,3 +12,51 @@ The SVO code is split in several parts:
 - A [python client](https://github.com/bmampaey/SOLARNET-python-client)
 - An [IDL client](https://github.com/bmampaey/SOLARNET-IDL-client)
 - [Data provider tools](https://github.com/bmampaey/SOLARNET-provider-tools)
+
+Development environment installation
+------------------------------------
+
+Node.js is used to manage the packages. To install it on Ubuntu 18.04
+```
+# Download the nvm installation script at https://raw.githubusercontent.com/creationix/nvm/master/install.sh, and execute it
+sudo apt install curl
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Install the latest stable Node.js version (note that version 18 and above are not compatible on Ubuntu 18.04)
+nvm install 16.15.0
+```
+
+Install the vue cli development software
+```
+npm install -g @vue/cli
+```
+
+Install the git repository and install the required node packages
+```
+git clone git@github.com:bmampaey/SOLARNET-web-client.git web-client
+
+cd web-client
+
+npm install # This will install all the required node package listed in package.json
+```
+
+Running the development environment
+-----------------------------------
+
+Execute the command `vue ui`, this will open your web browser with a graphical interface to test and compile the web client.
+
+If you have not done so already, import the project folder.
+
+Then on the project page, under the left tab *tasks* you will find:
+ - **serve**, this will run a web server with the web client, the server auto reloads on code change
+ - **build** that will compile the software and update the dist folder
+ - **lint** that will beautify your code
+
+When you are ready to release a new version of the web client, you need to lint and build. Then commit all the files under **src**, AND also all the files under **dist**
+
+The graphical interface also allows to manage the node packages, under the left tab *dependencies*, and to change some of the settings of the project under the left tab *configuration*
+
+Any change to these two, will probably change the files package.json and package-lock.json, these 2 file needs also to be commited to the repository.

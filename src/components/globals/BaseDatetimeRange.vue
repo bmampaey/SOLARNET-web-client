@@ -47,17 +47,11 @@
 </template>
 
 <script>
-let baseInputIdCounter = 0;
-
 export default {
 	props: {
 		value: {
 			type: Object,
 			required: true
-		},
-		inputId: {
-			type: String,
-			default: null
 		},
 		label: {
 			type: String,
@@ -81,17 +75,11 @@ export default {
 		}
 	},
 	data: function() {
-		// if inputId has not been specified explicitly, we generate one with an increasing counter to avoid duplicates
-		let baseInputId = this.inputId;
-		if (baseInputId == null) {
-			baseInputId = 'base-datetime-range-' + baseInputIdCounter.toString();
-			baseInputIdCounter += 1;
-		}
 		return {
 			minValue: this.value.min instanceof Date ? this.value.min.toISOString().substring(0, 10) : '',
 			maxValue: this.value.max instanceof Date ? this.value.max.toISOString().substring(0, 10) : '',
-			minInputId: baseInputId + '-min',
-			maxInputId: baseInputId + '-max',
+			minInputId: this.$utils.getUniqueId(),
+			maxInputId: this.$utils.getUniqueId(),
 			minInputFeedback: '',
 			maxInputFeedback: '',
 			minInputState: null,

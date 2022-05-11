@@ -21,17 +21,11 @@
 </template>
 
 <script>
-let baseInputIdCounter = 0;
-
 export default {
 	props: {
 		value: {
 			type: Object,
 			required: true
-		},
-		inputId: {
-			type: String,
-			default: null
 		},
 		label: {
 			type: String,
@@ -51,17 +45,11 @@ export default {
 		}
 	},
 	data: function() {
-		// if inputId has not been specified explicitly, we generate one with an increasing counter to avoid duplicates
-		let baseInputId = this.inputId;
-		if (baseInputId == null) {
-			baseInputId = 'base-number-range-' + baseInputIdCounter.toString();
-			baseInputIdCounter += 1;
-		}
 		return {
 			minValue: null,
 			maxValue: null,
-			minInputId: baseInputId + '-min',
-			maxInputId: baseInputId + '-max',
+			minInputId: this.$utils.getUniqueId(),
+			maxInputId: this.$utils.getUniqueId(),
 			minInputFeedback: '',
 			maxInputFeedback: '',
 			minInputState: null,

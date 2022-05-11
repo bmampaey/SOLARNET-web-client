@@ -33,8 +33,17 @@ export function formatDate(date) {
 	return date;
 }
 
+/* Return a unique id for HTML element, use a local scope to emulate a function static variable  */
+{
+	let idCounter = 0;
+	var getUniqueId = function(prefix = '__SVO_ID__') {
+		return prefix + idCounter++;
+	};
+}
+
 // Make utilities function accessible in all Vue components
 Vue.prototype.$utils = {
 	parseDate: parseDate,
-	formatDate: formatDate
+	formatDate: formatDate,
+	getUniqueId: getUniqueId
 };

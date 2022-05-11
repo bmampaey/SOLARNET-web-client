@@ -1,13 +1,13 @@
 /* The Paginator makes the link between the API, the table and the pagination buttons */
 
 import Event from './Event';
-import { HEK_DEFAULT_PAGESIZE } from '@/constants';
+import { HEK_PAGINATION_OPTIONS } from '@/constants';
 
 export default class Paginator {
 	static #lastId = 0;
 	#pageNumber = 1;
 	#pageCount = 1;
-	#pageSize = HEK_DEFAULT_PAGESIZE;
+	#pageSize = HEK_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
 	#api;
 	#resourceUri = null;
 	#searchParams = null;

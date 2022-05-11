@@ -1,12 +1,12 @@
 /* The Paginator is the interface between the API, the bootstrap table displaying the items and the pagination buttons */
 
-import { SVO_DEFAULT_PAGESIZE } from '@/constants';
+import { SVO_PAGINATION_OPTIONS } from '@/constants';
 
 export default class Paginator {
 	static #lastId = 0;
 	#pageNumber = 1;
 	#pageCount = 1;
-	#pageSize = SVO_DEFAULT_PAGESIZE;
+	#pageSize = SVO_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
 	#searchParams = null;
 	#axios = null;
 	#resourceUri = null;

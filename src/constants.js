@@ -12,8 +12,12 @@ export const SVO_API_SCHEMA_URL = DEBUG ? '/api/svo' : '/service/api/svo';
 /* The default timeout for SVO API requests */
 export const SVO_API_TIMEOUT = 15000;
 
-/* The default page size for paginated metadata tables */
-export const SVO_DEFAULT_PAGESIZE = 10;
+/* Options for the paginated metadata tables */
+export const SVO_PAGINATION_OPTIONS = Object.freeze({
+	DEFAULT_PAGESIZE: 10,
+	MINIMUM_PAGESIZE: 10,
+	MAXIMUM_PAGESIZE: 100
+});
 
 /* The URL of the HEK API */
 export const HEK_API_URL = 'https://www.lmsal.com/hek/her/';
@@ -21,8 +25,12 @@ export const HEK_API_URL = 'https://www.lmsal.com/hek/her/';
 /* The default timeout for HEK API requests */
 export const HEK_API_TIMEOUT = 15000;
 
-/* The default page size for paginated event tables */
-export const HEK_DEFAULT_PAGESIZE = 10;
+/* Options for the paginated event tables */
+export const HEK_PAGINATION_OPTIONS = Object.freeze({
+	DEFAULT_PAGESIZE: 10,
+	MINIMUM_PAGESIZE: 10,
+	MAXIMUM_PAGESIZE: 100
+});
 
 /* The minimum required search params for a search request to the HEK API to be successful */
 export const HEK_EVENT_LIST_SEARCH_PARAMS = Object.freeze({

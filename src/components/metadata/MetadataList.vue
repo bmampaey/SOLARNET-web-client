@@ -2,7 +2,7 @@
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
 			<b-table
-				:id="paginator.ariaControls"
+				:id="tableId"
 				ref="metadataTable"
 				:items="paginator.items"
 				:fields="metadataTableFields"
@@ -31,7 +31,7 @@
 				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
 				<b-button :disabled="selectionEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 				<span class="button-toolbar-spacer"></span>
-				<pagination v-model="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="paginator.ariaControls" class="mb-0"></pagination>
+				<pagination :pageNumber="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="tableId" size="sm" class="mb-0" @change="updatePageNumber"></pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -69,6 +69,7 @@ export default {
 	},
 	data: function() {
 		return {
+			tableId: this.$utils.getUniqueId(),
 			paginator: this.$SVO.getPaginator(this.dataset.metadata.resource_uri),
 			selection: [],
 			metadataDetailModalTitle: this.dataset.name,
@@ -112,6 +113,9 @@ export default {
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
+		},
+		updatePageNumber: function(pageNumber) {
+			this.paginator.loadPage(pageNumber);
 		},
 		showMetadataDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows

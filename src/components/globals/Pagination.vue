@@ -2,8 +2,8 @@
 	<nav role="navigation" aria-label="Pagination" :aria-controls="ariaControls">
 		<b-button
 			class="mr-1"
-			:disabled="currentPage == 1"
-			size="sm"
+			:disabled="pageNumber == 1"
+			:size="size"
 			variant="outline-dark"
 			:title="ariaLabel(jumpBackwardPage)"
 			:aria-label="ariaLabel(jumpBackwardPage)"
@@ -11,15 +11,15 @@
 		>
 			&laquo;
 		</b-button>
-		<b-button-group size="sm">
+		<b-button-group :size="size">
 			<b-button
 				v-for="page in pages"
 				:key="page"
-				:disabled="currentPage == page"
-				:variant="page == currentPage ? 'primary' : 'outline-primary'"
+				:disabled="pageNumber == page"
+				:variant="page == pageNumber ? 'primary' : 'outline-primary'"
 				:title="ariaLabel(page)"
 				:aria-label="ariaLabel(page)"
-				:aria-current="page == currentPage ? 'page' : 'false'"
+				:aria-current="page == pageNumber ? 'page' : 'false'"
 				@click="selectPage(page)"
 			>
 				{{ page }}
@@ -27,8 +27,8 @@
 		</b-button-group>
 		<b-button
 			class="ml-1"
-			:disabled="currentPage == pageCount"
-			size="sm"
+			:disabled="pageNumber == pageCount"
+			:size="size"
 			variant="outline-dark"
 			:title="ariaLabel(jumpForwardPage)"
 			:aria-label="ariaLabel(jumpForwardPage)"
@@ -41,8 +41,9 @@
 
 <script>
 export default {
+	name: 'Pagination',
 	props: {
-		value: {
+		pageNumber: {
 			type: Number,
 			required: true
 		},
@@ -61,23 +62,22 @@ export default {
 		ariaControls: {
 			type: String,
 			default: null
+		},
+		size: {
+			type: String,
+			default: 'md'
 		}
-	},
-	data() {
-		return {
-			currentPage: this.value
-		};
 	},
 	computed: {
 		jumpBackwardPage() {
-			return Math.max(1, this.currentPage - this.pageJump);
+			return Math.max(1, this.pageNumber - this.pageJump);
 		},
 		jumpForwardPage() {
-			return Math.min(this.pageCount, this.currentPage + this.pageJump);
+			return Math.min(this.pageCount, this.pageNumber + this.pageJump);
 		},
 		firstPage() {
 			let pagesBeforeCurrent = Math.ceil(this.pageDisplayed / 2);
-			return Math.max(1, this.currentPage - pagesBeforeCurrent + 1);
+			return Math.max(1, this.pageNumber - pagesBeforeCurrent + 1);
 		},
 		lastPage() {
 			return Math.min(this.pageCount, this.firstPage + this.pageDisplayed - 1);
@@ -92,13 +92,13 @@ export default {
 	},
 	methods: {
 		selectPage(pageNumber) {
-			if (pageNumber != this.currentPage) {
-				this.currentPage = pageNumber;
-				this.$emit('input', this.currentPage);
+			if (pageNumber != this.pageNumber) {
+				this.pageNumber = pageNumber;
+				this.$emit('change', this.pageNumber);
 			}
 		},
 		ariaLabel(pageNumber) {
-			if (pageNumber == this.currentPage) {
+			if (pageNumber == this.pageNumber) {
 				return null;
 			} else {
 				return `Go to Page ${pageNumber}`;

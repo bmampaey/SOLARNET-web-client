@@ -2,7 +2,7 @@
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
 			<b-table
-				:id="paginator.ariaControls"
+				:id="tableId"
 				ref="eventTable"
 				:items="paginator.items"
 				:fields="eventTableFields"
@@ -24,7 +24,7 @@
 					>Search overlapping ({{ selection.length }})</b-button
 				>
 				<span class="button-toolbar-spacer"></span>
-				<pagination v-model="paginator.pageNumber" :page-count="paginator.pageCount" :page-jump="1" :page-displayed="3" :aria-controls="paginator.ariaControls" class="mb-0"></pagination>
+				<pagination :pageNumber="paginator.pageNumber" :page-count="paginator.pageCount" :page-jump="1" :page-displayed="3" :aria-controls="tableId" class="mb-0" @change="updatePageNumber"></pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -57,6 +57,7 @@ export default {
 	},
 	data: function() {
 		return {
+			tableId: this.$utils.getUniqueId(),
 			paginator: this.$HEK.getPaginator(),
 			selection: [],
 			eventDetailModalEvent: null,
@@ -96,6 +97,9 @@ export default {
 			} catch (error) {
 				this.$displayErrorMessage(error);
 			}
+		},
+		updatePageNumber: function(pageNumber) {
+			this.paginator.loadPage(pageNumber);
 		},
 		showEventDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows

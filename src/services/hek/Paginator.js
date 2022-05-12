@@ -4,30 +4,20 @@ import Event from './Event';
 import { HEK_PAGINATION_OPTIONS } from '@/constants';
 
 export default class Paginator {
-	static #lastId = 0;
-	#pageNumber = 1;
 	#pageCount = 1;
 	#pageSize = HEK_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
 	#api;
 	#resourceUri = null;
 	#searchParams = null;
+	
 	// Vue does not make private fields responsive, and the Bootsrap table and pagination components need the following
+	pageNumber = 1;
 	items = [];
 	loading = false;
-	ariaControls = null;
 
 	constructor(api, resourceUri) {
 		this.#api = api;
 		this.#resourceUri = resourceUri;
-		this.ariaControls = `__hek_paginator__${++Paginator.#lastId}`;
-	}
-
-	get pageNumber() {
-		return this.#pageNumber;
-	}
-
-	set pageNumber(pageNumber) {
-		this.loadPage(pageNumber);
 	}
 
 	get pageCount() {
@@ -59,7 +49,7 @@ export default class Paginator {
 		url.search = this.#searchParams.toString();
 		let response = await this.#api.get(url.href);
 		this.items = response.result.map(item => new Event(item));
-		this.#pageNumber = pageNumber;
+		this.pageNumber = pageNumber;
 		// We don't know how many events there is, so
 		// if we received less events than requested, it is the last page
 		// Else there is maybe 1 or more page left

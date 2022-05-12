@@ -3,8 +3,6 @@
 import { SVO_PAGINATION_OPTIONS } from '@/constants';
 
 export default class Paginator {
-	static #lastId = 0;
-	#pageNumber = 1;
 	#pageCount = 1;
 	#pageSize = SVO_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
 	#searchParams = null;
@@ -12,22 +10,13 @@ export default class Paginator {
 	#resourceUri = null;
 
 	// Vue does not make private fields responsive, and the Bootsrap table and pagination components need the following
+	pageNumber = 1;
 	items = [];
 	loading = false;
-	ariaControls = null;
 
 	constructor(axios, resourceUri) {
 		this.#axios = axios;
 		this.#resourceUri = resourceUri;
-		this.ariaControls = `__svo_paginator__${++Paginator.#lastId}`;
-	}
-
-	get pageNumber() {
-		return this.#pageNumber;
-	}
-
-	set pageNumber(value) {
-		this.loadPage(value);
 	}
 
 	get pageCount() {
@@ -58,7 +47,7 @@ export default class Paginator {
 		let response = await this.#axios.get(this.#resourceUri, { params: this.#searchParams });
 		this.items = response.data.objects;
 		this.#pageSize = response.data.meta.limit;
-		this.#pageNumber = this.#pageSize > 0 ? Math.floor(response.data.meta.offset / this.#pageSize) + 1 : 1;
+		this.pageNumber = this.#pageSize > 0 ? Math.floor(response.data.meta.offset / this.#pageSize) + 1 : 1;
 		this.#pageCount = Math.ceil(response.data.meta.total_count / this.#pageSize);
 		this.loading = false;
 	}

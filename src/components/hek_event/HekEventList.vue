@@ -1,6 +1,19 @@
 <template>
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
+			<b-button-toolbar key-nav aria-label="Control table displayed rows and columns" class="mb-1">
+				<b-button v-b-modal="tableSettingsModalId" size="sm" variant="outline-secondary" title="Change table display settings">Settings</b-button>
+				<span class="button-toolbar-spacer"></span>
+				<pagination
+					:page-number="paginator.pageNumber"
+					:page-count="paginator.pageCount"
+					:page-jump="1"
+					:page-displayed="3"
+					:aria-controls="tableId"
+					class="mb-0"
+					@change="updatePageNumber"
+				></pagination>
+			</b-button-toolbar>
 			<b-table
 				:id="tableId"
 				ref="eventTable"
@@ -19,12 +32,10 @@
 				</template>
 			</b-table>
 
-			<b-button-toolbar key-nav>
+			<b-button-toolbar key-nav aria-label="Actions on displayed and selected rows">
 				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal"
 					>Search overlapping ({{ selection.length }})</b-button
 				>
-				<span class="button-toolbar-spacer"></span>
-				<pagination :pageNumber="paginator.pageNumber" :page-count="paginator.pageCount" :page-jump="1" :page-displayed="3" :aria-controls="tableId" class="mb-0" @change="updatePageNumber"></pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -35,6 +46,8 @@
 		<b-modal ref="overlappingDatasetsModal" size="xl" :title="overlappingDatasetsModalTitle" hide-footer static lazy>
 			<dataset :initial-search-filter="overlappingDatasetsModalSearchFilter"></dataset>
 		</b-modal>
+
+		<table-settings-modal :default-settings="tableSettings" :modal-id="tableSettingsModalId" :aria-controls="tableId" @change="updateTableSettings"></table-settings-modal>
 	</div>
 </template>
 
@@ -43,27 +56,45 @@ import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import Dataset from '@/components/dataset/Dataset';
 import Pagination from '@/components/globals/Pagination';
+import TableSettingsModal, { TableSettings } from '@/components/globals/TableSettings';
 import HekEventDetail from './HekEventDetail';
+import { HEK_PAGINATION_OPTIONS } from '@/constants';
 
 export default {
 	name: 'HekEventList',
 	components: {
 		HekEventDetail,
 		Dataset,
-		Pagination
+		Pagination,
+		TableSettingsModal
 	},
 	props: {
 		searchFilter: { type: HekEventSearchFilter, required: true }
 	},
 	data: function() {
+		let paginator = this.$HEK.getPaginator();
+		let tableSettings = new TableSettings({
+			pageSize: paginator.pageSize,
+			pageSizeMinimum: HEK_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
+			pageSizeMaximum: HEK_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
+			ordering: paginator.ordering,
+			orderingOptions: [
+				{ value: 'event_type', text: 'Event type' },
+				{ value: 'startTime', text: 'Start time' },
+				{ value: 'endTime', text: 'End time' },
+				{ value: 'frm_name', text: 'Method' }
+			]
+		});
 		return {
 			tableId: this.$utils.getUniqueId(),
-			paginator: this.$HEK.getPaginator(),
+			paginator: paginator,
 			selection: [],
 			eventDetailModalEvent: null,
 			eventDetailModalTitle: '',
 			overlappingDatasetsModalSearchFilter: new DatasetSearchFilter(),
-			overlappingDatasetsModalTitle: 'Datasets'
+			overlappingDatasetsModalTitle: 'Datasets',
+			tableSettings: tableSettings,
+			tableSettingsModalId: this.$utils.getUniqueId()
 		};
 	},
 	computed: {
@@ -72,7 +103,8 @@ export default {
 				{ key: 'checkbox', label: '' },
 				{ key: 'type', label: 'Type' },
 				{ key: 'startTime', label: 'Start time', formatter: this.$utils.formatDate },
-				{ key: 'endTime', label: 'End time', formatter: this.$utils.formatDate }
+				{ key: 'endTime', label: 'End time', formatter: this.$utils.formatDate },
+				{ key: 'frm_name', label: 'Method' }
 			];
 		},
 		eventTableCaption: function() {
@@ -126,6 +158,11 @@ export default {
 			});
 
 			this.$refs.overlappingDatasetsModal.show();
+		},
+		updateTableSettings: function(settings) {
+			this.paginator.pageSize = settings.pageSize;
+			this.paginator.ordering = settings.ordering;
+			this.tableSettings = settings;
 		}
 	}
 };

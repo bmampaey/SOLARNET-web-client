@@ -76,8 +76,7 @@ export default {
 		return {
 			settings: new TableSettings(),
 			pageSizeSelectorId: this.$utils.getUniqueId(),
-			orderingSelectorId: this.$utils.getUniqueId(),
-			columnSelectorId: this.$utils.getUniqueId()
+			orderingSelectorId: this.$utils.getUniqueId()
 		};
 	},
 	computed: {

@@ -4,7 +4,7 @@
 			<b-button-toolbar key-nav aria-label="Control table displayed rows and columns" class="mb-1">
 				<b-button v-b-modal="tableSettingsModalId" size="sm" variant="outline-secondary" title="Change table display settings">Settings</b-button>
 				<span class="button-toolbar-spacer"></span>
-				<pagination :pageNumber="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="tableId" size="sm" class="mb-0" @change="updatePageNumber"></pagination>
+				<pagination :page-number="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="tableId" size="sm" class="mb-0" @change="updatePageNumber"></pagination>
 			</b-button-toolbar>
 			<b-table
 				:id="tableId"

@@ -12,7 +12,7 @@
 			</b-form>
 		</b-col>
 		<b-col cols="8">
-			<metadata-list :dataset="dataset" :search-params="searchParams" :columns="columns"></metadata-list>
+			<metadata-list :dataset="dataset" :search-params="searchParams" :default-columns="defaultColumns"></metadata-list>
 		</b-col>
 	</b-row>
 </template>
@@ -25,7 +25,7 @@ export default {
 	mixins: [MetadataMixin],
 	data: function() {
 		return {
-			columns: [
+			defaultColumns: [
 				{ label: 'Observation start date', key: 'date_beg', formatter: this.$utils.formatDate },
 				{ label: 'Observation end date', key: 'date_end', formatter: this.$utils.formatDate }
 			]

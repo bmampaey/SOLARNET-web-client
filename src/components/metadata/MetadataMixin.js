@@ -14,7 +14,7 @@ export default {
 			searchFilter: new MetadataSearchFilter(this.initialSearchFilter),
 			searchParams: new URLSearchParams(),
 			tagOptions: [],
-			columns: [
+			defaultColumns: [
 				{ label: 'Observation date', key: 'date_beg', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength', key: 'wavemin' }
 			]

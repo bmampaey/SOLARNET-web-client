@@ -25,7 +25,7 @@ export const HEK_API_URL = 'https://www.lmsal.com/hek/her/';
 /* The default timeout for HEK API requests */
 export const HEK_API_TIMEOUT = 15000;
 
-/* Options for the paginated event tables */
+/* Options for the for paginated event tables */
 export const HEK_PAGINATION_OPTIONS = Object.freeze({
 	DEFAULT_PAGESIZE: 10,
 	MINIMUM_PAGESIZE: 10,

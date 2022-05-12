@@ -12,7 +12,7 @@
 			</b-form>
 		</b-col>
 		<b-col cols="8">
-			<metadata-list :dataset="dataset" :search-params="searchParams" :columns="columns"></metadata-list>
+			<metadata-list :dataset="dataset" :search-params="searchParams" :default-columns="defaultColumns"></metadata-list>
 		</b-col>
 	</b-row>
 </template>

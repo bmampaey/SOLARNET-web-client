@@ -5,6 +5,7 @@ import { SVO_PAGINATION_OPTIONS } from '@/constants';
 export default class Paginator {
 	#pageCount = 1;
 	#pageSize = SVO_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
+	#ordering = null;
 	#searchParams = null;
 	#axios = null;
 	#resourceUri = null;
@@ -28,8 +29,21 @@ export default class Paginator {
 	}
 
 	set pageSize(value) {
-		this.#pageSize = value;
-		this.loadPage(1);
+		if (this.#pageSize != value) {
+			this.#pageSize = value;
+			this.loadPage(1);
+		}
+	}
+
+	get ordering() {
+		return this.#ordering;
+	}
+
+	set ordering(value) {
+		if (this.#ordering != value) {
+			this.#ordering = value;
+			this.loadPage(1);
+		}
 	}
 
 	get searchParams() {
@@ -44,6 +58,11 @@ export default class Paginator {
 		this.loading = true;
 		this.#searchParams.set('limit', this.#pageSize);
 		this.#searchParams.set('offset', (pageNumber - 1) * this.#pageSize);
+		if (this.#ordering != null) {
+			this.#searchParams.set('order_by', this.#ordering);
+		} else {
+			this.#searchParams.delete('order_by');
+		}
 		let response = await this.#axios.get(this.#resourceUri, { params: this.#searchParams });
 		this.items = response.data.objects;
 		this.#pageSize = response.data.meta.limit;

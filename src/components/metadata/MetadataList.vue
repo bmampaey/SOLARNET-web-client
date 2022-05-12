@@ -1,6 +1,11 @@
 <template>
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
+			<b-button-toolbar key-nav aria-label="Control table displayed rows and columns" class="mb-1">
+				<b-button v-b-modal="tableSettingsModalId" size="sm" variant="outline-secondary" title="Change table display settings">Settings</b-button>
+				<span class="button-toolbar-spacer"></span>
+				<pagination :pageNumber="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="tableId" size="sm" class="mb-0" @change="updatePageNumber"></pagination>
+			</b-button-toolbar>
 			<b-table
 				:id="tableId"
 				ref="metadataTable"
@@ -24,14 +29,12 @@
 				</template>
 			</b-table>
 
-			<b-button-toolbar key-nav>
+			<b-button-toolbar key-nav aria-label="Actions on displayed and selected rows">
 				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection"
 					>Save selection ({{ selection.length }})</b-button
 				>
 				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
 				<b-button :disabled="selectionEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
-				<span class="button-toolbar-spacer"></span>
-				<pagination :pageNumber="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="tableId" size="sm" class="mb-0" @change="updatePageNumber"></pagination>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -44,6 +47,8 @@
 		</b-modal>
 
 		<data-selection-save ref="dataSelectionSave"></data-selection-save>
+
+		<table-settings-modal :default-settings="tableSettings" :modal-id="tableSettingsModalId" :aria-controls="tableId" @change="updateTableSettings"></table-settings-modal>
 	</div>
 </template>
 
@@ -52,7 +57,9 @@ import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import DataSelectionSave from '@/components/data_selection/DataSelectionSave';
 import Dataset from '@/components/dataset/Dataset';
 import Pagination from '@/components/globals/Pagination';
+import TableSettingsModal, { TableSettings } from '@/components/globals/TableSettings';
 import MetadataDetail from './MetadataDetail';
+import { SVO_PAGINATION_OPTIONS } from '@/constants';
 
 export default {
 	name: 'MetadataList',
@@ -60,22 +67,35 @@ export default {
 		MetadataDetail,
 		Dataset,
 		DataSelectionSave,
-		Pagination
+		Pagination,
+		TableSettingsModal
 	},
 	props: {
 		dataset: { type: Object, required: true },
 		searchParams: { type: URLSearchParams, required: true },
-		columns: { type: Array, required: true }
+		defaultColumns: { type: Array, required: true }
 	},
 	data: function() {
+		let paginator = this.$SVO.getPaginator(this.dataset.metadata.resource_uri);
+		let tableSettings = new TableSettings({
+			pageSize: paginator.pageSize,
+			pageSizeMinimum: SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
+			pageSizeMaximum: SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
+			ordering: paginator.ordering,
+			orderingOptions: this.defaultColumns.map(column => ({ text: column['label'], value: column['key'] })),
+			columns: this.defaultColumns,
+			columnOptions: this.defaultColumns.map(column => ({ text: column['label'], value: column }))
+		});
 		return {
 			tableId: this.$utils.getUniqueId(),
-			paginator: this.$SVO.getPaginator(this.dataset.metadata.resource_uri),
+			paginator: paginator,
 			selection: [],
 			metadataDetailModalTitle: this.dataset.name,
 			metadataDetailModalMetadata: null,
 			overlappingDatasetsModalSearchFilter: new DatasetSearchFilter(),
-			overlappingDatasetsModalTitle: 'Datasets'
+			overlappingDatasetsModalTitle: 'Datasets',
+			tableSettings: tableSettings,
+			tableSettingsModalId: this.$utils.getUniqueId()
 		};
 	},
 	computed: {
@@ -87,7 +107,7 @@ export default {
 					label: 'Download',
 					formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url)
 				},
-				...this.columns,
+				...this.tableSettings.columns,
 				{ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') }
 			];
 		},
@@ -103,6 +123,9 @@ export default {
 			handler: 'updatePaginator',
 			immediate: true
 		}
+	},
+	created: async function() {
+		await this.loadTableSettingsOptions();
 	},
 	methods: {
 		updatePaginator: function(searchParams) {
@@ -147,6 +170,47 @@ export default {
 				search: this.selection.map(m => `(date_beg__lte = ${m.date_end} and date_end__gte = ${m.date_beg})`).join(' or ')
 			});
 			this.$refs.overlappingDatasetsModal.show();
+		},
+		loadTableSettingsOptions: async function() {
+			try {
+				let keywords = await this.$SVO.keyword.getAll({ dataset__name: this.dataset.name });
+
+				// Avoid duplicating column options, the column option key correspond to the keyword name
+				let columnOptions = new Set(this.tableSettings.columnOptions.map(columnOption => columnOption['value']['key']));
+
+				// Avoid duplicating ordering options, the ordering option value correspond to the keyword name
+				let orderingOptions = new Set(this.tableSettings.orderingOptions.map(orderingOption => orderingOption['value']));
+
+				for (const keyword of keywords) {
+					if (!columnOptions.has(keyword['name'])) {
+						columnOptions.add(keyword['name']);
+						this.tableSettings.columnOptions.push({
+							text: keyword['verbose_name'],
+							value: {
+								label: keyword['verbose_name'],
+								key: keyword['name'],
+								headerTitle: keyword['description'],
+								formatter: keyword['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
+							}
+						});
+					}
+
+					if (!orderingOptions.has(keyword['name'])) {
+						orderingOptions.add(keyword['name']);
+						this.tableSettings.orderingOptions.push({
+							text: keyword['verbose_name'],
+							value: keyword['name']
+						});
+					}
+				}
+			} catch (error) {
+				// Ignore errors
+			}
+		},
+		updateTableSettings: function(settings) {
+			this.paginator.pageSize = settings.pageSize;
+			this.paginator.ordering = settings.ordering;
+			this.tableSettings = settings;
 		}
 	}
 };

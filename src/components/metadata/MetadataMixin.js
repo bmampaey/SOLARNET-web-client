@@ -17,13 +17,14 @@ export default {
 			defaultColumns: [
 				{ label: 'Observation date', key: 'date_beg', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength', key: 'wavemin' }
-			]
+			],
+			showOverlay: false
 		};
 	},
 	created: async function() {
 		// Fetch and create the options of the form select
 		this.showOverlay = true;
-		this.loadTagOptions();
+		await this.loadTagOptions();
 		this.showOverlay = false;
 	},
 	methods: {

@@ -124,8 +124,8 @@ export default {
 			immediate: true
 		}
 	},
-	created: async function() {
-		await this.loadTableSettingsOptions();
+	created: function() {
+		this.loadTableSettingsOptions();
 	},
 	methods: {
 		updatePaginator: function(searchParams) {

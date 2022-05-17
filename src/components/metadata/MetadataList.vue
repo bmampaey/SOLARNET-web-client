@@ -14,6 +14,7 @@
 				:caption="metadataTableCaption"
 				primary-key="oid"
 				select-mode="single"
+				responsive
 				small
 				hover
 				selectable
@@ -42,7 +43,7 @@
 			<metadata-detail v-if="metadataDetailModalMetadata" :metadata="metadataDetailModalMetadata"></metadata-detail>
 		</b-modal>
 
-		<b-modal ref="overlappingDatasetsModal" size="xl" :title="overlappingDatasetsModalTitle" hide-footer static lazy>
+		<b-modal ref="overlappingDatasetsModal" size="full" :title="overlappingDatasetsModalTitle" hide-footer static lazy>
 			<dataset :initial-search-filter="overlappingDatasetsModalSearchFilter"></dataset>
 		</b-modal>
 
@@ -105,7 +106,7 @@ export default {
 					label: 'Download',
 					formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url)
 				},
-				...this.tableSettings.columns,
+				...this.tableSettings.columns
 			];
 			if (this.tags.length) {
 				tableFields.push({ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') });

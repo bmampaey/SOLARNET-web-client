@@ -8,6 +8,7 @@
 				primary-key="id"
 				select-mode="single"
 				:caption="datasetTableCaption"
+				responsive
 				small
 				hover
 				selectable
@@ -16,7 +17,7 @@
 			</b-table>
 		</b-overlay>
 
-		<b-modal ref="datasetDetailModal" size="xl" :title="datasetDetailModalTitle" hide-footer static lazy>
+		<b-modal ref="datasetDetailModal" size="full" :title="datasetDetailModalTitle" hide-footer static lazy>
 			<dataset-detail v-if="datasetDetailModalDataset" :dataset="datasetDetailModalDataset" :search-filter="searchFilter"></dataset-detail>
 		</b-modal>
 	</div>

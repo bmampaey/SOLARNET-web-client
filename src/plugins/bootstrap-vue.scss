@@ -5,6 +5,19 @@ $modal-xl: 90%;
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
+/* add modal size that takes almost all of the screen */
+.modal-full {
+	max-width: 100%;
+	margin: $modal-dialog-margin;
+}
+
+@include media-breakpoint-up(sm) {
+	.modal-full {
+		max-width: 100%;
+		margin: $modal-dialog-margin-y-sm-up;
+	}
+}
+
 /* center table caption */
 caption {
 	text-align: center;

@@ -8,6 +8,7 @@
 				primary-key="id"
 				select-mode="single"
 				:caption="dataSelectionTableCaption"
+				responsive
 				small
 				hover
 				selectable
@@ -30,7 +31,7 @@
 				</template>
 			</b-table>
 		</b-overlay>
-		<b-modal ref="dataSelectionDetailModal" size="xl" :title="dataSelectionDetailModalTitle" hide-footer static lazy>
+		<b-modal ref="dataSelectionDetailModal" size="full" :title="dataSelectionDetailModalTitle" hide-footer static lazy>
 			<data-selection-detail v-if="dataSelectionDetailModalDataSelection" :data-selection="dataSelectionDetailModalDataSelection"></data-selection-detail>
 		</b-modal>
 	</div>

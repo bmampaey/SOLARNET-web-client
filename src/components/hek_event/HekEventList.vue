@@ -22,6 +22,7 @@
 				:caption="eventTableCaption"
 				primary-key="id"
 				select-mode="single"
+				responsive
 				small
 				hover
 				selectable
@@ -43,7 +44,7 @@
 			<hek-event-detail v-if="eventDetailModalEvent" :event="eventDetailModalEvent"></hek-event-detail>
 		</b-modal>
 
-		<b-modal ref="overlappingDatasetsModal" size="xl" :title="overlappingDatasetsModalTitle" hide-footer static lazy>
+		<b-modal ref="overlappingDatasetsModal" size="full" :title="overlappingDatasetsModalTitle" hide-footer static lazy>
 			<dataset :initial-search-filter="overlappingDatasetsModalSearchFilter"></dataset>
 		</b-modal>
 

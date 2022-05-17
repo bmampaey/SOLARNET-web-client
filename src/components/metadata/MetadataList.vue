@@ -74,18 +74,15 @@ export default {
 		dataset: { type: Object, required: true },
 		searchParams: { type: URLSearchParams, required: true },
 		tags: { type: Array, default: () => [] },
+		keywords: { type: Array, default: () => [] },
 		defaultColumns: { type: Array, required: true }
 	},
 	data: function() {
 		let paginator = this.$SVO.getPaginator(this.dataset.metadata.resource_uri);
 		let tableSettings = new TableSettings({
 			pageSize: paginator.pageSize,
-			pageSizeMinimum: SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
-			pageSizeMaximum: SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
 			ordering: paginator.ordering,
-			orderingOptions: this.defaultColumns.map(column => ({ text: column['label'], value: column['key'] })),
-			columns: this.defaultColumns,
-			columnOptions: this.defaultColumns.map(column => ({ text: column['label'], value: column }))
+			columns: this.defaultColumns
 		});
 		return {
 			tableId: this.$utils.getUniqueId(),
@@ -123,10 +120,11 @@ export default {
 		searchParams: {
 			handler: 'updatePaginator',
 			immediate: true
+		},
+		keywords: {
+			handler: 'loadTableSettingsOptions',
+			immediate: true
 		}
-	},
-	created: function() {
-		this.loadTableSettingsOptions();
 	},
 	methods: {
 		updatePaginator: function(searchParams) {
@@ -138,8 +136,41 @@ export default {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
+		loadTableSettingsOptions: function() {
+			this.tableSettings.pageSizeMinimum = SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE;
+			this.tableSettings.pageSizeMaximum = SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE;
+			this.tableSettings.orderingOptions = this.defaultColumns.map(column => ({ text: column['label'], value: column['key'] }));
+			this.tableSettings.columnOptions = this.defaultColumns.map(column => ({ text: column['label'], value: column }));
+
+			// Avoid duplicating ordering and column options, the column key corresponds to the keyword name
+			let defaultColumnsKeys = new Set(this.defaultColumns.map(column => column['key']));
+
+			for (const keyword of this.keywords) {
+				if (!defaultColumnsKeys.has(keyword['name'])) {
+					defaultColumnsKeys.add(keyword['name']);
+					this.tableSettings.columnOptions.push({
+						text: keyword['verbose_name'],
+						value: {
+							label: keyword['verbose_name'],
+							key: keyword['name'],
+							headerTitle: keyword['description'],
+							formatter: keyword['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
+						}
+					});
+					this.tableSettings.orderingOptions.push({
+						text: keyword['verbose_name'],
+						value: keyword['name']
+					});
+				}
+			}
+		},
 		updatePageNumber: function(pageNumber) {
 			this.paginator.loadPage(pageNumber);
+		},
+		updateTableSettings: function(settings) {
+			this.paginator.pageSize = settings.pageSize;
+			this.paginator.ordering = settings.ordering;
+			this.tableSettings = settings;
 		},
 		showMetadataDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
@@ -171,47 +202,6 @@ export default {
 				search: this.selection.map(m => `(date_beg__lte = ${m.date_end} and date_end__gte = ${m.date_beg})`).join(' or ')
 			});
 			this.$refs.overlappingDatasetsModal.show();
-		},
-		loadTableSettingsOptions: async function() {
-			try {
-				let keywords = await this.$SVO.keyword.getAll({ dataset__name: this.dataset.name });
-
-				// Avoid duplicating column options, the column option key correspond to the keyword name
-				let columnOptions = new Set(this.tableSettings.columnOptions.map(columnOption => columnOption['value']['key']));
-
-				// Avoid duplicating ordering options, the ordering option value correspond to the keyword name
-				let orderingOptions = new Set(this.tableSettings.orderingOptions.map(orderingOption => orderingOption['value']));
-
-				for (const keyword of keywords) {
-					if (!columnOptions.has(keyword['name'])) {
-						columnOptions.add(keyword['name']);
-						this.tableSettings.columnOptions.push({
-							text: keyword['verbose_name'],
-							value: {
-								label: keyword['verbose_name'],
-								key: keyword['name'],
-								headerTitle: keyword['description'],
-								formatter: keyword['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
-							}
-						});
-					}
-
-					if (!orderingOptions.has(keyword['name'])) {
-						orderingOptions.add(keyword['name']);
-						this.tableSettings.orderingOptions.push({
-							text: keyword['verbose_name'],
-							value: keyword['name']
-						});
-					}
-				}
-			} catch (error) {
-				// Ignore errors
-			}
-		},
-		updateTableSettings: function(settings) {
-			this.paginator.pageSize = settings.pageSize;
-			this.paginator.ordering = settings.ordering;
-			this.tableSettings = settings;
 		}
 	}
 };

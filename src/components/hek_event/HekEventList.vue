@@ -133,6 +133,11 @@ export default {
 		updatePageNumber: function(pageNumber) {
 			this.paginator.loadPage(pageNumber);
 		},
+		updateTableSettings: function(settings) {
+			this.paginator.pageSize = settings.pageSize;
+			this.paginator.ordering = settings.ordering;
+			this.tableSettings = settings;
+		},
 		showEventDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
@@ -158,11 +163,6 @@ export default {
 			});
 
 			this.$refs.overlappingDatasetsModal.show();
-		},
-		updateTableSettings: function(settings) {
-			this.paginator.pageSize = settings.pageSize;
-			this.paginator.ordering = settings.ordering;
-			this.tableSettings = settings;
 		}
 	}
 };

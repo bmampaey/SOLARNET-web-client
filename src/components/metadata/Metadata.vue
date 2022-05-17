@@ -8,7 +8,7 @@
 			</b-form>
 		</b-col>
 		<b-col cols="8">
-			<metadata-list :dataset="dataset" :search-params="searchParams" :default-columns="defaultColumns"></metadata-list>
+			<metadata-list :dataset="dataset" :search-params="searchParams" :tags="tags" :keywords="keywords" :default-columns="defaultColumns"></metadata-list>
 		</b-col>
 	</b-row>
 </template>

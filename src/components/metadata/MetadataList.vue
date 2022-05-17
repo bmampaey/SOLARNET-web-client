@@ -98,7 +98,7 @@ export default {
 	},
 	computed: {
 		metadataTableFields: function() {
-			return [
+			let tableFields = [
 				{ key: 'checkbox', label: '' },
 				{
 					key: 'download_button',
@@ -106,8 +106,11 @@ export default {
 					formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url)
 				},
 				...this.tableSettings.columns,
-				{ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') }
 			];
+			if (this.tags.length) {
+				tableFields.push({ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') });
+			}
+			return tableFields;
 		},
 		metadataTableCaption: function() {
 			return this.paginator.items.length > 0 ? 'Click on any row to see data details' : 'No metadata correspond to your search criteria';

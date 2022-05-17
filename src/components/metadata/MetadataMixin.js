@@ -1,9 +1,11 @@
 import MetadataList from './MetadataList';
+import TagSelector from './TagSelector';
 import MetadataSearchFilter from '@/services/svo/MetadataSearchFilter';
 
 export default {
 	components: {
-		MetadataList
+		MetadataList,
+		TagSelector
 	},
 	props: {
 		dataset: { type: Object, required: true },
@@ -13,28 +15,24 @@ export default {
 		return {
 			searchFilter: new MetadataSearchFilter(this.initialSearchFilter),
 			searchParams: new URLSearchParams(),
-			tagOptions: [],
+			tags: [],
 			defaultColumns: [
 				{ label: 'Observation date', key: 'date_beg', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength', key: 'wavemin' }
-			],
-			showOverlay: false
+			]
 		};
 	},
-	created: async function() {
+	created: function() {
 		// Fetch and create the options of the form select
-		this.showOverlay = true;
-		await this.loadTagOptions();
-		this.showOverlay = false;
+		this.loadTags();
 	},
 	methods: {
 		updateSearchParams: function() {
 			this.searchParams = this.searchFilter.getSearchParams();
 		},
-		loadTagOptions: async function() {
+		loadTags: async function() {
 			try {
-				let tags = await this.$SVO.tag.getAll({ dataset: this.dataset.name });
-				this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
+				this.tags = await this.$SVO.tag.getAll({ dataset: this.dataset.name });
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}

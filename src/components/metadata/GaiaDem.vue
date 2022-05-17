@@ -6,11 +6,7 @@
 				<b-form-group label="Map type" label-for="mapTypes">
 					<b-form-select id="mapTypes" v-model="searchFilter.mapTypes" :options="searchFilter.mapTypeOptions" multiple></b-form-select>
 				</b-form-group>
-				<b-overlay :show="showOverlay" rounded="sm">
-					<b-form-group label="Tags" label-for="tags">
-						<b-form-select id="tags" v-model="searchFilter.tags" :options="tagOptions" multiple></b-form-select>
-					</b-form-group>
-				</b-overlay>
+				<tag-selector v-if="tags.length" v-model="searchFilter.tags" :tags="tags"></tag-selector>
 				<b-button type="submit" variant="primary">Search</b-button>
 			</b-form>
 		</b-col>

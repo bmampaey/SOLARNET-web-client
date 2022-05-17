@@ -73,6 +73,7 @@ export default {
 	props: {
 		dataset: { type: Object, required: true },
 		searchParams: { type: URLSearchParams, required: true },
+		tags: { type: Array, default: () => [] },
 		defaultColumns: { type: Array, required: true }
 	},
 	data: function() {

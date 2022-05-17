@@ -168,8 +168,11 @@ export default {
 			this.paginator.loadPage(pageNumber);
 		},
 		updateTableSettings: function(settings) {
-			this.paginator.pageSize = settings.pageSize;
-			this.paginator.ordering = settings.ordering;
+			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.ordering) {
+				this.paginator.pageSize = settings.pageSize;
+				this.paginator.ordering = settings.ordering;
+				this.paginator.loadPage(1);
+			}
 			this.tableSettings = settings;
 		},
 		showMetadataDetailModal: function(selectedRows) {

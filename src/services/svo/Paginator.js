@@ -3,15 +3,15 @@
 import { SVO_PAGINATION_OPTIONS } from '@/constants';
 
 export default class Paginator {
+	// WARNING: Vue does not make private fields responsive
 	#pageCount = 1;
-	#pageSize = SVO_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
-	#ordering = null;
 	#searchParams = null;
 	#axios = null;
 	#resourceUri = null;
 
-	// Vue does not make private fields responsive, and the Bootsrap table and pagination components need the following
 	pageNumber = 1;
+	pageSize = SVO_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
+	ordering = null;
 	items = [];
 	loading = false;
 
@@ -24,28 +24,6 @@ export default class Paginator {
 		return this.#pageCount;
 	}
 
-	get pageSize() {
-		return this.#pageSize;
-	}
-
-	set pageSize(value) {
-		if (this.#pageSize != value) {
-			this.#pageSize = value;
-			this.loadPage(1);
-		}
-	}
-
-	get ordering() {
-		return this.#ordering;
-	}
-
-	set ordering(value) {
-		if (this.#ordering != value) {
-			this.#ordering = value;
-			this.loadPage(1);
-		}
-	}
-
 	get searchParams() {
 		return this.#searchParams;
 	}
@@ -56,18 +34,18 @@ export default class Paginator {
 
 	async loadPage(pageNumber) {
 		this.loading = true;
-		this.#searchParams.set('limit', this.#pageSize);
-		this.#searchParams.set('offset', (pageNumber - 1) * this.#pageSize);
-		if (this.#ordering != null) {
-			this.#searchParams.set('order_by', this.#ordering);
+		this.#searchParams.set('limit', this.pageSize);
+		this.#searchParams.set('offset', (pageNumber - 1) * this.pageSize);
+		if (this.ordering != null) {
+			this.#searchParams.set('order_by', this.ordering);
 		} else {
 			this.#searchParams.delete('order_by');
 		}
 		let response = await this.#axios.get(this.#resourceUri, { params: this.#searchParams });
 		this.items = response.data.objects;
-		this.#pageSize = response.data.meta.limit;
-		this.pageNumber = this.#pageSize > 0 ? Math.floor(response.data.meta.offset / this.#pageSize) + 1 : 1;
-		this.#pageCount = Math.ceil(response.data.meta.total_count / this.#pageSize);
+		this.pageSize = response.data.meta.limit;
+		this.pageNumber = this.pageSize > 0 ? Math.floor(response.data.meta.offset / this.pageSize) + 1 : 1;
+		this.#pageCount = Math.ceil(response.data.meta.total_count / this.pageSize);
 		this.loading = false;
 	}
 }

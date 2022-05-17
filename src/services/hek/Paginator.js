@@ -4,15 +4,15 @@ import Event from './Event';
 import { HEK_PAGINATION_OPTIONS } from '@/constants';
 
 export default class Paginator {
+	// WARNING: Vue does not make private fields responsive
 	#pageCount = 1;
-	#pageSize = HEK_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
-	#ordering = null;
 	#searchParams = null;
 	#api;
 	#resourceUri = null;
 
-	// Vue does not make private fields responsive, and the Bootsrap table and pagination components need the following
 	pageNumber = 1;
+	pageSize = HEK_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
+	ordering = null;
 	items = [];
 	loading = false;
 
@@ -23,28 +23,6 @@ export default class Paginator {
 
 	get pageCount() {
 		return this.#pageCount;
-	}
-
-	get pageSize() {
-		return this.#pageSize;
-	}
-
-	set pageSize(value) {
-		if (this.#pageSize != value) {
-			this.#pageSize = value;
-			this.loadPage(1);
-		}
-	}
-
-	get ordering() {
-		return this.#ordering;
-	}
-
-	set ordering(value) {
-		if (this.#ordering != value) {
-			this.#ordering = value;
-			this.loadPage(1);
-		}
 	}
 
 	get searchParams() {
@@ -59,8 +37,8 @@ export default class Paginator {
 		this.loading = true;
 		this.#searchParams.set('result_limit', this.pageSize);
 		this.#searchParams.set('page', pageNumber);
-		if (this.#ordering != null) {
-			this.#searchParams.set('sort_by', this.#ordering);
+		if (this.ordering != null) {
+			this.#searchParams.set('sort_by', this.ordering);
 		} else {
 			this.#searchParams.delete('sort_by');
 		}

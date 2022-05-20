@@ -16,7 +16,7 @@
 				v-for="page in pages"
 				:key="page"
 				:disabled="currentPage == page"
-				:variant="page == currentPage ? 'primary' : 'outline-primary'"
+				:variant="page == currentPage ? 'dark' : 'outline-dark'"
 				:title="ariaLabel(page)"
 				:aria-label="ariaLabel(page)"
 				:aria-current="page == currentPage ? 'page' : 'false'"

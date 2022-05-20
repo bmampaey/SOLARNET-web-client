@@ -2,6 +2,7 @@
 
 export default class MetadataSearchFilter {
 	tags = [];
+	keywordFilter = '';
 	dateRange = { min: null, max: null };
 
 	constructor(searchFilter) {
@@ -15,6 +16,9 @@ export default class MetadataSearchFilter {
 					max: searchFilter.dateRange.max
 				};
 			}
+			if (searchFilter.keywordFilter) {
+				this.keywordFilter = searchFilter.keywordFilter;
+			}
 			this.search = searchFilter.search;
 		}
 	}
@@ -24,6 +28,10 @@ export default class MetadataSearchFilter {
 
 		for (const tag of this.tags) {
 			searchParams.append('tags__in', tag);
+		}
+
+		if (this.keywordFilter) {
+			searchParams.set('search', this.keywordFilter);
 		}
 
 		if (this.dateRange.min) {

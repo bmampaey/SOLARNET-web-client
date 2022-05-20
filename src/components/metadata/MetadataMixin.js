@@ -1,11 +1,13 @@
 import MetadataList from './MetadataList';
 import TagSelector from './TagSelector';
 import MetadataSearchFilter from '@/services/svo/MetadataSearchFilter';
+import KeywordFilter from './KeywordFilter';
 
 export default {
 	components: {
 		MetadataList,
-		TagSelector
+		TagSelector,
+		KeywordFilter
 	},
 	props: {
 		dataset: { type: Object, required: true },

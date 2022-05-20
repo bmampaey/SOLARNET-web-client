@@ -10,6 +10,7 @@
 					<b-form-select id="observatories" v-model="searchFilter.observatories" :options="searchFilter.observatoryOptions" multiple></b-form-select>
 				</b-form-group>
 				<tag-selector v-if="tags.length" v-model="searchFilter.tags" :tags="tags"></tag-selector>
+				<keyword-filter v-if="keywords.length" v-model="searchFilter.keywordFilter" :keywords="keywords"></keyword-filter>
 				<b-button type="submit" variant="primary">Search</b-button>
 			</b-form>
 		</b-col>

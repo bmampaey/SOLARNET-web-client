@@ -10,7 +10,7 @@ export const SVO_API_URL = DEBUG ? 'http://localhost:8800/' : 'https://solarnet2
 export const SVO_API_SCHEMA_URL = DEBUG ? '/api/svo' : '/service/api/svo';
 
 /* The default timeout for SVO API requests */
-export const SVO_API_TIMEOUT = 15000;
+export const SVO_API_TIMEOUT = 60000;
 
 /* Options for the paginated metadata tables */
 export const SVO_PAGINATION_OPTIONS = Object.freeze({

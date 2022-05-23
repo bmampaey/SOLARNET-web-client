@@ -10,8 +10,8 @@
 			<b-form-group label="Tags" label-for="tags">
 				<b-form-select id="tags" v-model="searchFilter.tags" :options="tagOptions" multiple></b-form-select>
 			</b-form-group>
-			<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
-			<base-number-range v-model="searchFilter.wavelengthRange" label="Observation wavelength" unit="nm"></base-number-range>
+			<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
+			<number-range v-model="searchFilter.wavelengthRange" label="Observation wavelength" unit="nm"></number-range>
 			<b-button type="submit" variant="primary">Search</b-button>
 		</b-form>
 	</b-overlay>

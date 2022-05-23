@@ -1,6 +1,6 @@
 <template>
 	<metadata :dataset="dataset" :search-filter="searchFilter" :default-columns="defaultColumns">
-		<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 		<b-form-group label="Map type" label-for="mapTypes">
 			<b-form-select id="mapTypes" v-model="searchFilter.mapTypes" :options="searchFilter.mapTypeOptions" multiple></b-form-select>
 		</b-form-group>

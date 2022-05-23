@@ -3,8 +3,8 @@
 
 import Vue from 'vue';
 
-import BaseDatetimeRange from './BaseDatetimeRange';
-Vue.component('base-datetime-range', BaseDatetimeRange);
+import DatetimeRange from './DatetimeRange';
+Vue.component('datetime-range', DatetimeRange);
 
-import BaseNumberRange from './BaseNumberRange';
-Vue.component('base-number-range', BaseNumberRange);
+import NumberRange from './NumberRange';
+Vue.component('number-range', NumberRange);

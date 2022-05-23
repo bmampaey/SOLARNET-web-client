@@ -6,7 +6,7 @@
 
 <script>
 export default {
-	name: 'TagSelector',
+	name: 'TagFilter',
 	props: {
 		value: { type: Array, required: true },
 		tags: { type: Array, required: true }

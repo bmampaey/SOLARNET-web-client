@@ -1,6 +1,6 @@
 <template>
 	<metadata :dataset="dataset" :search-filter="searchFilter" :default-columns="defaultColumns">
-		<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 		<b-form-group description="Only display data with a quality of 0">
 			<b-form-checkbox v-model="searchFilter.bestQuality">Best quality only</b-form-checkbox>
 		</b-form-group>

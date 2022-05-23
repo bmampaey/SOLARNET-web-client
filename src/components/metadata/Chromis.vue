@@ -1,6 +1,6 @@
 <template>
 	<metadata :dataset="dataset" :search-filter="searchFilter" :default-columns="defaultColumns">
-		<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 		<b-form-group description="Only display data with RELEASE date before today">
 			<b-form-checkbox v-model="searchFilter.releasedData">Released data</b-form-checkbox>
 		</b-form-group>

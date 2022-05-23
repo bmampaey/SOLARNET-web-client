@@ -48,6 +48,7 @@
 
 <script>
 export default {
+	name: 'DatetimeRange',
 	props: {
 		value: {
 			type: Object,

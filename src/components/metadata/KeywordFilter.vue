@@ -17,9 +17,9 @@
 				<b-form-group v-if="keyword.type == 'text'" :label="`${keyword.verbose_name} contains`" :label-for="uniqueId(keyword.name)">
 					<b-form-input :id="uniqueId(keyword.name)" v-model="filterValues[keyword.name]" type="text"></b-form-input>
 				</b-form-group>
-				<base-datetime-range v-else-if="keyword.type == 'time (ISO 8601)'" v-model="filterValues[keyword.name]" :label="`${keyword.verbose_name} is between`"></base-datetime-range>
-				<base-number-range v-else-if="keyword.type == 'integer'" v-model="filterValues[keyword.name]" :label="`${keyword.verbose_name} is between`" :unit="keyword.unit" step="1"></base-number-range>
-				<base-number-range v-else-if="keyword.type == 'real'" v-model="filterValues[keyword.name]" :label="`${keyword.verbose_name} is between`" :unit="keyword.unit"></base-number-range>
+				<datetime-range v-else-if="keyword.type == 'time (ISO 8601)'" v-model="filterValues[keyword.name]" :label="`${keyword.verbose_name} is between`"></datetime-range>
+				<number-range v-else-if="keyword.type == 'integer'" v-model="filterValues[keyword.name]" :label="`${keyword.verbose_name} is between`" :unit="keyword.unit" step="1"></number-range>
+				<number-range v-else-if="keyword.type == 'real'" v-model="filterValues[keyword.name]" :label="`${keyword.verbose_name} is between`" :unit="keyword.unit"></number-range>
 				<b-form-group v-else-if="keyword.type == 'boolean'" v-slot="{ ariaDescribedby }" :label="`${keyword.verbose_name} is`">
 					<b-form-radio-group v-model="filterValues[keyword.name]" :options="[true, false]" :aria-describedby="ariaDescribedby" buttons button-variant="outline-dark"></b-form-radio-group>
 				</b-form-group>

@@ -3,7 +3,7 @@
 		<b-form-group label="Event types" label-for="event-type">
 			<b-form-select id="event-type" v-model="searchFilter.eventType" :options="searchFilter.eventTypeOptions" multiple></b-form-select>
 		</b-form-group>
-		<base-datetime-range v-model="searchFilter.dateRange" label="Event time" min-label="Start" max-label="End"></base-datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Event time" min-label="Start" max-label="End"></datetime-range>
 		<b-button type="submit" variant="primary">Search</b-button>
 	</b-form>
 </template>

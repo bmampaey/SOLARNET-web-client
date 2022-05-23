@@ -1,6 +1,6 @@
 <template>
 	<metadata :dataset="dataset" :search-filter="searchFilter" :default-columns="defaultColumns">
-		<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 		<b-form-group label="Observation mode" label-for="observationModes">
 			<b-form-select id="observationModes" v-model="searchFilter.observationModes" :options="searchFilter.observationModeOptions" multiple></b-form-select>
 		</b-form-group>

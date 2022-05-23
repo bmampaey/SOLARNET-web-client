@@ -1,6 +1,6 @@
 <template>
 	<metadata :dataset="dataset" :search-filter="searchFilter" :default-columns="defaultColumns">
-		<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 		<b-form-group label="Wavelength" label-for="wavelengths">
 			<b-form-select id="wavelengths" v-model="searchFilter.wavelengths" :options="searchFilter.wavelengthOptions" multiple></b-form-select>
 		</b-form-group>

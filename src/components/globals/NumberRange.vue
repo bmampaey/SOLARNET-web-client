@@ -22,6 +22,7 @@
 
 <script>
 export default {
+	name: 'NumberRange',
 	props: {
 		value: {
 			type: Object,

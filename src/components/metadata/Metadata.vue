@@ -10,9 +10,9 @@
 						<b-card-body>
 							<b-form @submit.prevent="updateSearchParams">
 								<slot>
-									<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+									<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 								</slot>
-								<tag-selector v-if="tags.length" v-model="searchFilter.tags" :tags="tags"></tag-selector>
+								<tag-filter v-if="tags.length" v-model="searchFilter.tags" :tags="tags"></tag-filter>
 								<keyword-filter v-if="keywords.length" v-model="searchFilter.keywordFilter" :keywords="keywords"></keyword-filter>
 								<b-button type="submit" variant="primary">Search</b-button>
 							</b-form>
@@ -28,14 +28,14 @@
 </template>
 
 <script>
-import TagSelector from './TagSelector';
+import TagFilter from './TagFilter';
 import KeywordFilter from './KeywordFilter';
 import MetadataList from './MetadataList';
 
 export default {
 	name: 'Metadata',
 	components: {
-		TagSelector,
+		TagFilter,
 		KeywordFilter,
 		MetadataList
 	},

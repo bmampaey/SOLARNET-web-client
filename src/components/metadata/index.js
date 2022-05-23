@@ -1,5 +1,5 @@
 export default {
-	default: 'Metadata',
+	default: 'Default',
 	'AIA level 1': 'AiaLevel1',
 	CRISP: 'Crisp',
 	CHROMIS: 'Chromis',

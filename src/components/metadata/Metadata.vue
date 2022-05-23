@@ -9,7 +9,9 @@
 					<b-collapse :id="metadataFilterId" visible>
 						<b-card-body>
 							<b-form @submit.prevent="updateSearchParams">
-								<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+								<slot>
+									<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+								</slot>
 								<tag-selector v-if="tags.length" v-model="searchFilter.tags" :tags="tags"></tag-selector>
 								<keyword-filter v-if="keywords.length" v-model="searchFilter.keywordFilter" :keywords="keywords"></keyword-filter>
 								<b-button type="submit" variant="primary">Search</b-button>
@@ -26,10 +28,53 @@
 </template>
 
 <script>
-import MetadataMixin from './MetadataMixin';
+import TagSelector from './TagSelector';
+import KeywordFilter from './KeywordFilter';
+import MetadataList from './MetadataList';
 
 export default {
 	name: 'Metadata',
-	mixins: [MetadataMixin]
+	components: {
+		TagSelector,
+		KeywordFilter,
+		MetadataList
+	},
+	props: {
+		dataset: { type: Object, required: true },
+		searchFilter: { type: Object, required: true },
+		defaultColumns: { type: Array, required: true }
+	},
+	data: function() {
+		return {
+			searchParams: new URLSearchParams(),
+			tags: [],
+			keywords: [],
+			metadataFilterId: this.$utils.getUniqueId()
+		};
+	},
+	created: function() {
+		// Fetch and create the options of the form select
+		this.loadTags();
+		this.loadKeywords();
+	},
+	methods: {
+		updateSearchParams: function() {
+			this.searchParams = this.searchFilter.getSearchParams();
+		},
+		loadTags: async function() {
+			try {
+				this.tags = await this.$SVO.tag.getAll({ dataset: this.dataset.name });
+			} catch (error) {
+				this.$displayErrorMessage(this.$SVO.parseError(error));
+			}
+		},
+		loadKeywords: async function() {
+			try {
+				this.keywords = await this.$SVO.keyword.getAll({ dataset__name: this.dataset.name });
+			} catch (error) {
+				this.$displayErrorMessage(this.$SVO.parseError(error));
+			}
+		}
+	}
 };
 </script>

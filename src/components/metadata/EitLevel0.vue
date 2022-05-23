@@ -1,6 +1,6 @@
 <template>
 	<b-row>
-		<b-col cols="4">
+		<b-col cols="12" lg="4">
 			<b-form @submit.prevent="updateSearchParams">
 				<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
 				<b-form-group label="Wavelength" label-for="wavelengths">
@@ -14,7 +14,7 @@
 				<b-button type="submit" variant="primary">Search</b-button>
 			</b-form>
 		</b-col>
-		<b-col cols="8">
+		<b-col cols="12" lg="8">
 			<metadata-list :dataset="dataset" :search-params="searchParams" :tags="tags" :keywords="keywords" :default-columns="defaultColumns"></metadata-list>
 		</b-col>
 	</b-row>

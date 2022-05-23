@@ -1,14 +1,23 @@
 <template>
 	<div>
-		<b-card class="mb-2">
-			<b-card-text><vue-markdown :source="dataset.description" :html="false" :anchor-attributes="{ target: '_blank' }"></vue-markdown></b-card-text>
-			<b-button-toolbar key-nav>
-				<b-button v-b-popover="telescopePopover" pill size="sm" variant="outline-info">{{ telescope.name }}</b-button>
-				<b-button v-b-popover="instrumentPopover" pill size="sm" variant="outline-info">{{ instrument.name }}</b-button>
-				<b-button pill size="sm" variant="outline-info" :href="dataset.archive_url" target="_blank">Archive webpage</b-button>
-			</b-button-toolbar>
+		<b-card no-body class="mb-3">
+			<b-card-header v-b-toggle="datasetDescriptionId" header-tag="header" title="Click to show/hide the dataset description">
+				Dataset description
+			</b-card-header>
+			<b-collapse :id="datasetDescriptionId" visible>
+				<b-card-body>
+					<b-card-text>
+						<vue-markdown :source="dataset.description" :html="false" :anchor-attributes="{ target: '_blank' }"></vue-markdown>
+					</b-card-text>
+					<b-button-toolbar>
+						<b-button v-b-popover="telescopePopover" pill size="sm" variant="outline-info">{{ telescope.name }}</b-button>
+						<b-button v-b-popover="instrumentPopover" pill size="sm" variant="outline-info">{{ instrument.name }}</b-button>
+						<b-button pill size="sm" variant="outline-info" :href="dataset.archive_url" target="_blank">Archive webpage</b-button>
+					</b-button-toolbar>
+				</b-card-body>
+			</b-collapse>
 		</b-card>
-		<component :is="metadataComponent" :dataset="dataset" :initial-search-filter="searchFilter" class="mt-3"></component>
+		<component :is="metadataComponent" :dataset="dataset" :initial-search-filter="searchFilter"></component>
 	</div>
 </template>
 
@@ -28,7 +37,8 @@ export default {
 	data: function() {
 		return {
 			telescope: this.dataset.telescope,
-			instrument: this.dataset.instrument
+			instrument: this.dataset.instrument,
+			datasetDescriptionId: this.$utils.getUniqueId()
 		};
 	},
 	computed: {
@@ -62,3 +72,11 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+/* Limit the height of the column selector */
+.column-selector {
+	max-height: 10rem;
+	overflow: auto;
+}
+</style>

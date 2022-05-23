@@ -22,7 +22,8 @@ export default {
 			defaultColumns: [
 				{ label: 'Observation date', key: 'date_beg', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength', key: 'wavemin' }
-			]
+			],
+			metadataFilterId: this.$utils.getUniqueId()
 		};
 	},
 	created: function() {

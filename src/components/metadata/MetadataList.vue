@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<b-overlay :show="paginator.loading" rounded="sm">
-			<b-button-toolbar key-nav aria-label="Control table displayed rows and columns" class="mb-1">
+			<b-button-toolbar key-nav aria-label="Control table displayed rows and columns" class="mb-3">
 				<b-button v-b-modal="tableSettingsModalId" size="sm" variant="outline-secondary" title="Change table display settings">Settings</b-button>
 				<span class="button-toolbar-spacer"></span>
 				<pagination :page-number="paginator.pageNumber" :page-count="paginator.pageCount" :aria-controls="tableId" size="sm" class="mb-0" @change="updatePageNumber"></pagination>

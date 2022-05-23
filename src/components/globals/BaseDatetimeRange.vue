@@ -1,7 +1,7 @@
 <template>
 	<b-form-group :label="label">
 		<b-form-row>
-			<b-col>
+			<b-col cols="12" lg="6">
 				<b-form-group :label="minLabel" :label-for="minInputId" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback" class="mb-0">
 					<b-input-group>
 						<b-form-input :id="minInputId" v-model="minValue" :state="minInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off" @change="checkInput"></b-form-input>
@@ -22,7 +22,7 @@
 				</b-form-group>
 			</b-col>
 
-			<b-col>
+			<b-col cols="12" lg="6">
 				<b-form-group :label="maxLabel" :label-for="maxInputId" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback" class="mb-0">
 					<b-input-group>
 						<b-form-input :id="maxInputId" v-model="maxValue" :state="maxInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off" @change="checkInput"></b-form-input>

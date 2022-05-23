@@ -6,7 +6,7 @@
 					<b-form-select :id="uniqueId('select-keyword')" v-model="selectedKeyword" :options="keywordOptions"></b-form-select>
 				</b-form-group>
 			</b-col>
-			<b-col cols="1" align-self="end" class="mb-3">
+			<b-col cols="auto" align-self="end" class="mb-3">
 				<b-button variant="light" :title="selectedKeyword ? `Add filter for keyword ${selectedKeyword.verbose_name}` : 'Select a keyword to add a filter'" @click="addKeywordFilter"
 					><b-icon icon="plus"></b-icon
 				></b-button>
@@ -24,7 +24,7 @@
 					<b-form-radio-group v-model="filterValues[keyword.name]" :options="[true, false]" :aria-describedby="ariaDescribedby" buttons button-variant="outline-dark"></b-form-radio-group>
 				</b-form-group>
 			</b-col>
-			<b-col cols="1" align-self="end" class="mb-3">
+			<b-col cols="auto" align-self="end" class="mb-3">
 				<b-button variant="light" :title="`Remove filter for keyword ${keyword.verbose_name}`" @click="removeKeywordFilter(keyword)"><b-icon icon="x"></b-icon></b-button>
 			</b-col>
 		</b-form-row>

@@ -1,9 +1,18 @@
 <template>
 	<b-row>
-		<b-col cols="4">
-			<hek-event-form v-model="searchFilter"></hek-event-form>
+		<b-col cols="12" lg="4">
+			<b-card no-body class="mb-3">
+				<b-card-header v-b-toggle="eventFilterId" header-tag="header" title="Click to show/hide the event filters">
+					Filter events
+				</b-card-header>
+				<b-collapse :id="eventFilterId" visible>
+					<b-card-body>
+						<hek-event-form v-model="searchFilter"></hek-event-form>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 		</b-col>
-		<b-col cols="8">
+		<b-col cols="12" lg="8">
 			<hek-event-list :search-filter="searchFilter"></hek-event-list>
 		</b-col>
 	</b-row>
@@ -25,7 +34,8 @@ export default {
 	},
 	data: function() {
 		return {
-			searchFilter: new HekEventSearchFilter(this.initialSearchFilter)
+			searchFilter: new HekEventSearchFilter(this.initialSearchFilter),
+			eventFilterId: this.$utils.getUniqueId()
 		};
 	}
 };

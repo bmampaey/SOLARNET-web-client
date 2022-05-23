@@ -1,9 +1,18 @@
 <template>
 	<b-row>
-		<b-col cols="4">
-			<dataset-form v-model="searchFilter"></dataset-form>
+		<b-col cols="12" lg="4">
+			<b-card no-body class="mb-3">
+				<b-card-header v-b-toggle="datasetFilterId" header-tag="header" title="Click to show/hide the dataset filters">
+					Filter datasets
+				</b-card-header>
+				<b-collapse :id="datasetFilterId" visible>
+					<b-card-body>
+						<dataset-form v-model="searchFilter"></dataset-form>
+					</b-card-body>
+				</b-collapse>
+			</b-card>
 		</b-col>
-		<b-col cols="8">
+		<b-col cols="12" lg="8">
 			<dataset-list :search-filter="searchFilter"></dataset-list>
 		</b-col>
 	</b-row>
@@ -25,7 +34,8 @@ export default {
 	},
 	data: function() {
 		return {
-			searchFilter: new DatasetSearchFilter(this.initialSearchFilter)
+			searchFilter: new DatasetSearchFilter(this.initialSearchFilter),
+			datasetFilterId: this.$utils.getUniqueId()
 		};
 	}
 };

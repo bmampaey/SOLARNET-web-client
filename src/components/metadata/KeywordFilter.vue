@@ -97,6 +97,7 @@ export default {
 		removeKeywordFilter(keyword) {
 			this.selectedKeywords[keyword.name] = false;
 			this.selectedKeyword = keyword;
+			this.updateModelValue();
 		},
 		updateModelValue() {
 			let searchFilter = [];

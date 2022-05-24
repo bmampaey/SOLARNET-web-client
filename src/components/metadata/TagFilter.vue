@@ -1,6 +1,6 @@
 <template>
 	<b-form-group label="Tags" :label-for="inputId">
-		<b-form-select :id="inputId" :value="value" :options="tagOptions" multiple @input="$emit('input', $event.target.value)"></b-form-select>
+		<b-form-select :id="inputId" :value="value" :options="tagOptions" multiple @input="onInput"></b-form-select>
 	</b-form-group>
 </template>
 
@@ -19,6 +19,11 @@ export default {
 	computed: {
 		tagOptions: function() {
 			return this.tags.map(tag => ({ value: tag.name, text: tag.name }));
+		}
+	},
+	methods: {
+		onInput: function(value) {
+			this.$emit('input', value);
 		}
 	}
 };

@@ -10,7 +10,7 @@ import MetadataMixin from './MetadataMixin';
 export default {
 	name: 'LyraLevel2',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			defaultColumns: [
 				{ label: 'Observation start date', key: 'date_beg', formatter: this.$utils.formatDate },

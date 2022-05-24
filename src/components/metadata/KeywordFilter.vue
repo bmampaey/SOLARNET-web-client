@@ -44,7 +44,7 @@ export default {
 			required: true
 		}
 	},
-	data: function() {
+	data() {
 		return {
 			uniqueIdMap: new Map(),
 			selectedKeyword: null,

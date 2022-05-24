@@ -32,20 +32,20 @@
 <script>
 export default {
 	name: 'AppMenu',
-	data: function() {
+	data() {
 		return {
 			// Make the user reactive
 			user: this.$SVO.user
 		};
 	},
 	computed: {
-		accountName: function() {
+		accountName() {
 			return this.user.fullName || 'Account';
 		}
 	},
 	methods: {
 		/* Log out the user from the SVO API and redirect to the Authentication view */
-		logOutUser: function() {
+		logOutUser() {
 			this.$SVO.user.logOut();
 			this.$router.push({ name: 'Authentication' });
 		}

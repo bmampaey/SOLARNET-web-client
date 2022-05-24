@@ -19,19 +19,19 @@ export default {
 	props: {
 		metadata: { type: Object, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			searchFilter: ''
 		};
 	},
 	computed: {
-		imageURL: function() {
+		imageURL() {
 			return this.metadata.data_location.thumbnail_url ? this.metadata.data_location.thumbnail_url : require('@/assets/no_preview_available.jpg');
 		},
-		fitsHeader: function() {
+		fitsHeader() {
 			return this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : '';
 		},
-		fields: function() {
+		fields() {
 			return [
 				{
 					key: 'text',
@@ -39,21 +39,21 @@ export default {
 				}
 			];
 		},
-		filterIncludedFields: function() {
+		filterIncludedFields() {
 			return ['text'];
 		},
-		cards: function() {
+		cards() {
 			if (this.fitsHeader.length > 0) {
 				return this.fitsHeader.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
 			} else {
 				return Object.entries(this.metadata)
 					.filter(([, value]) => !(value instanceof Object))
-					.map(([key, value], id) => ({ id, text: `${key} = ${value}` }));
+					.map(([key, value], id) => ({ id: id, text: `${key} = ${value}` }));
 			}
 		}
 	},
 	methods: {
-		clearSearchFilter: function() {
+		clearSearchFilter() {
 			this.searchFilter = '';
 		}
 	}

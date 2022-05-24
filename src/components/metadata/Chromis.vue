@@ -33,7 +33,7 @@ class ChromisSearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'Chromis',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new ChromisSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

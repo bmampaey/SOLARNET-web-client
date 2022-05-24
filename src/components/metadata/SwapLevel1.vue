@@ -40,7 +40,7 @@ class SwapLevel1SearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'SwapLevel1',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new SwapLevel1SearchFilter(this.initialSearchFilter),
 			defaultColumns: [

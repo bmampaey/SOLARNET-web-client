@@ -45,7 +45,7 @@ class GaiaDemSearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'GaiaDem',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new GaiaDemSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

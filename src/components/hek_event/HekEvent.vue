@@ -32,7 +32,7 @@ export default {
 	props: {
 		initialSearchFilter: { type: HekEventSearchFilter, required: false, default: null }
 	},
-	data: function() {
+	data() {
 		return {
 			searchFilter: new HekEventSearchFilter(this.initialSearchFilter),
 			eventFilterId: this.$utils.getUniqueId()

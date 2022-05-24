@@ -35,7 +35,7 @@ class HmiMagnetogramSearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'HmiMagnetogram',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new HmiMagnetogramSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

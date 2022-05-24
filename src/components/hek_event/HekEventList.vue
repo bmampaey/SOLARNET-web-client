@@ -72,7 +72,7 @@ export default {
 	props: {
 		searchFilter: { type: HekEventSearchFilter, required: true }
 	},
-	data: function() {
+	data() {
 		let paginator = this.$HEK.getPaginator();
 		let tableSettings = new TableSettings({
 			pageSize: paginator.pageSize,
@@ -99,7 +99,7 @@ export default {
 		};
 	},
 	computed: {
-		eventTableFields: function() {
+		eventTableFields() {
 			return [
 				{ key: 'checkbox', label: '' },
 				{ key: 'type', label: 'Type' },
@@ -108,10 +108,10 @@ export default {
 				{ key: 'frm_name', label: 'Method' }
 			];
 		},
-		eventTableCaption: function() {
+		eventTableCaption() {
 			return this.paginator.items.length > 0 ? 'Click on any row to see the event details' : 'No event correspond to your search criteria';
 		},
-		selectionEmpty: function() {
+		selectionEmpty() {
 			return this.selection.length == 0;
 		}
 	},
@@ -122,7 +122,7 @@ export default {
 		}
 	},
 	methods: {
-		updatePaginator: function(searchFilter) {
+		updatePaginator(searchFilter) {
 			this.paginator.searchParams = searchFilter.getSearchParams();
 			try {
 				this.paginator.loadPage(1);
@@ -131,10 +131,10 @@ export default {
 				this.$displayErrorMessage(error);
 			}
 		},
-		updatePageNumber: function(pageNumber) {
+		updatePageNumber(pageNumber) {
 			this.paginator.loadPage(pageNumber);
 		},
-		updateTableSettings: function(settings) {
+		updateTableSettings(settings) {
 			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.ordering) {
 				this.paginator.pageSize = settings.pageSize;
 				this.paginator.ordering = settings.ordering;
@@ -142,7 +142,7 @@ export default {
 			}
 			this.tableSettings = settings;
 		},
-		showEventDetailModal: function(selectedRows) {
+		showEventDetailModal(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.eventDetailModalEvent = selectedRows[0];
@@ -155,7 +155,7 @@ export default {
 				});
 			}
 		},
-		showOverlappingDatasetModal: function() {
+		showOverlappingDatasetModal() {
 			let selectedEventTypes = new Set(this.selection.map(event => event.type));
 			this.overlappingDatasetsModalTitle = `Datasets overlapping selected ${Array.from(selectedEventTypes).join(', ')} events`;
 			this.overlappingDatasetsModalSearchFilter = new DatasetSearchFilter({

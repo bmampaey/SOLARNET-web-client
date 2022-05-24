@@ -25,7 +25,7 @@ export default {
 	props: {
 		value: { type: DatasetSearchFilter, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			searchFilter: new DatasetSearchFilter(this.value),
 			telescopeOptions: [],
@@ -34,18 +34,18 @@ export default {
 			showOverlay: true
 		};
 	},
-	created: async function() {
+	async created() {
 		// Fetch and create the options of the form select in parralel
 		this.showOverlay = true;
 		await Promise.allSettled([this.loadTelescopeOptions(), this.loadCharacteristicOptions(), this.loadTagOptions()]);
 		this.showOverlay = false;
 	},
 	methods: {
-		updateSearchFilter: function() {
+		updateSearchFilter() {
 			// Send a copy of the searchFilter so that local modifications are not visible outside until the form is submitted
 			this.$emit('input', new DatasetSearchFilter(this.searchFilter));
 		},
-		loadTelescopeOptions: async function() {
+		async loadTelescopeOptions() {
 			try {
 				let telescopes = await this.$SVO.telescope.getAll();
 				this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort((a, b) => a.text.localeCompare(b.text, 'en', { sensitivity: 'base' }));
@@ -53,7 +53,7 @@ export default {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
-		loadCharacteristicOptions: async function() {
+		async loadCharacteristicOptions() {
 			try {
 				let characteristics = await this.$SVO.characteristic.getAll();
 				this.characteristicOptions = characteristics
@@ -63,7 +63,7 @@ export default {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
-		loadTagOptions: async function() {
+		async loadTagOptions() {
 			try {
 				let tags = await this.$SVO.tag.getAll();
 				this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name })).sort((a, b) => a.text.localeCompare(b.text, 'en', { sensitivity: 'base' }));

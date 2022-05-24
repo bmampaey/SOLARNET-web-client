@@ -16,13 +16,13 @@ export default {
 	props: {
 		value: { type: HekEventSearchFilter, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			searchFilter: new HekEventSearchFilter(this.value)
 		};
 	},
 	methods: {
-		updateSearchFilter: function() {
+		updateSearchFilter() {
 			// Send a copy of the searchFilter so that local modifications are not visible outside until the form is submitted
 			this.$emit('input', new HekEventSearchFilter(this.searchFilter));
 		}

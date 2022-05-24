@@ -15,7 +15,7 @@ export default {
 	props: {
 		dataSelection: { type: Object, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			dataset: {
 				...this.dataSelection.dataset,
@@ -26,7 +26,7 @@ export default {
 	},
 	computed: {
 		/* Component to display the Metadata for the displayed dataset */
-		metadataComponent: function() {
+		metadataComponent() {
 			const component = metadataComponents[this.dataset.name] || metadataComponents['default'];
 			return () => import('@/components/metadata/' + component);
 		}

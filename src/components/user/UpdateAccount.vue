@@ -23,7 +23,7 @@
 <script>
 export default {
 	name: 'UpdateAccount',
-	data: function() {
+	data() {
 		return {
 			firstName: this.$SVO.user.firstName,
 			lastName: this.$SVO.user.lastName,
@@ -33,13 +33,13 @@ export default {
 			formSuccess: null
 		};
 	},
-	activated: function() {
+	activated() {
 		// Reset the first and last name each time the user comes back to the UpdateAccount vue
 		this.firstName = this.$SVO.user.firstName;
 		this.lastName = this.$SVO.user.lastName;
 	},
 	methods: {
-		updateUser: async function() {
+		async updateUser() {
 			this.formError = null;
 			try {
 				await this.$SVO.user.update(this.firstName, this.lastName, this.newPassword, this.currentPassword);

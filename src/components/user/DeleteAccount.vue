@@ -14,14 +14,14 @@
 <script>
 export default {
 	name: 'DeleteAccount',
-	data: function() {
+	data() {
 		return {
 			password: null,
 			formError: null
 		};
 	},
 	methods: {
-		deleteUser: async function() {
+		async deleteUser() {
 			this.formError = null;
 			try {
 				await this.$SVO.user.delete(this.password);

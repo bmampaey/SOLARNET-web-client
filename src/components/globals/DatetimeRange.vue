@@ -75,7 +75,7 @@ export default {
 			default: null
 		}
 	},
-	data: function() {
+	data() {
 		return {
 			minValue: this.value.min instanceof Date ? this.value.min.toISOString().substring(0, 10) : '',
 			maxValue: this.value.max instanceof Date ? this.value.max.toISOString().substring(0, 10) : '',
@@ -92,7 +92,7 @@ export default {
 		};
 	},
 	methods: {
-		checkInput: function() {
+		checkInput() {
 			// Check that the minValue is a valid date
 			let minDate = this.$utils.parseDate(this.minValue);
 			if (this.minValue && minDate == null) {

@@ -72,7 +72,7 @@ class EuiLevel2SearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'EuiLevel2',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new EuiLevel2SearchFilter(this.initialSearchFilter),
 			defaultColumns: [

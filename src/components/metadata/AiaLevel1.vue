@@ -55,7 +55,7 @@ class AiaLevel1SearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'AiaLevel1',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new AiaLevel1SearchFilter(this.initialSearchFilter),
 			defaultColumns: [

@@ -14,7 +14,7 @@
 <script>
 export default {
 	name: 'LoginForm',
-	data: function() {
+	data() {
 		return {
 			email: null,
 			password: null,
@@ -24,7 +24,7 @@ export default {
 	methods: {
 		/* Try to log in the user into the SVO API with the email and password specified in the form
 		If successfull redirect to the Root view */
-		logInUser: async function() {
+		async logInUser() {
 			this.formError = null;
 			try {
 				await this.$SVO.user.logIn(this.email, this.password);

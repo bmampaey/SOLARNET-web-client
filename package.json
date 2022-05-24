@@ -74,7 +74,8 @@
       "vue/array-bracket-spacing": "warn",
       "vue/arrow-spacing": "warn",
       "vue/block-spacing": "warn",
-      "vue/camelcase": "warn"
+      "vue/camelcase": "warn",
+      "object-shorthand": ["error", "methods"]
     }
   },
   "babel": {

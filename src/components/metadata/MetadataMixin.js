@@ -9,7 +9,7 @@ export default {
 		dataset: { type: Object, required: true },
 		initialSearchFilter: { type: Object, required: false, default: null }
 	},
-	data: function() {
+	data() {
 		return {
 			searchFilter: new MetadataSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

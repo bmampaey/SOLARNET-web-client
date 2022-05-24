@@ -35,7 +35,7 @@ export default {
 	props: {
 		searchFilter: { type: DatasetSearchFilter, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			datasetList: [],
 			datasetDetailModalDataset: null,
@@ -44,7 +44,7 @@ export default {
 		};
 	},
 	computed: {
-		datasetTableFields: function() {
+		datasetTableFields() {
 			return [
 				{ key: 'name', label: 'Dataset' },
 				{ key: 'metadata', label: 'Count', formatter: metadata => metadata.count },
@@ -69,7 +69,7 @@ export default {
 				}
 			];
 		},
-		datasetTableCaption: function() {
+		datasetTableCaption() {
 			return this.datasetList.length > 0 ? 'Click on any row to see dataset content or refine search' : 'No dataset correspond to your search criteria';
 		}
 	},
@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	methods: {
-		updateDatasetList: async function(searchFilter) {
+		async updateDatasetList(searchFilter) {
 			this.showOverlay = true;
 			try {
 				let datasetList = await this.$SVO.dataset.getAll(searchFilter.getSearchParams());
@@ -92,7 +92,7 @@ export default {
 			}
 			this.showOverlay = false;
 		},
-		showDatasetDetailModal: function(selectedRows) {
+		showDatasetDetailModal(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.datasetDetailModalDataset = selectedRows[0];

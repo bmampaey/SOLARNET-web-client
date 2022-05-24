@@ -34,7 +34,7 @@ export default {
 		dataset: { type: Object, required: true },
 		searchFilter: { type: Object, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			telescope: this.dataset.telescope,
 			instrument: this.dataset.instrument,
@@ -43,7 +43,7 @@ export default {
 	},
 	computed: {
 		/* Data for the popover directive when the user click on the telescope button */
-		telescopePopover: function() {
+		telescopePopover() {
 			return {
 				title: this.telescope.name,
 				content: this.telescope.description,
@@ -54,7 +54,7 @@ export default {
 			};
 		},
 		/* Data for the popover directive when the user click on the instrument button */
-		instrumentPopover: function() {
+		instrumentPopover() {
 			return {
 				title: this.instrument.name,
 				content: this.instrument.description,
@@ -65,7 +65,7 @@ export default {
 			};
 		},
 		/* Component to display the Metadata for the displayed dataset */
-		metadataComponent: function() {
+		metadataComponent() {
 			const component = metadataComponents[this.dataset.name] || metadataComponents['default'];
 			return () => import(/* webpackChunkName: "[request]" */ '@/components/metadata/' + component);
 		}

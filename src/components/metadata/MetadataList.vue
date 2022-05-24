@@ -78,7 +78,7 @@ export default {
 		keywords: { type: Array, default: () => [] },
 		defaultColumns: { type: Array, required: true }
 	},
-	data: function() {
+	data() {
 		let paginator = this.$SVO.getPaginator(this.dataset.metadata.resource_uri);
 		let tableSettings = new TableSettings({
 			pageSize: paginator.pageSize,
@@ -98,7 +98,7 @@ export default {
 		};
 	},
 	computed: {
-		metadataTableFields: function() {
+		metadataTableFields() {
 			let tableFields = [
 				{ key: 'checkbox', label: '' },
 				{
@@ -113,10 +113,10 @@ export default {
 			}
 			return tableFields;
 		},
-		metadataTableCaption: function() {
+		metadataTableCaption() {
 			return this.paginator.items.length > 0 ? 'Click on any row to see data details' : 'No metadata correspond to your search criteria';
 		},
-		selectionEmpty: function() {
+		selectionEmpty() {
 			return this.selection.length == 0;
 		}
 	},
@@ -131,7 +131,7 @@ export default {
 		}
 	},
 	methods: {
-		updatePaginator: function(searchParams) {
+		updatePaginator(searchParams) {
 			this.selection = [];
 			try {
 				this.paginator.searchParams = searchParams;
@@ -140,7 +140,7 @@ export default {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
-		loadTableSettingsOptions: function() {
+		loadTableSettingsOptions() {
 			this.tableSettings.pageSizeMinimum = SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE;
 			this.tableSettings.pageSizeMaximum = SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE;
 			this.tableSettings.orderingOptions = this.defaultColumns.map(column => ({ text: column['label'], value: column['key'] }));
@@ -168,10 +168,10 @@ export default {
 				}
 			}
 		},
-		updatePageNumber: function(pageNumber) {
+		updatePageNumber(pageNumber) {
 			this.paginator.loadPage(pageNumber);
 		},
-		updateTableSettings: function(settings) {
+		updateTableSettings(settings) {
 			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.ordering) {
 				this.paginator.pageSize = settings.pageSize;
 				this.paginator.ordering = settings.ordering;
@@ -179,7 +179,7 @@ export default {
 			}
 			this.tableSettings = settings;
 		},
-		showMetadataDetailModal: function(selectedRows) {
+		showMetadataDetailModal(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.metadataDetailModalMetadata = selectedRows[0];
@@ -191,15 +191,15 @@ export default {
 				});
 			}
 		},
-		saveSelection: function() {
+		saveSelection() {
 			let searchParams = new URLSearchParams();
 			this.selection.forEach(metadata => searchParams.append('oid__in', metadata.oid));
 			this.$refs.dataSelectionSave.save(this.dataset, searchParams.toString());
 		},
-		saveAll: function() {
+		saveAll() {
 			this.$refs.dataSelectionSave.save(this.dataset, this.searchParams.toString());
 		},
-		searchOverlappingDatasets: function() {
+		searchOverlappingDatasets() {
 			this.overlappingDatasetsModalTitle = `Datasets overlapping selected ${this.dataset.name} data`;
 			this.overlappingDatasetsModalSearchFilter = new DatasetSearchFilter({
 				dateRange: {

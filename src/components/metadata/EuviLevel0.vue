@@ -59,7 +59,7 @@ class EuviLevel0SearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'EuviLevel0',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new EuviLevel0SearchFilter(this.initialSearchFilter),
 			defaultColumns: [

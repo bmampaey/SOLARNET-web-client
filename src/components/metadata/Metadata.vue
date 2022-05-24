@@ -44,7 +44,7 @@ export default {
 		searchFilter: { type: Object, required: true },
 		defaultColumns: { type: Array, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			searchParams: new URLSearchParams(),
 			tags: [],
@@ -52,23 +52,23 @@ export default {
 			metadataFilterId: this.$utils.getUniqueId()
 		};
 	},
-	created: function() {
+	created() {
 		// Fetch and create the options of the form select
 		this.loadTags();
 		this.loadKeywords();
 	},
 	methods: {
-		updateSearchParams: function() {
+		updateSearchParams() {
 			this.searchParams = this.searchFilter.getSearchParams();
 		},
-		loadTags: async function() {
+		async loadTags() {
 			try {
 				this.tags = await this.$SVO.tag.getAll({ dataset: this.dataset.name });
 			} catch (error) {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
-		loadKeywords: async function() {
+		async loadKeywords() {
 			try {
 				this.keywords = await this.$SVO.keyword.getAll({ dataset__name: this.dataset.name });
 			} catch (error) {

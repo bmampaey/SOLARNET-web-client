@@ -11,6 +11,6 @@ import Vue from 'vue';
 Vue.config.productionTip = false;
 
 window.vm = new Vue({
-	router,
+	router: router,
 	render: h => h(App)
 }).$mount('#app');

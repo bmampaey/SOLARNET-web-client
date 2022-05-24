@@ -23,7 +23,7 @@
 // TODO add error management in form
 export default {
 	name: 'DataSelectionSave',
-	data: function() {
+	data() {
 		return {
 			showOverlay: false,
 			description: null,
@@ -31,13 +31,13 @@ export default {
 		};
 	},
 	methods: {
-		save: function(dataset, query_string) {
+		save(dataset, query_string) {
 			// Method called from parent component to save a data selection
 			this.dataset = dataset;
 			this.query_string = query_string;
 			this.$refs.dataSelectionSaveModal.show();
 		},
-		saveDataSelection: async function() {
+		async saveDataSelection() {
 			this.showOverlay = true;
 			try {
 				this.dataSelection = await this.$SVO.data_selection.create({ description: this.description, dataset: this.dataset.resource_uri, query_string: this.query_string });
@@ -46,7 +46,7 @@ export default {
 			}
 			this.showOverlay = false;
 		},
-		resetModal: function() {
+		resetModal() {
 			// Reset the data for the next time the modal is opened
 			this.showOverlay = false;
 			this.description = null;

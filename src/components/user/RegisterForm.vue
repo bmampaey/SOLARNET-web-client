@@ -20,7 +20,7 @@
 <script>
 export default {
 	name: 'RegisterForm',
-	data: function() {
+	data() {
 		return {
 			firstName: null,
 			lastName: null,
@@ -32,7 +32,7 @@ export default {
 	methods: {
 		/* Try to register the user into the SVO API with the email and password specified in the form
 		If successfull redirect to the Root view */
-		registerUser: async function() {
+		async registerUser() {
 			this.formError = null;
 			try {
 				await this.$SVO.user.register(this.firstName, this.lastName, this.email, this.password);

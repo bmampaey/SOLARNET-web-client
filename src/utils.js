@@ -43,7 +43,7 @@ export function formatDate(date) {
 
 // Make utilities function accessible in all Vue components
 Vue.prototype.$utils = {
-	parseDate: parseDate,
-	formatDate: formatDate,
-	getUniqueId: getUniqueId
+	parseDate,
+	formatDate,
+	getUniqueId
 };

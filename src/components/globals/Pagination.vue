@@ -68,7 +68,7 @@ export default {
 			default: 'md'
 		}
 	},
-	data: function() {
+	data() {
 		return {
 			currentPage: this.pageNumber
 		};
@@ -96,7 +96,7 @@ export default {
 		}
 	},
 	watch: {
-		pageNumber: function(pageNumber) {
+		pageNumber(pageNumber) {
 			this.currentPage = pageNumber;
 		}
 	},

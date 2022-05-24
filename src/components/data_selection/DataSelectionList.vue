@@ -45,7 +45,7 @@ export default {
 	components: {
 		DataSelectionDetail
 	},
-	data: function() {
+	data() {
 		return {
 			dataSelectionList: [],
 			dataSelectionDetailModalDataSelection: null,
@@ -54,7 +54,7 @@ export default {
 		};
 	},
 	computed: {
-		dataSelectionTableFields: function() {
+		dataSelectionTableFields() {
 			return [
 				{ key: 'ftp_button', label: 'FTP' },
 				{ key: 'zip_button', label: 'ZIP' },
@@ -65,16 +65,16 @@ export default {
 				{ key: 'delete_button', label: 'Delete' }
 			];
 		},
-		dataSelectionTableCaption: function() {
+		dataSelectionTableCaption() {
 			return this.dataSelectionList.length > 0 ? 'Click on any row to see data selection details' : 'You have not saved any data selection yet';
 		}
 	},
-	activated: function() {
+	activated() {
 		// Refresh the dataSelectionList each time the view is displayed because the User may have added or deleted dataSelection since the view was last displayed
 		this.updateDataSelectionList();
 	},
 	methods: {
-		updateDataSelectionList: async function() {
+		async updateDataSelectionList() {
 			this.showOverlay = true;
 			try {
 				this.dataSelectionList = await this.$SVO.data_selection.getAll();
@@ -83,7 +83,7 @@ export default {
 			}
 			this.showOverlay = false;
 		},
-		showDataSelectionDetailModal: function(selectedRows) {
+		showDataSelectionDetailModal(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.dataSelectionDetailModalDataSelection = selectedRows[0];
@@ -96,7 +96,7 @@ export default {
 				});
 			}
 		},
-		deleteDataSelection: function(dataSelection) {
+		deleteDataSelection(dataSelection) {
 			try {
 				this.$SVO.data_selection.delete(dataSelection.resource_uri);
 				this.dataSelectionList = this.dataSelectionList.filter(v => v.resource_uri != dataSelection.resource_uri);

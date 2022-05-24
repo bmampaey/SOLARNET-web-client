@@ -85,7 +85,7 @@ class EitLevel0SearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'EitLevel0',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new EitLevel0SearchFilter(this.initialSearchFilter),
 			defaultColumns: [

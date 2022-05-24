@@ -46,7 +46,7 @@ class EitSynopticSearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'EitSynoptic',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new EitSynopticSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

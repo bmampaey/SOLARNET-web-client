@@ -11,18 +11,18 @@ export default {
 		value: { type: Array, required: true },
 		tags: { type: Array, required: true }
 	},
-	data: function() {
+	data() {
 		return {
 			inputId: this.$utils.getUniqueId()
 		};
 	},
 	computed: {
-		tagOptions: function() {
+		tagOptions() {
 			return this.tags.map(tag => ({ value: tag.name, text: tag.name }));
 		}
 	},
 	methods: {
-		onInput: function(value) {
+		onInput(value) {
 			this.$emit('input', value);
 		}
 	}

@@ -49,7 +49,7 @@ export default {
 			default: null
 		}
 	},
-	data: function() {
+	data() {
 		return {
 			minValue: typeof this.value.min == 'number' ? this.value.min : null,
 			maxValue: typeof this.value.max == 'number' ? this.value.max : null,
@@ -62,7 +62,7 @@ export default {
 		};
 	},
 	methods: {
-		checkInput: function() {
+		checkInput() {
 			// Check that minValue < maxValue
 			if (typeof this.minValue == 'number' && typeof this.maxValue == 'number' && this.minValue > this.maxValue) {
 				this.maxInputState = false;

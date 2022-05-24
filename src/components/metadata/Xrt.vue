@@ -45,7 +45,7 @@ class XrtSearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'Xrt',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new XrtSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

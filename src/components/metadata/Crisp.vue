@@ -33,7 +33,7 @@ class CrispSearchFilter extends MetadataSearchFilter {
 export default {
 	name: 'Crisp',
 	mixins: [MetadataMixin],
-	data: function() {
+	data() {
 		return {
 			searchFilter: new CrispSearchFilter(this.initialSearchFilter),
 			defaultColumns: [

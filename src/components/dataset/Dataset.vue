@@ -32,7 +32,7 @@ export default {
 	props: {
 		initialSearchFilter: { type: DatasetSearchFilter, required: false, default: null }
 	},
-	data: function() {
+	data() {
 		return {
 			searchFilter: new DatasetSearchFilter(this.initialSearchFilter),
 			datasetFilterId: this.$utils.getUniqueId()

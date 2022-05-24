@@ -1,46 +1,11 @@
 <template>
-	<b-form-group :label="label">
+	<b-form-group :label="label" class="mb-0">
 		<b-form-row>
-			<b-col cols="12" lg="6">
-				<b-form-group :label="minLabel" :label-for="minInputId" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback" class="mb-0">
-					<b-input-group>
-						<b-form-input :id="minInputId" v-model="minValue" :state="minInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off" @change="checkInput"></b-form-input>
-						<b-input-group-append>
-							<b-form-datepicker
-								v-model="minValue"
-								button-only
-								:min="minDate"
-								:hide-header="hideHeader"
-								:start-weekday="startWeekday"
-								:show-decade-nav="showDecadeNav"
-								:locale="locale"
-								:aria-controls="minInputId"
-								@input="checkInput"
-							></b-form-datepicker>
-						</b-input-group-append>
-					</b-input-group>
-				</b-form-group>
+			<b-col>
+				<datetime-input v-model="minValue" :label="minLabel" label-size="sm" class="range-input-size" @input="checkInput"></datetime-input>
 			</b-col>
-
-			<b-col cols="12" lg="6">
-				<b-form-group :label="maxLabel" :label-for="maxInputId" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback" class="mb-0">
-					<b-input-group>
-						<b-form-input :id="maxInputId" v-model="maxValue" :state="maxInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off" @change="checkInput"></b-form-input>
-						<b-input-group-append>
-							<b-form-datepicker
-								v-model="maxValue"
-								button-only
-								:max="maxDate"
-								:hide-header="hideHeader"
-								:start-weekday="startWeekday"
-								:show-decade-nav="showDecadeNav"
-								:locale="locale"
-								:aria-controls="maxInputId"
-								@input="checkInput"
-							></b-form-datepicker>
-						</b-input-group-append>
-					</b-input-group>
-				</b-form-group>
+			<b-col>
+				<datetime-input v-model="maxValue" :label="maxLabel" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback" class="range-input-size" @input="checkInput"></datetime-input>
 			</b-col>
 		</b-form-row>
 	</b-form-group>
@@ -52,7 +17,7 @@ export default {
 	props: {
 		value: {
 			type: Object,
-			required: true
+			default: () => ({ min: null, max: null })
 		},
 		label: {
 			type: String,
@@ -65,58 +30,25 @@ export default {
 		maxLabel: {
 			type: String,
 			default: 'Max'
-		},
-		minDate: {
-			type: [String, Date],
-			default: null
-		},
-		maxDate: {
-			type: [String, Date],
-			default: null
 		}
 	},
 	data() {
 		return {
-			minValue: this.value.min instanceof Date ? this.value.min.toISOString().substring(0, 10) : '',
-			maxValue: this.value.max instanceof Date ? this.value.max.toISOString().substring(0, 10) : '',
-			minInputId: this.$utils.getUniqueId(),
-			maxInputId: this.$utils.getUniqueId(),
-			minInputFeedback: '',
-			maxInputFeedback: '',
-			minInputState: null,
-			maxInputState: null,
-			hideHeader: true,
-			startWeekday: 1, // Start calendar on monday
-			showDecadeNav: true, // Add decades arrow navigation
-			locale: 'en'
+			minValue: this.value.min instanceof Date ? this.value.min : null,
+			maxValue: this.value.max instanceof Date ? this.value.max : null,
+			maxInputFeedback: `${this.maxLabel} must be larger than ${this.minLabel}`,
+			maxInputState: null
 		};
 	},
 	methods: {
 		checkInput() {
-			// Check that the minValue is a valid date
-			let minDate = this.$utils.parseDate(this.minValue);
-			if (this.minValue && minDate == null) {
-				this.minInputState = false;
-				this.minInputFeedback = 'Invalid date, format is YYYY-MM-DD';
-			} else {
-				this.minInputState = null;
-			}
-			// Check that the maxValue is a valid date
-			let maxDate = this.$utils.parseDate(this.maxValue);
-			if (this.maxValue && maxDate == null) {
+			// Check that minValue is smaller than maxValue
+			if (this.minValue && this.maxValue && this.minValue > this.maxValue) {
 				this.maxInputState = false;
-				this.maxInputFeedback = 'Invalid date, format is YYYY-MM-DD';
 			} else {
 				this.maxInputState = null;
 			}
-			// Check that minValue < maxValue
-			if (this.minInputState != false && this.maxInputState != false) {
-				if (minDate != null && maxDate != null && minDate > maxDate) {
-					this.maxInputState = false;
-					this.maxInputFeedback = `${this.maxLabel} must be larger than ${this.minLabel}`;
-				}
-			}
-			this.$emit('input', { min: minDate, max: maxDate });
+			this.$emit('input', { min: this.minValue, max: this.maxValue });
 		}
 	}
 };

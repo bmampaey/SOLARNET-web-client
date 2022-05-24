@@ -1,16 +1,15 @@
 <template>
-	<b-form-group :label="label">
+	<b-form-group :label="label" class="mb-0">
 		<b-form-row>
 			<b-col>
-				<b-form-group :label="minLabel" :label-for="minInputId" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback" class="mb-0">
+				<b-form-group :label="minLabel" :label-for="minInputId" class="range-input-size" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback">
 					<b-input-group :append="unit">
 						<b-form-input :id="minInputId" v-model="minValue" :state="minInputState" :step="step" no-wheel type="number" number autocomplete="off" @change="checkInput"></b-form-input>
 					</b-input-group>
 				</b-form-group>
 			</b-col>
-
 			<b-col>
-				<b-form-group :label="maxLabel" :label-for="maxInputId" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback" class="mb-0">
+				<b-form-group :label="maxLabel" :label-for="maxInputId" class="range-input-size" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback">
 					<b-input-group :append="unit">
 						<b-form-input :id="maxInputId" v-model="maxValue" :state="maxInputState" :step="step" no-wheel type="number" number autocomplete="off" @change="checkInput"></b-form-input>
 					</b-input-group>

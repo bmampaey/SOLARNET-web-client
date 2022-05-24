@@ -3,6 +3,9 @@
 
 import Vue from 'vue';
 
+import DatetimeInput from './DatetimeInput';
+Vue.component('datetime-input', DatetimeInput);
+
 import DatetimeRange from './DatetimeRange';
 Vue.component('datetime-range', DatetimeRange);
 

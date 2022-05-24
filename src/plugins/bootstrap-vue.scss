@@ -42,3 +42,8 @@ caption {
 .preformatted {
 	white-space: pre-wrap;
 }
+
+/* Make sure that the inputs in a range have a minimum size */
+.range-input-size {
+	min-width: 16rem;
+}

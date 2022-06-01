@@ -1,15 +1,31 @@
 <template>
 	<div>
 		<b-img :src="imageURL" center fluid-grow alt="Data thumbnail"></b-img>
-		<b-form-group class="my-2">
+		<b-form-group class="my-2" label="Filter metadata" :label-for="metadataFilterId" label-sr-only>
 			<b-input-group>
-				<b-form-input v-model="searchFilter" type="search" placeholder="Filter metadata" debounce="250"></b-form-input>
+				<b-form-input
+					:id="metadataFilterId"
+					v-model="metadataFilter"
+					type="search"
+					placeholder="Filter metadata"
+					title="Type anything to filter the metadata on keyword or value"
+					debounce="250"
+				></b-form-input>
 				<b-input-group-append>
-					<b-button :disabled="!searchFilter" @click="clearSearchFilter">Clear</b-button>
+					<b-button :disabled="!metadataFilter" title="Clear the metadata filter" @click="clearMetadataFilter">Clear</b-button>
 				</b-input-group-append>
 			</b-input-group>
 		</b-form-group>
-		<b-table :items="cards" :fields="fields" :filter="searchFilter" :filter-included-fields="filterIncludedFields" primary-key="id" sticky-header show-empty small> </b-table>
+		<b-tabs content-class="mt-3">
+			<b-tab title="Metadata" active>
+				<b-table :items="metadataItems" :fields="fields" :filter="metadataFilter" :filter-included-fields="filterIncludedFields" primary-key="id" thead-class="d-none" responsive show-empty small>
+				</b-table>
+			</b-tab>
+			<b-tab v-if="fitsHeader" title="FITS header">
+				<b-table :items="fitsHeaderItems" :fields="fields" :filter="metadataFilter" :filter-included-fields="filterIncludedFields" primary-key="id" thead-class="d-none" responsive show-empty small>
+				</b-table>
+			</b-tab>
+		</b-tabs>
 	</div>
 </template>
 
@@ -21,7 +37,11 @@ export default {
 	},
 	data() {
 		return {
-			searchFilter: ''
+			metadataFilter: '',
+			metadataFilterId: this.$utils.getUniqueId(),
+			fields: ['text'],
+			filterIncludedFields: ['text'],
+			forbiddenMetadataKeys: ['fits_header', 'resource_uri', 'data_location', 'tags']
 		};
 	},
 	computed: {
@@ -31,30 +51,18 @@ export default {
 		fitsHeader() {
 			return this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : '';
 		},
-		fields() {
-			return [
-				{
-					key: 'text',
-					label: this.fitsHeader.length > 0 ? 'FITS header' : 'Metadata'
-				}
-			];
+		metadataItems() {
+			return Object.entries(this.metadata)
+				.filter(([key]) => !this.forbiddenMetadataKeys.includes(key))
+				.map(([key, value], id) => ({ id: id, text: `${key} = ${value}` }));
 		},
-		filterIncludedFields() {
-			return ['text'];
-		},
-		cards() {
-			if (this.fitsHeader.length > 0) {
-				return this.fitsHeader.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
-			} else {
-				return Object.entries(this.metadata)
-					.filter(([, value]) => !(value instanceof Object))
-					.map(([key, value], id) => ({ id: id, text: `${key} = ${value}` }));
-			}
+		fitsHeaderItems() {
+			return this.fitsHeader.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
 		}
 	},
 	methods: {
-		clearSearchFilter() {
-			this.searchFilter = '';
+		clearMetadataFilter() {
+			this.metadataFilter = '';
 		}
 	}
 };

@@ -4,6 +4,8 @@
 			<b-card no-body class="mb-3">
 				<b-card-header v-b-toggle="datasetFilterId" header-tag="header" title="Click to show/hide the dataset filters">
 					Filter datasets
+					<b-button size="sm" class="hide-btn" :aria-controls="datasetFilterId">Hide</b-button>
+					<b-button size="sm" class="show-btn" :aria-controls="datasetFilterId">Show</b-button>
 				</b-card-header>
 				<b-collapse :id="datasetFilterId" visible>
 					<b-card-body>

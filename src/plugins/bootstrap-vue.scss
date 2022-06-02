@@ -47,3 +47,21 @@ caption {
 .range-input-size {
 	min-width: 16rem;
 }
+
+/* Allow to show or hide buttons on collapse components */
+.collapsed > .hide-btn,
+.not-collapsed > .show-btn {
+	display: none;
+}
+
+.hide-btn, .show-btn {
+	padding-top: 0;
+	padding-bottom: 0;
+	background-color: transparent;
+	border: 0;
+	float: right;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: 0.5;
+	font-size: inherit;
+}

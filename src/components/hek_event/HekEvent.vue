@@ -4,6 +4,8 @@
 			<b-card no-body class="mb-3">
 				<b-card-header v-b-toggle="eventFilterId" header-tag="header" title="Click to show/hide the event filters">
 					Filter events
+					<b-button size="sm" class="hide-btn" :aria-controls="eventFilterId">Hide</b-button>
+					<b-button size="sm" class="show-btn" :aria-controls="eventFilterId">Show</b-button>
 				</b-card-header>
 				<b-collapse :id="eventFilterId" visible>
 					<b-card-body>

@@ -47,7 +47,7 @@ export default {
 		datasetTableFields() {
 			return [
 				{ key: 'name', label: 'Dataset' },
-				{ key: 'metadata', label: 'Count', formatter: metadata => metadata.count },
+				{ key: 'metadata', label: 'Count', formatter: metadata => metadata.count, tdClass: 'text-right pr-md-3' },
 				{
 					key: 'telescope',
 					label: 'Telescope',

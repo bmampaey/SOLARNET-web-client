@@ -5,6 +5,8 @@
 				<b-card no-body class="mb-3">
 					<b-card-header v-b-toggle="metadataFilterId" header-tag="header" title="Click to show/hide the metadata filters">
 						Filter metadata
+						<b-button size="sm" class="hide-btn" :aria-controls="metadataFilterId">Hide</b-button>
+						<b-button size="sm" class="show-btn" :aria-controls="metadataFilterId">Show</b-button>
 					</b-card-header>
 					<b-collapse :id="metadataFilterId" visible>
 						<b-card-body>

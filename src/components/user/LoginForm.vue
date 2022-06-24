@@ -7,7 +7,11 @@
 		<b-form-group label="Password" label-for="password">
 			<b-form-input id="password" v-model="password" type="password" autocomplete="current-password" required></b-form-input>
 		</b-form-group>
-		<b-button type="submit" variant="primary">Login</b-button>
+		<b-button-toolbar key-nav>
+			<b-button type="submit" variant="primary">Login</b-button>
+			<span class="button-toolbar-spacer"></span>
+			<b-button href="https://solarnet.oma.be/service/account/password_reset/" variant="light">Forgotten your password?</b-button>
+		</b-button-toolbar>
 	</b-form>
 </template>
 

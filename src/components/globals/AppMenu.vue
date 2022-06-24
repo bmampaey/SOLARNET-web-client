@@ -1,7 +1,7 @@
 <template>
 	<b-navbar toggleable="md" type="light" variant="light">
 		<!-- The logo -->
-		<b-navbar-brand href="https://solarnet2.oma.be/">
+		<b-navbar-brand href="https://solarnet.oma.be/">
 			<img src="@/assets/solarnet_logo.png" alt="SolarNet logo" style="max-width:100px; vertical-align: baseline;" />
 		</b-navbar-brand>
 

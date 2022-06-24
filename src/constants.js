@@ -4,7 +4,7 @@ const DEBUG = false;
 
 /* The URL of the SVO API
 All resources URI in the SVO API will be relative to that */
-export const SVO_API_URL = DEBUG ? 'http://localhost:8800/' : 'https://solarnet2.oma.be/';
+export const SVO_API_URL = DEBUG ? 'http://localhost:8800/' : 'https://solarnet.oma.be/';
 
 /* The URL of the SVO API schema */
 export const SVO_API_SCHEMA_URL = DEBUG ? '/api/svo' : '/service/api/svo';

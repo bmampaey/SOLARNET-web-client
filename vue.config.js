@@ -1,3 +1,5 @@
-module.exports = {
-	publicPath: '/web-client/'
-};
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  publicPath: '/web-client/'
+})

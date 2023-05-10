@@ -10,6 +10,7 @@
 					</b-card-header>
 					<b-collapse :id="metadataFilterId" visible>
 						<b-card-body>
+							<!-- eslint-disable vue/no-mutating-props -->
 							<b-form @submit.prevent="updateSearchParams">
 								<slot>
 									<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
@@ -18,6 +19,7 @@
 								<keyword-filter v-if="keywords.length" v-model="searchFilter.keywordFilter" :keywords="keywords"></keyword-filter>
 								<b-button type="submit" variant="primary">Search</b-button>
 							</b-form>
+							<!-- eslint-enable vue/no-mutating-props -->
 						</b-card-body>
 					</b-collapse>
 				</b-card>

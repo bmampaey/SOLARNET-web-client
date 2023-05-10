@@ -13,5 +13,5 @@ export default {
 	'SWAP level 1': 'SwapLevel1',
 	'LYRA level 2': 'LyraLevel2',
 	'LYRA level 3': 'LyraLevel2',
-	XRT: 'Xrt'
+	'XRT level 1': 'XrtLevel1'
 };

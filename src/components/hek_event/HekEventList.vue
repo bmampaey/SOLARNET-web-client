@@ -83,7 +83,7 @@ export default {
 				{ value: 'event_type', text: 'Event type' },
 				{ value: 'startTime', text: 'Start time' },
 				{ value: 'endTime', text: 'End time' },
-				{ value: 'frm_name', text: 'Method' }
+				{ value: 'frm_name', text: 'Detection method' }
 			]
 		});
 		return {
@@ -105,7 +105,7 @@ export default {
 				{ key: 'type', label: 'Type' },
 				{ key: 'startTime', label: 'Start time', formatter: this.$utils.formatDate },
 				{ key: 'endTime', label: 'End time', formatter: this.$utils.formatDate },
-				{ key: 'frm_name', label: 'Method' }
+				{ key: 'frm_name', label: 'Detection method' }
 			];
 		},
 		eventTableCaption() {

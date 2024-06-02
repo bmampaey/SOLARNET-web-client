@@ -1,5 +1,5 @@
 <template>
-	<b-form-group :label="label" class="mb-0">
+	<b-form-group :label="label" class="mb-0" :description="description">
 		<b-form-row>
 			<b-col>
 				<b-form-group :label="minLabel" :label-for="minInputId" class="range-input-size" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback">
@@ -44,6 +44,10 @@ export default {
 			default: 'any'
 		},
 		unit: {
+			type: String,
+			default: null
+		},
+		description: {
 			type: String,
 			default: null
 		}

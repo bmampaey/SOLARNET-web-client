@@ -1,5 +1,5 @@
 <template>
-	<b-form-group :label="label" class="mb-0">
+	<b-form-group :label="label" class="mb-0" :description="description">
 		<b-form-row>
 			<b-col>
 				<datetime-input v-model="minValue" :label="minLabel" label-size="sm" class="range-input-size" @input="checkInput"></datetime-input>
@@ -30,7 +30,12 @@ export default {
 		maxLabel: {
 			type: String,
 			default: 'Max'
+		},
+		description: {
+			type: String,
+			default: null
 		}
+		
 	},
 	data() {
 		return {

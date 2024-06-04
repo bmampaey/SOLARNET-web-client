@@ -8,7 +8,22 @@
 			<b-form-select :id="orderingSelectorId" v-model="settings.ordering" :options="settings.orderingOptions"></b-form-select>
 		</b-form-group>
 		<b-form-group v-if="showColumnSelector" v-slot="{ ariaDescribedby }" class="column-selector" label="Display/hide columns">
-			<b-form-checkbox-group v-model="settings.columns" :options="settings.columnOptions" :aria-describedby="ariaDescribedby" switches stacked></b-form-checkbox-group>
+			<b-form-group label="Filter columns" :label-for="columnFilterId" label-sr-only>
+				<b-input-group>
+					<b-form-input
+						:id="columnFilterId"
+						v-model="columnFilter"
+						type="search"
+						placeholder="Filter columns"
+						title="Type anything to filter the column"
+						debounce="250"
+					></b-form-input>
+					<b-input-group-append>
+						<b-button :disabled="!columnFilter" title="Clear the column filter" @click="clearColumnFilter">Clear</b-button>
+					</b-input-group-append>
+				</b-input-group>
+			</b-form-group>
+			<b-form-checkbox-group v-model="settings.columns" :options="columnOptions" :aria-describedby="ariaDescribedby" switches stacked></b-form-checkbox-group>
 		</b-form-group>
 	</b-modal>
 </template>
@@ -76,7 +91,9 @@ export default {
 		return {
 			settings: new TableSettings(),
 			pageSizeSelectorId: this.$utils.getUniqueId(),
-			orderingSelectorId: this.$utils.getUniqueId()
+			orderingSelectorId: this.$utils.getUniqueId(),
+			columnFilter: '',
+			columnFilterId: this.$utils.getUniqueId(),
 		};
 	},
 	computed: {
@@ -85,6 +102,10 @@ export default {
 		},
 		showColumnSelector() {
 			return this.settings.columnOptions?.length;
+		},
+		columnOptions() {
+			const regex = new RegExp(this.columnFilter, 'i');
+			return this.settings.columnOptions?.filter((option) => regex.test(option.text));
 		}
 	},
 	methods: {
@@ -98,6 +119,9 @@ export default {
 		resetSettings() {
 			// Restore the settings to the defaults
 			this.settings = new TableSettings(this.defaultSettings);
+		},
+		clearColumnFilter() {
+			this.columnFilter = '';
 		}
 	}
 };

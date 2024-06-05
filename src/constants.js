@@ -86,1425 +86,1662 @@ export const HEK_DETECTION_METHODS = Object.freeze(['', 'LMSAL SSW PFSS forecast
 
 export const HEK_EVENT_ATTRIBUTES = Object.freeze([
 	{
-		"name": "Event_Probability",
+		"name": "event_probability",
 		"type": "real",
 		"searchable": true,
-		"description": "Probability or Confidence Level that event occured (bet. 0 and 1) "
+		"description": "Probability or Confidence Level that event occured (bet. 0 and 1)",
+		"verbose_name": "Event Probability",
 	},
 	{
-		"name": "Event_Importance",
+		"name": "event_importance",
 		"type": "real",
 		"searchable": true,
-		"description": "Rating or importance of the event (between 0 and 1). Can be used by automated methods to denote a metric. "
+		"description": "Rating or importance of the event (between 0 and 1). Can be used by automated methods to denote a metric.",
+		"verbose_name": "Event Importance",
 	},
 	{
-		"name": "Event_Type",
+		"name": "event_type",
 		"type": "text",
 		"searchable": false,
-		"description": "Event Type (e.g. 'FL: Flare' or 'AR: ActiveRegion') "
+		"description": "Event Type (e.g. 'FL: Flare' or 'AR: ActiveRegion')",
+		"verbose_name": "Event Type",
 	},
 	{
-		"name": "KB_ArchivDate",
+		"name": "kb_archivdate",
 		"type": "text",
 		"searchable": false,
-		"description": "Date when VOEvent entry was imported into Knowledge Base "
+		"description": "Date when VOEvent entry was imported into Knowledge Base",
+		"verbose_name": "KB Archiv Date",
 	},
 	{
-		"name": "KB_ArchivID",
+		"name": "kb_archivid",
 		"type": "text",
 		"searchable": false,
-		"description": "Unique internal ID of VOEvent entry "
+		"description": "Unique internal ID of VOEvent entry",
+		"verbose_name": "KB Archiv ID",
 	},
 	{
-		"name": "KB_Archivist",
+		"name": "kb_archivist",
 		"type": "text",
 		"searchable": false,
-		"description": "Name of Archivist (internal. user should leave blank) "
+		"description": "Name of Archivist (internal. user should leave blank)",
+		"verbose_name": "KB Archivist",
 	},
 	{
-		"name": "KB_ArchivURL",
+		"name": "kb_archivurl",
 		"type": "text",
 		"searchable": false,
-		"description": "URL of VOEvent entry (internal. user should leave blank) "
+		"description": "URL of VOEvent entry (internal. user should leave blank)",
+		"verbose_name": "KB Archiv URL",
 	},
 	{
-		"name": "Event_CoordSys",
+		"name": "event_coordsys",
 		"type": "text",
 		"searchable": false,
-		"description": "Coordinate system type (Choose between UTC-HGS-TOPO [Heliographics Stonyhurst]"
+		"description": "Coordinate system type (Choose between UTC-HGS-TOPO [Heliographics Stonyhurst]",
+		"verbose_name": "Event Coord. Sys",
 	},
 	{
-		"name": "Event_CoordUnit",
+		"name": "event_coordunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of coordinates (e.g. \"deg, deg\" for UTC-HGS-TOP0) "
+		"description": 'Units of coordinates (e.g. "deg, deg" for UTC-HGS-TOP0)',
+		"verbose_name": "Event Coord. Unit",
 	},
 	{
-		"name": "Event_EndTime",
+		"name": "event_endtime",
 		"type": "time (ISO 8601)",
 		"searchable": false,
-		"description": "Time when event ends (e.g. 2004-02-14T02:00:01) "
+		"description": "Time when event ends (e.g. 2004-02-14T02:00:01)",
+		"verbose_name": "Event End Time",
 	},
 	{
-		"name": "Event_StartTime",
+		"name": "event_starttime",
 		"type": "time (ISO 8601)",
 		"searchable": false,
-		"description": "Time when event starts (e.g. 2004-02-14T02:00:01) "
+		"description": "Time when event starts (e.g. 2004-02-14T02:00:01)",
+		"verbose_name": "Event Start Time",
 	},
 	{
-		"name": "Event_Expires",
+		"name": "event_expires",
 		"type": "time (ISO 8601)",
 		"searchable": false,
-		"description": "Useful for reporting events before they are complete (e.g. 2004-02-14T02:00:01) "
+		"description": "Useful for reporting events before they are complete (e.g. 2004-02-14T02:00:01)",
+		"verbose_name": "Event Expires",
 	},
 	{
-		"name": "Event_Coord1",
+		"name": "event_coord1",
 		"type": "real",
 		"searchable": true,
-		"description": "Coordinate 1 of mean location of event "
+		"description": "Coordinate 1 of mean location of event",
+		"verbose_name": "Event Coord1",
 	},
 	{
-		"name": "Event_Coord2",
+		"name": "event_coord2",
 		"type": "real",
 		"searchable": true,
-		"description": "Coordinate 2 of mean location of event "
+		"description": "Coordinate 2 of mean location of event",
+		"verbose_name": "Event Coord2",
 	},
 	{
-		"name": "Event_Coord3",
+		"name": "event_coord3",
 		"type": "real",
 		"searchable": true,
-		"description": "Coordinate 3 of mean location of event (optional. Suitable for use with STEREO SECCHI events) "
+		"description": "Coordinate 3 of mean location of event (optional. Suitable for use with STEREO SECCHI events)",
+		"verbose_name": "Event Coord3",
 	},
 	{
-		"name": "Event_MapURL",
+		"name": "event_mapurl",
 		"type": "text",
 		"searchable": false,
-		"description": "URL to an image/intensity map "
+		"description": "URL to an image/intensity map",
+		"verbose_name": "Event Map URL",
 	},
 	{
-		"name": "Event_MaskURL",
+		"name": "event_maskurl",
 		"type": "text",
 		"searchable": false,
-		"description": "URL to files which contain masks (e.g. binary masks) of region of interest. "
+		"description": "URL to files which contain masks (e.g. binary masks) of region of interest.",
+		"verbose_name": "Event Mask URL",
 	},
 	{
-		"name": "Event_PeakTime",
+		"name": "event_peaktime",
 		"type": "time (ISO 8601)",
 		"searchable": false,
-		"description": "Peak time of a flare (e.g. '2003-02-12T23:03:01') "
+		"description": "Peak time of a flare (e.g. '2003-02-12T23:03:01')",
+		"verbose_name": "Event Peak Time",
 	},
 	{
-		"name": "Event_C1Error",
+		"name": "event_c1error",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty in Coord1 of the mean location of the event. "
+		"description": "Uncertainty in Coord1 of the mean location of the event.",
+		"verbose_name": "Event C1 Error",
 	},
 	{
-		"name": "Event_C2Error",
+		"name": "event_c2error",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty in Coord2 of the mean location of the event. "
+		"description": "Uncertainty in Coord2 of the mean location of the event.",
+		"verbose_name": "Event C2 Error",
 	},
 	{
-		"name": "Event_ClippedSpatial",
+		"name": "event_clippedspatial",
 		"type": "text",
 		"searchable": false,
-		"description": "Whether the spatial extent of the event is wholly contained within the data set ('T' or 'F'). "
+		"description": "Whether the spatial extent of the event is wholly contained within the data set ('T' or 'F').",
+		"verbose_name": "Event Clipped Spatial",
 	},
 	{
-		"name": "Event_ClippedTemporal",
+		"name": "event_clippedtemporal",
 		"type": "text",
 		"searchable": false,
-		"description": "Whether the temporal duration of the event is wholly contained within the data set ('T' or 'F'). "
+		"description": "Whether the temporal duration of the event is wholly contained within the data set ('T' or 'F').",
+		"verbose_name": "Event Clipped Temporal",
 	},
 	{
-		"name": "Event_TestFlag",
+		"name": "event_testflag",
 		"type": "text",
 		"searchable": false,
-		"description": "A boolean flag to indicate that the event is for testing purposes ('T' or 'F') "
+		"description": "A boolean flag to indicate that the event is for testing purposes ('T' or 'F')",
+		"verbose_name": "Event Test Flag",
 	},
 	{
-		"name": "Event_Description",
+		"name": "event_description",
 		"type": "text",
 		"searchable": false,
-		"description": "Description of the event "
+		"description": "Description of the event",
+		"verbose_name": "Event Description",
 	},
 	{
-		"name": "FRM_Contact",
+		"name": "frm_contact",
 		"type": "text",
 		"searchable": false,
-		"description": "Contact information of Feature Recognition Method (FRM) "
+		"description": "Contact information of Feature Recognition Method (FRM)",
+		"verbose_name": "FRM Contact",
 	},
 	{
-		"name": "FRM_DateRun",
+		"name": "frm_daterun",
 		"type": "time (ISO 8601)",
 		"searchable": false,
-		"description": "Date when Feature Recognition Method (FRM) was run (e.g. 2004-02-15T02:00:01) "
+		"description": "Date when Feature Recognition Method (FRM) was run (e.g. 2004-02-15T02:00:01)",
+		"verbose_name": "FRM Date Run",
 	},
 	{
-		"name": "FRM_HumanFlag",
+		"name": "frm_humanflag",
 		"type": "text",
 		"searchable": false,
-		"description": "Whether a Human identified the event (\"T\" or \"F\") "
+		"description": 'Whether a Human identified the event ("T" or "F")',
+		"verbose_name": "FRM Human Flag",
 	},
 	{
-		"name": "FRM_Identifier",
+		"name": "frm_identifier",
 		"type": "text",
 		"searchable": true,
-		"description": "Username for Knowledge Base "
+		"description": "Username for Knowledge Base",
+		"verbose_name": "FRM Identifier",
 	},
 	{
-		"name": "FRM_Institute",
+		"name": "frm_institute",
 		"type": "text",
 		"searchable": false,
-		"description": "Institute where the Feature Recognition Method (FRM) orginates "
+		"description": "Institute where the Feature Recognition Method (FRM) orginates",
+		"verbose_name": "FRM Institute",
 	},
 	{
-		"name": "FRM_Name",
-		"type": "text",
-		"searchable": true,
-		"description": "Name of Feature Recognition Method (e.g. \"Mark Cheung\" or CACTUS\") "
-	},
-	{
-		"name": "FRM_ParamSet",
+		"name": "frm_name",
 		"type": "text",
 		"searchable": false,
-		"description": "Values of parameters (e.g. \"threshold=0.1\") "
+		"description": 'Name of Feature Recognition Method (e.g. "Mark Cheung" or CACTUS")',
+		"verbose_name": "FRM Name",
 	},
 	{
-		"name": "FRM_VersionNumber",
+		"name": "frm_paramset",
+		"type": "text",
+		"searchable": false,
+		"description": 'Values of parameters (e.g. "threshold=0.1")',
+		"verbose_name": "FRM Param. Set",
+	},
+	{
+		"name": "frm_versionnumber",
 		"type": "real",
 		"searchable": true,
-		"description": "Version number of automated Feature Recognition Method (Put age if Human. Just kidding. In this case put 1.0) "
+		"description": "Version number of automated Feature Recognition Method (Put age if Human. Just kidding. In this case put 1.0)",
+		"verbose_name": "FRM Version Number",
 	},
 	{
-		"name": "FRM_URL",
+		"name": "frm_url",
 		"type": "text",
 		"searchable": false,
-		"description": "URL to webpage containing information about the Feature Recognition Method "
+		"description": "URL to webpage containing information about the Feature Recognition Method",
+		"verbose_name": "FRM URL",
 	},
 	{
-		"name": "FRM_SpecificID",
+		"name": "frm_specificid",
 		"type": "text",
 		"searchable": true,
-		"description": "The specific ID of this event/feature assigned by the Feature Recognition Method "
+		"description": "The specific ID of this event/feature assigned by the Feature Recognition Method",
+		"verbose_name": "FRM Specific ID",
 	},
 	{
-		"name": "OBS_Observatory",
+		"name": "obs_observatory",
 		"type": "text",
 		"searchable": false,
-		"description": "Name of Observatory (e.g. SOHO) "
+		"description": "Name of Observatory (e.g. SOHO)",
+		"verbose_name": "OBS Observatory",
 	},
 	{
-		"name": "OBS_ChannelID",
+		"name": "obs_channelid",
 		"type": "text",
 		"searchable": false,
-		"description": "Name of Channel of the instrument (e.g. \"G band\") "
+		"description": 'Name of Channel of the instrument (e.g. "G band")',
+		"verbose_name": "OBS Channel ID",
 	},
 	{
-		"name": "OBS_Instrument",
+		"name": "obs_instrument",
 		"type": "text",
 		"searchable": true,
-		"description": "Name of Instrument (e.g. \"SOT\") "
+		"description": 'Name of Instrument (e.g. "SOT")',
+		"verbose_name": "OBS Instrument",
 	},
 	{
-		"name": "OBS_MeanWavel",
+		"name": "obs_meanwavel",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean wavelength (preferably in Angstroms) "
+		"description": "Mean wavelength (preferably in Angstroms)",
+		"verbose_name": "OBS Mean Wavelength",
 	},
 	{
-		"name": "OBS_WavelUnit",
+		"name": "obs_wavelunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit of OBS_MeanWavel (preferably \"Angstroms\") "
+		"description": 'Unit of OBS_MeanWavel (preferably "Angstroms")',
+		"verbose_name": "OBS Wavelength Unit",
 	},
 	{
-		"name": "OBS_Title",
+		"name": "obs_title",
 		"type": "text",
 		"searchable": true,
-		"description": "Observational title "
+		"description": "Observational title",
+		"verbose_name": "OBS Title",
 	},
 	{
-		"name": "Bound_CCNsteps",
+		"name": "bound_ccnsteps",
 		"type": "integer",
 		"searchable": false,
-		"description": "Number of steps in bounding chain code (useful for coronal hole boundaries) "
+		"description": "Number of steps in bounding chain code (useful for coronal hole boundaries)",
+		"verbose_name": "Bound CC. number steps",
 	},
 	{
-		"name": "Bound_CCStartC1",
+		"name": "bound_ccstartc1",
 		"type": "real",
 		"searchable": false,
-		"description": "Beginning Coord1 of chain code "
+		"description": "Beginning Coord1 of chain code",
+		"verbose_name": "Bound CC. Start C1",
 	},
 	{
-		"name": "Bound_CCStartC2",
+		"name": "bound_ccstartc2",
 		"type": "real",
 		"searchable": false,
-		"description": "Beginning Coord2 of chain code "
+		"description": "Beginning Coord2 of chain code",
+		"verbose_name": "Bound CC. Start C2",
 	},
 	{
-		"name": "Bound_ChainCode",
+		"name": "bound_chaincode",
 		"type": "text",
 		"searchable": false,
-		"description": "List of vertices for polygon (ordered list delimited by commas. e.g. 'x1, y1, x2, y2, x3, y3, x1, y1') "
+		"description": "List of vertices for polygon (ordered list delimited by commas. e.g. 'x1, y1, x2, y2, x3, y3, x1, y1')",
+		"verbose_name": "Bound Chain Code",
 	},
 	{
-		"name": "BoundBox_C1LL",
+		"name": "boundbox_c1ll",
 		"type": "real",
 		"searchable": true,
-		"description": "Coord1 of lower-left corner of bounding box "
+		"description": "Coord1 of lower-left corner of bounding box",
+		"verbose_name": "Bound Box C1 LL.",
 	},
 	{
-		"name": "BoundBox_C2LL",
+		"name": "boundbox_c2ll",
 		"type": "real",
 		"searchable": true,
-		"description": "Coord2 of lower-left corner of bounding box "
+		"description": "Coord2 of lower-left corner of bounding box",
+		"verbose_name": "Bound Box C2 LL.",
 	},
 	{
-		"name": "BoundBox_C1UR",
+		"name": "boundbox_c1ur",
 		"type": "real",
 		"searchable": true,
-		"description": "Coord1 of upper-right corner of bounding box "
+		"description": "Coord1 of upper-right corner of bounding box",
+		"verbose_name": "Bound Box C1 UR.",
 	},
 	{
-		"name": "BoundBox_C2UR",
+		"name": "boundbox_c2ur",
 		"type": "real",
 		"searchable": true,
-		"description": "Coord2 of upper-right corner of bounding box "
+		"description": "Coord2 of upper-right corner of bounding box",
+		"verbose_name": "Bound Box C2 UR.",
 	},
 	{
-		"name": "ChainCodeType",
+		"name": "chaincodetype",
 		"type": "text",
 		"searchable": false,
-		"description": "Type of chain code (Use \"ordered list\") "
+		"description": 'Type of chain code (Use "ordered list")',
+		"verbose_name": "Chain Code Type",
 	},
 	{
-		"name": "RasterScan",
+		"name": "rasterscan",
 		"type": "text",
 		"searchable": true,
-		"description": "Field for ascii string of raster scan "
+		"description": "Field for ascii string of raster scan",
+		"verbose_name": "Raster Scan",
 	},
 	{
-		"name": "RasterScanType",
+		"name": "rasterscantype",
 		"type": "text",
 		"searchable": true,
-		"description": "Type of raster scan (E.g. \"EGSO_SFC\" if you are using the EGSO Solar Feature Catalogue convection for the raster scan) "
+		"description": 'Type of raster scan (E.g. "EGSO_SFC" if you are using the EGSO Solar Feature Catalogue convection for the raster scan)',
+		"verbose_name": "Raster Scan Type",
 	},
 	{
-		"name": "Skel_ChainCode",
+		"name": "skel_chaincode",
 		"type": "text",
 		"searchable": false,
-		"description": "Skeleton code. A skeleton code is like a chain code except it isn't closed. (ordered list delimited by commas. e.g. 'x1, y1, x2, y2, x3, y3') "
+		"description": "Skeleton code. A skeleton code is like a chain code except it isn't closed. (ordered list delimited by commas. e.g. 'x1, y1, x2, y2, x3, y3')",
+		"verbose_name": "Skel. Chain Code",
 	},
 	{
-		"name": "Skel_Curvature",
+		"name": "skel_curvature",
 		"type": "real",
 		"searchable": false,
-		"description": "Curvature of skeleton "
+		"description": "Curvature of skeleton",
+		"verbose_name": "Skel. Curvature",
 	},
 	{
-		"name": "Skel_Nsteps",
+		"name": "skel_nsteps",
 		"type": "integer",
 		"searchable": false,
-		"description": "Number of steps in skeleton "
+		"description": "Number of steps in skeleton",
+		"verbose_name": "Skel. N. steps",
 	},
 	{
-		"name": "Skel_StartC1",
+		"name": "skel_startc1",
 		"type": "real",
 		"searchable": false,
-		"description": "Beginning Coord 1 of skeleton "
+		"description": "Beginning Coord 1 of skeleton",
+		"verbose_name": "Skel. Start C1",
 	},
 	{
-		"name": "Skel_StartC2",
+		"name": "skel_startc2",
 		"type": "real",
 		"searchable": false,
-		"description": "Beginning Coord 2 of skeleton "
+		"description": "Beginning Coord 2 of skeleton",
+		"verbose_name": "Skel. Start C2",
 	},
 	{
-		"name": "AR_McIntoshCls",
+		"name": "ar_mcintoshcls",
 		"type": "text",
 		"searchable": true,
-		"description": "Active Region McIntosh class "
+		"description": "Active Region McIntosh class",
+		"verbose_name": "AR McIntosh Class",
 	},
 	{
-		"name": "AR_MtWilsonCls",
+		"name": "ar_mtwilsoncls",
 		"type": "text",
 		"searchable": true,
-		"description": "Active Region Mt Wilson class "
+		"description": "Active Region Mt Wilson class",
+		"verbose_name": "AR Mt Wilson Class",
 	},
 	{
-		"name": "AR_ZurichCls",
+		"name": "ar_zurichcls",
 		"type": "text",
 		"searchable": true,
-		"description": "Active Region Zurich class "
+		"description": "Active Region Zurich class",
+		"verbose_name": "AR Zurich Class",
 	},
 	{
-		"name": "AR_PenumbraCls",
+		"name": "ar_penumbracls",
 		"type": "text",
 		"searchable": true,
-		"description": "Active Region Penumbra class "
+		"description": "Active Region Penumbra class",
+		"verbose_name": "AR Penumbra Class",
 	},
 	{
-		"name": "AR_CompactnessCls",
+		"name": "ar_compactnesscls",
 		"type": "text",
 		"searchable": true,
-		"description": "Active Region Compactness class "
+		"description": "Active Region Compactness class",
+		"verbose_name": "AR Compactness Class",
 	},
 	{
-		"name": "AR_NOAAclass",
+		"name": "ar_noaaclass",
 		"type": "text",
 		"searchable": true,
-		"description": "Active Regon NOAA class "
+		"description": "Active Regon NOAA class",
+		"verbose_name": "AR NOAA Class",
 	},
 	{
-		"name": "AR_NOAANum",
+		"name": "ar_noaanum",
 		"type": "integer",
 		"searchable": true,
-		"description": "NOAA designated Active Region Number (e.g. 10930) "
+		"description": "NOAA designated Active Region Number (e.g. 10930)",
+		"verbose_name": "AR NOAA Number",
 	},
 	{
-		"name": "AR_NumSpots",
+		"name": "ar_numspots",
 		"type": "integer",
 		"searchable": true,
-		"description": "Number of spots in Active region "
+		"description": "Number of spots in Active region",
+		"verbose_name": "AR N. Spots",
 	},
 	{
-		"name": "AR_Polarity",
+		"name": "ar_polarity",
 		"type": "integer",
 		"searchable": true,
-		"description": "Polarity of Active region ('1' or '-1' for positive and negative respectively) "
+		"description": "Polarity of Active region ('1' or '-1' for positive and negative respectively)",
+		"verbose_name": "AR Polarity",
 	},
 	{
-		"name": "AR_SpotAreaRaw",
+		"name": "ar_spotarearaw",
 		"type": "real",
 		"searchable": true,
-		"description": "Area of spots in active region in plane of sky "
+		"description": "Area of spots in active region in plane of sky",
+		"verbose_name": "AR Spot Area Raw",
 	},
 	{
-		"name": "AR_SpotAreaRawUncert",
+		"name": "ar_spotarearawuncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of AR_SpotAreaRaw "
+		"description": "Uncertainty of AR_SpotAreaRaw",
+		"verbose_name": "AR Spot Area Raw Uncert.",
 	},
 	{
-		"name": "AR_SpotAreaRawUnit",
+		"name": "ar_spotarearawunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of AR_SpotAreaRaw "
+		"description": "Units of AR_SpotAreaRaw",
+		"verbose_name": "AR Spot Area Raw Unit",
 	},
 	{
-		"name": "AR_SpotAreaRepr",
+		"name": "ar_spotarearepr",
 		"type": "real",
 		"searchable": true,
-		"description": "Reprojected area of spots in heliographic units "
+		"description": "Reprojected area of spots in heliographic units",
+		"verbose_name": "AR Spot Area Repr.",
 	},
 	{
-		"name": "AR_SpotAreaReprUncert",
+		"name": "ar_spotarearepruncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty Reprojected area of spots in heliographic units "
+		"description": "Uncertainty Reprojected area of spots in heliographic units",
+		"verbose_name": "AR Spot Area Repr. Uncert",
 	},
 	{
-		"name": "AR_SpotAreaReprUnit",
+		"name": "ar_spotareareprunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of AR_SpotAreaReprUnit (e.g. 'millihemispheres' or 'steradians') "
+		"description": "Units of AR_SpotAreaReprUnit (e.g. 'millihemispheres' or 'steradians')",
+		"verbose_name": "AR Spot Area Repr. Unit",
 	},
 	{
-		"name": "SHARP_NOAA_ARS",
+		"name": "sharp_noaa_ars",
 		"type": "text",
 		"searchable": true,
-		"description": "Comma separated list of NOAA_ARS within lat/lon bounding box. Can include ones without NOAA# at time of event. "
+		"description": "Comma separated list of NOAA_ARS within lat/lon bounding box. Can include ones without NOAA# at time of event.",
+		"verbose_name": "SHARP NOAA ARS",
 	},
 	{
-		"name": "IntensMin",
+		"name": "intensmin",
 		"type": "real",
 		"searchable": true,
-		"description": "Minimum intensity of pixels "
+		"description": "Minimum intensity of pixels",
+		"verbose_name": "Intens. Min",
 	},
 	{
-		"name": "IntensMax",
+		"name": "intensmax",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum intensity of pixels "
+		"description": "Maximum intensity of pixels",
+		"verbose_name": "Intens. Max",
 	},
 	{
-		"name": "IntensMean",
+		"name": "intensmean",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean intensity of pixels "
+		"description": "Mean intensity of pixels",
+		"verbose_name": "Intens. Mean",
 	},
 	{
-		"name": "IntensMedian",
+		"name": "intensmedian",
 		"type": "real",
 		"searchable": true,
-		"description": "Mdian intensity of pixels "
+		"description": "Mdian intensity of pixels",
+		"verbose_name": "Intens. Median",
 	},
 	{
-		"name": "IntensVar",
+		"name": "intensvar",
 		"type": "real",
 		"searchable": true,
-		"description": "Variance of intensity of pixels "
+		"description": "Variance of intensity of pixels",
+		"verbose_name": "Intens. Var",
 	},
 	{
-		"name": "IntensSkew",
+		"name": "intensskew",
 		"type": "real",
 		"searchable": true,
-		"description": "Skewness of intensity of pixels "
+		"description": "Skewness of intensity of pixels",
+		"verbose_name": "Intens. Skew",
 	},
 	{
-		"name": "IntensKurt",
+		"name": "intenskurt",
 		"type": "real",
 		"searchable": true,
-		"description": "Kurtosis of intensity of pixels "
+		"description": "Kurtosis of intensity of pixels",
+		"verbose_name": "Intens. Kurt",
 	},
 	{
-		"name": "IntensTotal",
+		"name": "intenstotal",
 		"type": "real",
 		"searchable": true,
-		"description": "Sum of intensities of pixels "
+		"description": "Sum of intensities of pixels",
+		"verbose_name": "Intens. Total",
 	},
 	{
-		"name": "IntensUnit",
+		"name": "intensunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of intensity "
+		"description": "Units of intensity",
+		"verbose_name": "Intens. Unit",
 	},
 	{
-		"name": "FL_GOESCls",
+		"name": "fl_goescls",
 		"type": "text",
 		"searchable": true,
-		"description": "GOES Flare class (e.g. 'X11') "
+		"description": "GOES Flare class (e.g. 'X11')",
+		"verbose_name": "FL GOES Class",
 	},
 	{
-		"name": "CME_RadialLinVel",
+		"name": "cme_radiallinvel",
 		"type": "real",
 		"searchable": true,
-		"description": "Radial Linear fit radial velocity of CME "
+		"description": "Radial Linear fit radial velocity of CME",
+		"verbose_name": "CME Radial Lin. Velocity",
 	},
 	{
-		"name": "CME_RadialLinVelUncert",
+		"name": "cme_radiallinveluncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty in CME_RadialLinVel "
+		"description": "Uncertainty in CME_RadialLinVel",
+		"verbose_name": "CME Radial Lin. Velocity Uncert",
 	},
 	{
-		"name": "CME_RadialLinVelMin",
+		"name": "cme_radiallinvelmin",
 		"type": "real",
 		"searchable": true,
-		"description": "Mininum linear radial velocity of CME "
+		"description": "Mininum linear radial velocity of CME",
+		"verbose_name": "CME Radial Lin. Velocity Min",
 	},
 	{
-		"name": "CME_RadialLinVelMax",
+		"name": "cme_radiallinvelmax",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum linear radial velocity of CME "
+		"description": "Maximum linear radial velocity of CME",
+		"verbose_name": "CME Radial Lin. Velocity Max",
 	},
 	{
-		"name": "CME_RadialLinVelStddev",
+		"name": "cme_radiallinvelstddev",
 		"type": "real",
 		"searchable": true,
-		"description": "Standard Deviation of radial velocity of CME "
+		"description": "Standard Deviation of radial velocity of CME",
+		"verbose_name": "CME Radial Lin. Velocity Stddev",
 	},
 	{
-		"name": "CME_RadialLinVelUnit",
+		"name": "cme_radiallinvelunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for Radial velocity of CME (e.g. 'km/s') "
+		"description": "Units for Radial velocity of CME (e.g. 'km/s')",
+		"verbose_name": "CME Radial Lin. Velocity Unit",
 	},
 	{
-		"name": "CME_AngularWidth",
+		"name": "cme_angularwidth",
 		"type": "real",
 		"searchable": true,
-		"description": "Angular width of CME "
+		"description": "Angular width of CME",
+		"verbose_name": "CME Angular Width",
 	},
 	{
-		"name": "CME_AngularWidthUnit",
+		"name": "cme_angularwidthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for angular width of CME (e.g. 'deg') "
+		"description": "Units for angular width of CME (e.g. 'deg')",
+		"verbose_name": "CME Angular Width Unit",
 	},
 	{
-		"name": "CME_Accel",
+		"name": "cme_accel",
 		"type": "real",
 		"searchable": true,
-		"description": "Acceleration of CME "
+		"description": "Acceleration of CME",
+		"verbose_name": "CME Accel",
 	},
 	{
-		"name": "CME_AccelUncert",
+		"name": "cme_acceluncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of CME acceleration "
+		"description": "Uncertainty of CME acceleration",
+		"verbose_name": "CME Accel Uncert.",
 	},
 	{
-		"name": "CME_AccelUnit",
+		"name": "cme_accelunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for CME acceleration (e.g. 'km/s/s') "
+		"description": "Units for CME acceleration (e.g. 'km/s/s')",
+		"verbose_name": "CME Accel Unit",
 	},
 	{
-		"name": "CME_Mass",
+		"name": "cme_mass",
 		"type": "real",
 		"searchable": true,
-		"description": "Mass contained in CME (e.g. '1e17') "
+		"description": "Mass contained in CME (e.g. '1e17')",
+		"verbose_name": "CME Mass",
 	},
 	{
-		"name": "CME_MassUncert",
+		"name": "cme_massuncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty in mass contained in cme "
+		"description": "Uncertainty in mass contained in cme",
+		"verbose_name": "CME Mass Uncert.",
 	},
 	{
-		"name": "CME_MassUnit",
+		"name": "cme_massunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for CME mass (e.g. 'g') "
+		"description": "Units for CME mass (e.g. 'g')",
+		"verbose_name": "CME Mass Unit",
 	},
 	{
-		"name": "Area_AtDiskCenter",
+		"name": "area_atdiskcenter",
 		"type": "real",
 		"searchable": true,
-		"description": "Area of event at disk center "
+		"description": "Area of event at disk center",
+		"verbose_name": "Area At Disk Center",
 	},
 	{
-		"name": "Area_AtDiskCenterUncert",
+		"name": "area_atdiskcenteruncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of area at disk center "
+		"description": "Uncertainty of area at disk center",
+		"verbose_name": "Area At Disk Center Uncert.",
 	},
 	{
-		"name": "Area_Raw",
+		"name": "area_raw",
 		"type": "real",
 		"searchable": true,
-		"description": "Area of event in sky plane "
+		"description": "Area of event in sky plane",
+		"verbose_name": "Area Raw",
 	},
 	{
-		"name": "Area_Uncert",
+		"name": "area_uncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of area in sky plane "
+		"description": "Uncertainty of area in sky plane",
+		"verbose_name": "Area Uncert.",
 	},
 	{
-		"name": "Area_Unit",
+		"name": "area_unit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of area in sky plane (e.g. 'arcsec2') "
+		"description": "Units of area in sky plane (e.g. 'arcsec2')",
+		"verbose_name": "Area Unit",
 	},
 	{
-		"name": "Event_Npixels",
+		"name": "event_npixels",
 		"type": "integer",
 		"searchable": true,
-		"description": "Number of pixels pertaining to event "
+		"description": "Number of pixels pertaining to event",
+		"verbose_name": "Event N. pixels",
 	},
 	{
-		"name": "Event_PixelUnit",
+		"name": "event_pixelunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of values given in pixels "
+		"description": "Units of values given in pixels",
+		"verbose_name": "Event Pixel Unit",
 	},
 	{
-		"name": "FreqMaxRange",
+		"name": "freqmaxrange",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum of the frequency range of oscillation "
+		"description": "Maximum of the frequency range of oscillation",
+		"verbose_name": "Freq Max Range",
 	},
 	{
-		"name": "FreqMinRange",
+		"name": "freqminrange",
 		"type": "real",
 		"searchable": true,
-		"description": "Minimum of the frequency range of oscillation "
+		"description": "Minimum of the frequency range of oscillation",
+		"verbose_name": "Freq Min Range",
 	},
 	{
-		"name": "FreqPeakPower",
+		"name": "freqpeakpower",
 		"type": "real",
 		"searchable": true,
-		"description": "Frequency at which power spectrum peaks "
+		"description": "Frequency at which power spectrum peaks",
+		"verbose_name": "Freq Peak Power",
 	},
 	{
-		"name": "FreqUnit",
+		"name": "frequnit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of frequency (e.g. 'Hz') "
+		"description": "Units of frequency (e.g. 'Hz')",
+		"verbose_name": "Freq. Unit",
 	},
 	{
-		"name": "IntensMaxAmpl",
+		"name": "intensmaxampl",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum amplitude of oscillation in intensity signal "
+		"description": "Maximum amplitude of oscillation in intensity signal",
+		"verbose_name": "Intens. Max Ampl.",
 	},
 	{
-		"name": "IntensMinAmpl",
+		"name": "intensminampl",
 		"type": "real",
 		"searchable": true,
-		"description": "Minimum amplitude of oscillation in intensity signal "
+		"description": "Minimum amplitude of oscillation in intensity signal",
+		"verbose_name": "Intens. Min Ampl.",
 	},
 	{
-		"name": "OscillNPeriods",
+		"name": "oscillnperiods",
 		"type": "real",
 		"searchable": true,
-		"description": "Number of periods detected in oscillation "
+		"description": "Number of periods detected in oscillation",
+		"verbose_name": "Oscill N. Periods",
 	},
 	{
-		"name": "OscillNPeriodsUncert",
+		"name": "oscillnperiodsuncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of number of periods detected in oscillation "
+		"description": "Uncertainty of number of periods detected in oscillation",
+		"verbose_name": "Oscill N. Periods Uncert.",
 	},
 	{
-		"name": "PeakPower",
+		"name": "peakpower",
 		"type": "real",
 		"searchable": true,
-		"description": "Peak power of oscillation "
+		"description": "Peak power of oscillation",
+		"verbose_name": "Peak Power",
 	},
 	{
-		"name": "PeakPowerUnit",
+		"name": "peakpowerunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units of peak power of oscillation "
+		"description": "Units of peak power of oscillation",
+		"verbose_name": "Peak Power Unit",
 	},
 	{
-		"name": "VelocMaxAmpl",
+		"name": "velocmaxampl",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum amplitude of oscillation in velocity signal (e.g. doppler signal) "
+		"description": "Maximum amplitude of oscillation in velocity signal (e.g. doppler signal)",
+		"verbose_name": "Velocity Max Ampl.",
 	},
 	{
-		"name": "VelocMaxPower",
+		"name": "velocmaxpower",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum power of oscillation in velocity signal "
+		"description": "Maximum power of oscillation in velocity signal",
+		"verbose_name": "Velocity Max Power",
 	},
 	{
-		"name": "VelocMaxPowerUncert",
+		"name": "velocmaxpoweruncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty in max power in velocity signal "
+		"description": "Uncertainty in max power in velocity signal",
+		"verbose_name": "Velocity Max Power Uncert.",
 	},
 	{
-		"name": "VelocMinAmpl",
+		"name": "velocminampl",
 		"type": "real",
 		"searchable": true,
-		"description": "Minimum amplitude in oscillating velocity signal "
+		"description": "Minimum amplitude in oscillating velocity signal",
+		"verbose_name": "Velocity Min Ampl.",
 	},
 	{
-		"name": "VelocUnit",
+		"name": "velocunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for velocity (e.g. 'km/s') "
+		"description": "Units for velocity (e.g. 'km/s')",
+		"verbose_name": "Velocity Unit",
 	},
 	{
-		"name": "WaveDisplMaxAmpl",
+		"name": "wavedisplmaxampl",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum amplitude of oscillation in displacement signal "
+		"description": "Maximum amplitude of oscillation in displacement signal",
+		"verbose_name": "Wave Displacement Max Ampl.",
 	},
 	{
-		"name": "WaveDisplMinAmpl",
+		"name": "wavedisplminampl",
 		"type": "real",
 		"searchable": true,
-		"description": "Minimum amplitude of oscillatoin in displacement signal "
+		"description": "Minimum amplitude of oscillatoin in displacement signal",
+		"verbose_name": "Wave Displacement Min Ampl",
 	},
 	{
-		"name": "WaveDisplUnit",
+		"name": "wavedisplunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for displacement amplitude (e.g. 'arcsec') "
+		"description": "Units for displacement amplitude (e.g. 'arcsec')",
+		"verbose_name": "Wave Displacement Unit",
 	},
 	{
-		"name": "WavelMaxPower",
+		"name": "wavelmaxpower",
 		"type": "real",
 		"searchable": true,
-		"description": "Wavelength at which spatial power spectrum peaks "
+		"description": "Wavelength at which spatial power spectrum peaks",
+		"verbose_name": "Wavelength Max Power",
 	},
 	{
-		"name": "WavelMaxPowerUncert",
+		"name": "wavelmaxpoweruncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of WavelMaxPower "
+		"description": "Uncertainty of WavelMaxPower",
+		"verbose_name": "Wavelength Max Power Uncert.",
 	},
 	{
-		"name": "WavelMaxRange",
+		"name": "wavelmaxrange",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum wavelength of wavelength range for spatial oscillation "
+		"description": "Maximum wavelength of wavelength range for spatial oscillation",
+		"verbose_name": "Wavelength Max Range",
 	},
 	{
-		"name": "WavelMinRange",
+		"name": "wavelminrange",
 		"type": "real",
 		"searchable": true,
-		"description": "Minimum wavelength of wavelength range for spatial oscillation "
+		"description": "Minimum wavelength of wavelength range for spatial oscillation",
+		"verbose_name": "Wavelength Min Range",
 	},
 	{
-		"name": "WavelUnit",
+		"name": "wavelunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for spatial oscillation wavelength (e.g. 'km') "
+		"description": "Units for spatial oscillation wavelength (e.g. 'km')",
+		"verbose_name": "Wavelength Unit",
 	},
 	{
-		"name": "EF_PosPeakFluxOnsetRate",
+		"name": "ef_pospeakfluxonsetrate",
 		"type": "real",
 		"searchable": true,
-		"description": "Emergence rate of positive polarity flux "
+		"description": "Emergence rate of positive polarity flux",
+		"verbose_name": "EF Pos. Peak Flux Onset Rate",
 	},
 	{
-		"name": "EF_NegPeakFluxOnsetRate",
+		"name": "ef_negpeakfluxonsetrate",
 		"type": "real",
 		"searchable": true,
-		"description": "Emergence rate of negative polarity flux "
+		"description": "Emergence rate of negative polarity flux",
+		"verbose_name": "EF Neg. Peak Flux Onset Rate",
 	},
 	{
-		"name": "EF_OnsetRateUnit",
+		"name": "ef_onsetrateunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Emergence rate unit (e.g. 'Mx/s') "
+		"description": "Emergence rate unit (e.g. 'Mx/s')",
+		"verbose_name": "EF Onset Rate Unit",
 	},
 	{
-		"name": "EF_SumPosSignedFlux",
+		"name": "ef_sumpossignedflux",
 		"type": "real",
 		"searchable": true,
-		"description": "Total positive signed flux at completion "
+		"description": "Total positive signed flux at completion",
+		"verbose_name": "EF Sum Pos. Signed Flux",
 	},
 	{
-		"name": "EF_SumNegSignedFlux",
+		"name": "ef_sumnegsignedflux",
 		"type": "real",
 		"searchable": true,
-		"description": "Total negative signed flux at completion (negative number) "
+		"description": "Total negative signed flux at completion (negative number)",
+		"verbose_name": "EF Sum Neg. Signed Flux",
 	},
 	{
-		"name": "EF_FluxUnit",
+		"name": "ef_fluxunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Flux unit (e.g. 'Mx') "
+		"description": "Flux unit (e.g. 'Mx')",
+		"verbose_name": "EF Flux Unit",
 	},
 	{
-		"name": "EF_AxisOrientation",
+		"name": "ef_axisorientation",
 		"type": "real",
 		"searchable": false,
-		"description": "Axis orientation of emerging flux pair (CCW from parallels in Stonyhurst longitude "
+		"description": "Axis orientation of emerging flux pair (CCW from parallels in Stonyhurst longitude",
+		"verbose_name": "EF Axis Orientation",
 	},
 	{
-		"name": "EF_AxisOrientationUnit",
+		"name": "ef_axisorientationunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Axis oriention unit (deg) "
+		"description": "Axis oriention unit (deg)",
+		"verbose_name": "EF Axis Orientation Unit",
 	},
 	{
-		"name": "EF_AxisLength",
+		"name": "ef_axislength",
 		"type": "real",
 		"searchable": false,
-		"description": "Axis length of emerging flux pair at completion "
+		"description": "Axis length of emerging flux pair at completion",
+		"verbose_name": "EF Axis Length",
 	},
 	{
-		"name": "EF_PosEquivRadius",
+		"name": "ef_posequivradius",
 		"type": "real",
 		"searchable": false,
-		"description": "Equivalent radius (i.e. sqrt(area/pi) of positive polarity at completion "
+		"description": "Equivalent radius (i.e. sqrt(area/pi) of positive polarity at completion",
+		"verbose_name": "EF Pos. Equiv Radius",
 	},
 	{
-		"name": "EF_NegEquivRadius",
+		"name": "ef_negequivradius",
 		"type": "real",
 		"searchable": false,
-		"description": "Equivalent radius (i.e. sqrt(area/pi) of negative polarity at completion "
+		"description": "Equivalent radius (i.e. sqrt(area/pi) of negative polarity at completion",
+		"verbose_name": "EF Neg. Equiv Radius",
 	},
 	{
-		"name": "EF_LengthUnit",
+		"name": "ef_lengthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for EF_AxisLength "
+		"description": "Units for EF_AxisLength",
+		"verbose_name": "EF Length Unit",
 	},
 	{
-		"name": "EF_AspectRatio",
+		"name": "ef_aspectratio",
 		"type": "real",
 		"searchable": false,
-		"description": "(EF_PosEquivRadius+EF_NegEquivRadius)/(2*EF_AxisLength) "
+		"description": "(EF_PosEquivRadius+EF_NegEquivRadius)/(2*EF_AxisLength)",
+		"verbose_name": "EF Aspect Ratio",
 	},
 	{
-		"name": "EF_ProximityRatio",
+		"name": "ef_proximityratio",
 		"type": "real",
 		"searchable": false,
-		"description": "(EF_PosEquivRadius-EF_NegEquivRadius)/(2*EF_AxisLength) "
+		"description": "(EF_PosEquivRadius-EF_NegEquivRadius)/(2*EF_AxisLength)",
+		"verbose_name": "EF Proximity Ratio",
 	},
 	{
-		"name": "MaxMagFieldStrength",
+		"name": "maxmagfieldstrength",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum magnetic field strength "
+		"description": "Maximum magnetic field strength",
+		"verbose_name": "Max Mag. Field Strength",
 	},
 	{
-		"name": "MaxMagFieldStrengthUnit",
+		"name": "maxmagfieldstrengthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for maximum magnetic field strength (e.g. 'G' or 'Mx/cm2') "
+		"description": "Units for maximum magnetic field strength (e.g. 'G' or 'Mx/cm2')",
+		"verbose_name": "Max Mag. Field Strength Unit",
 	},
 	{
-		"name": "Outflow_Length",
+		"name": "outflow_length",
 		"type": "real",
 		"searchable": true,
-		"description": "Length of outflow (can be for CoronalJet or SpraySurge) "
+		"description": "Length of outflow (can be for CoronalJet or SpraySurge)",
+		"verbose_name": "Outflow Length",
 	},
 	{
-		"name": "Outflow_LengthUnit",
+		"name": "outflow_lengthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for length of outflow (e.g. 'arcsec') "
+		"description": "Units for length of outflow (e.g. 'arcsec')",
+		"verbose_name": "Outflow Length Unit",
 	},
 	{
-		"name": "Outflow_Width",
+		"name": "outflow_width",
 		"type": "real",
 		"searchable": true,
-		"description": "Width of outflow "
+		"description": "Width of outflow",
+		"verbose_name": "Outflow Width",
 	},
 	{
-		"name": "Outflow_WidthUnit",
+		"name": "outflow_widthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for width of outflow (e.g. 'arcsec') "
+		"description": "Units for width of outflow (e.g. 'arcsec')",
+		"verbose_name": "Outflow Width Unit",
 	},
 	{
-		"name": "Outflow_Speed",
+		"name": "outflow_speed",
 		"type": "real",
 		"searchable": true,
-		"description": "Outflow speed of outflow "
+		"description": "Outflow speed of outflow",
+		"verbose_name": "Outflow Speed",
 	},
 	{
-		"name": "Outflow_TransSpeed",
+		"name": "outflow_transspeed",
 		"type": "real",
 		"searchable": true,
-		"description": "Transverse speed relative to outflow direction "
+		"description": "Transverse speed relative to outflow direction",
+		"verbose_name": "Outflow Trans. Speed",
 	},
 	{
-		"name": "Outflow_SpeedUnit",
+		"name": "outflow_speedunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for speed (e.g. 'km/s') "
+		"description": "Units for speed (e.g. 'km/s')",
+		"verbose_name": "Outflow Speed Unit",
 	},
 	{
-		"name": "Outflow_OpeningAngle",
+		"name": "outflow_openingangle",
 		"type": "real",
 		"searchable": true,
-		"description": "Opening angle of outflow (in degrees) "
+		"description": "Opening angle of outflow (in degrees)",
+		"verbose_name": "Outflow Opening Angle",
 	},
 	{
-		"name": "OBS_DataPrepURL",
+		"name": "obs_dataprepurl",
 		"type": "text",
 		"searchable": false,
-		"description": "URL pointing to information about how data was reduced "
+		"description": "URL pointing to information about how data was reduced",
+		"verbose_name": "OBS Data Prep. URL",
 	},
 	{
-		"name": "FL_PeakFlux",
+		"name": "fl_peakflux",
 		"type": "real",
 		"searchable": true,
-		"description": "Flux at peak time "
+		"description": "Flux at peak time",
+		"verbose_name": "FL Peak Flux",
 	},
 	{
-		"name": "FL_PeakFluxUnit",
+		"name": "fl_peakfluxunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Peak flux unit (e.g. erg/cm^2/s) "
+		"description": "Peak flux unit (e.g. erg/cm^2/s)",
+		"verbose_name": "FL Peak Flux Unit",
 	},
 	{
-		"name": "FL_PeakTemp",
+		"name": "fl_peaktemp",
 		"type": "real",
 		"searchable": true,
-		"description": "Temperature at peak time "
+		"description": "Temperature at peak time",
+		"verbose_name": "FL Peak Temp.",
 	},
 	{
-		"name": "FL_PeakTempUnit",
+		"name": "fl_peaktempunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for FL_PeakTemp (K) "
+		"description": "Unit for FL_PeakTemp (K)",
+		"verbose_name": "FL Peak Temp. Unit",
 	},
 	{
-		"name": "FL_PeakEM",
+		"name": "fl_peakem",
 		"type": "real",
 		"searchable": true,
-		"description": "Emission measure at peak time "
+		"description": "Emission measure at peak time",
+		"verbose_name": "FL Peak EM",
 	},
 	{
-		"name": "FL_PeakEMUnit",
+		"name": "fl_peakemunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for FL_PeakEM "
+		"description": "Unit for FL_PeakEM",
+		"verbose_name": "FL Peak EM Unit",
 	},
 	{
-		"name": "FL_EFoldTime",
+		"name": "fl_efoldtime",
 		"type": "real",
 		"searchable": false,
-		"description": "Flare e-folding time "
+		"description": "Flare e-folding time",
+		"verbose_name": "FL E-Fold Time",
 	},
 	{
-		"name": "FL_EFoldTimeUnit",
+		"name": "fl_efoldtimeunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for FL_EFoldTime (s) "
+		"description": "Unit for FL_EFoldTime (s)",
+		"verbose_name": "FL E-Fold Time Unit",
 	},
 	{
-		"name": "FL_Fluence",
+		"name": "fl_fluence",
 		"type": "real",
 		"searchable": true,
-		"description": "Fluence of flare "
+		"description": "Fluence of flare",
+		"verbose_name": "FL Fluence",
 	},
 	{
-		"name": "FL_FluenceUnit",
+		"name": "fl_fluenceunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for FL_Fluence (e.g. erg/cm^2) "
+		"description": "Unit for FL_Fluence (e.g. erg/cm^2)",
+		"verbose_name": "FL Fluence Unit",
 	},
 	{
-		"name": "FL_HalphaClass",
+		"name": "fl_halphaclass",
 		"type": "text",
 		"searchable": true,
-		"description": "H Alpha classification (used on some Yohkoh HXT) "
+		"description": "H Alpha classification (used on some Yohkoh HXT)",
+		"verbose_name": "FL Halpha Class",
 	},
 	{
-		"name": "CD_Area",
+		"name": "cd_area",
 		"type": "real",
 		"searchable": true,
-		"description": "Maximum area of dimming "
+		"description": "Maximum area of dimming",
+		"verbose_name": "CD Area",
 	},
 	{
-		"name": "CD_AreaUncert",
+		"name": "cd_areauncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of CD_Area "
+		"description": "Uncertainty of CD_Area",
+		"verbose_name": "CD Area Uncert.",
 	},
 	{
-		"name": "CD_AreaUnit",
+		"name": "cd_areaunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for CD_Area ('millihemisphere' or 'steradians')' "
+		"description": "Unit for CD_Area ('millihemisphere' or 'steradians')'",
+		"verbose_name": "CD Area Unit",
 	},
 	{
-		"name": "CD_Volume",
+		"name": "cd_volume",
 		"type": "real",
 		"searchable": true,
-		"description": "Volume of dimming region "
+		"description": "Volume of dimming region",
+		"verbose_name": "CD Volume",
 	},
 	{
-		"name": "CD_VolumeUncert",
+		"name": "cd_volumeuncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty of CD_Volume "
+		"description": "Uncertainty of CD_Volume",
+		"verbose_name": "CD Volume Uncert.",
 	},
 	{
-		"name": "CD_VolumeUnit",
+		"name": "cd_volumeunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for CD_Volume (e.g. 'cm^3') "
+		"description": "Units for CD_Volume (e.g. 'cm^3')",
+		"verbose_name": "CD Volume Unit",
 	},
 	{
-		"name": "CD_Mass",
+		"name": "cd_mass",
 		"type": "real",
 		"searchable": true,
-		"description": "Mass estimate calculated for dimming event "
+		"description": "Mass estimate calculated for dimming event",
+		"verbose_name": "CD Mass",
 	},
 	{
-		"name": "CD_MassUncert",
+		"name": "cd_massuncert",
 		"type": "real",
 		"searchable": false,
-		"description": "Uncertainty for CD_Mass "
+		"description": "Uncertainty for CD_Mass",
+		"verbose_name": "CD Mass Uncert",
 	},
 	{
-		"name": "CD_MassUnit",
+		"name": "cd_massunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for CD_Mass "
+		"description": "Unit for CD_Mass",
+		"verbose_name": "CD Mass Unit",
 	},
 	{
-		"name": "FI_Length",
+		"name": "fi_length",
 		"type": "real",
 		"searchable": true,
-		"description": "Length of Filament spine "
+		"description": "Length of Filament spine",
+		"verbose_name": "FI Length",
 	},
 	{
-		"name": "FI_LengthUnit",
+		"name": "fi_lengthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit for FI_Length "
+		"description": "Unit for FI_Length",
+		"verbose_name": "FI Length Unit",
 	},
 	{
-		"name": "FI_Tilt",
+		"name": "fi_tilt",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean tilt angle (in degrees) of the Filament spine (given as Skel_ChainCode) w.r. to solar equator "
+		"description": "Mean tilt angle (in degrees) of the Filament spine (given as Skel_ChainCode) w.r. to solar equator",
+		"verbose_name": "FI Tilt",
 	},
 	{
-		"name": "FI_BarbsTot",
+		"name": "fi_barbstot",
 		"type": "integer",
 		"searchable": true,
-		"description": "Total number of filament barbs "
+		"description": "Total number of filament barbs",
+		"verbose_name": "FI Barbs Total",
 	},
 	{
-		"name": "FI_BarbsR",
+		"name": "fi_barbsr",
 		"type": "integer",
 		"searchable": true,
-		"description": "Total number of Right Bearing Barbs "
+		"description": "Total number of Right Bearing Barbs",
+		"verbose_name": "FI Barbs Right",
 	},
 	{
-		"name": "FI_BarbsL",
+		"name": "fi_barbsl",
 		"type": "integer",
 		"searchable": true,
-		"description": "Total number of Left Bearing Barbs "
+		"description": "Total number of Left Bearing Barbs",
+		"verbose_name": "FI Barbs Left",
 	},
 	{
-		"name": "FI_Chirality",
+		"name": "fi_chirality",
 		"type": "integer",
 		"searchable": true,
-		"description": "Chirality for filament (-1 for sinistral"
+		"description": "Chirality for filament (-1 for sinistral",
+		"verbose_name": "FI Chirality",
 	},
 	{
-		"name": "FI_BarbsStartC1",
+		"name": "fi_barbsstartc1",
 		"type": "text",
 		"searchable": false,
-		"description": "List of Coord 1 of beginnings (closest to spine) of barbs (list delimited by commas for each numbered barb. e.g. 'x1, x2, x3') "
+		"description": "List of Coord 1 of beginnings (closest to spine) of barbs (list delimited by commas for each numbered barb. e.g. 'x1, x2, x3')",
+		"verbose_name": "FI Barbs Start C1",
 	},
 	{
-		"name": "FI_BarbsStartC2",
+		"name": "fi_barbsstartc2",
 		"type": "text",
 		"searchable": false,
-		"description": "List of Coord 2 of beginnings (closest to spine) of barbs (list delimited by commas for each numbered barb. e.g. 'y1, y2, y3') "
+		"description": "List of Coord 2 of beginnings (closest to spine) of barbs (list delimited by commas for each numbered barb. e.g. 'y1, y2, y3')",
+		"verbose_name": "FI Barbs Start C2",
 	},
 	{
-		"name": "FI_BarbsEndC1",
+		"name": "fi_barbsendc1",
 		"type": "text",
 		"searchable": false,
-		"description": "List of Coord 1 of ends of barbs (list delimited by commas for each numbered barb. e.g. 'x1, x2, x3') "
+		"description": "List of Coord 1 of ends of barbs (list delimited by commas for each numbered barb. e.g. 'x1, x2, x3')",
+		"verbose_name": "FI Barbs End C1",
 	},
 	{
-		"name": "FI_BarbsEndC2",
+		"name": "fi_barbsendc2",
 		"type": "text",
 		"searchable": false,
-		"description": "List of Coord 2 of ends of barbs (list delimited by commas for each numbered barb. e.g. 'y1, y2, y3') "
+		"description": "List of Coord 2 of ends of barbs (list delimited by commas for each numbered barb. e.g. 'y1, y2, y3')",
+		"verbose_name": "FI Barbs End C2",
 	},
 	{
-		"name": "SG_Shape",
+		"name": "sg_shape",
 		"type": "text",
 		"searchable": true,
-		"description": "Shape of sigmoid "
+		"description": "Shape of sigmoid",
+		"verbose_name": "SG Shape",
 	},
 	{
-		"name": "SG_Chirality",
+		"name": "sg_chirality",
 		"type": "integer",
 		"searchable": true,
-		"description": "Chirality of sigmoid (-1 for sinistral"
+		"description": "Chirality of sigmoid (-1 for sinistral",
+		"verbose_name": "SG Chirality",
 	},
 	{
-		"name": "SG_Orientation",
+		"name": "sg_orientation",
 		"type": "real",
 		"searchable": true,
-		"description": "Angular rotation (ccw in degrees) of the main axis of the sigmoid to the active region "
+		"description": "Angular rotation (ccw in degrees) of the main axis of the sigmoid to the active region",
+		"verbose_name": "SG Orientation",
 	},
 	{
-		"name": "SG_AspectRatio",
+		"name": "sg_aspectratio",
 		"type": "real",
 		"searchable": false,
-		"description": "TBD "
+		"description": "TBD",
+		"verbose_name": "SG Aspect Ratio",
 	},
 	{
-		"name": "SG_PeakContrast",
+		"name": "sg_peakcontrast",
 		"type": "real",
 		"searchable": false,
-		"description": "TBD "
+		"description": "TBD",
+		"verbose_name": "SG Peak Contrast",
 	},
 	{
-		"name": "SG_MeanContrast",
+		"name": "sg_meancontrast",
 		"type": "real",
 		"searchable": false,
-		"description": "TBD "
+		"description": "TBD",
+		"verbose_name": "SG Mean Contrast",
 	},
 	{
-		"name": "OBS_FirstProcessingDate",
+		"name": "obs_firstprocessingdate",
 		"type": "text",
 		"searchable": false,
-		"description": "Earliest date of all images considered part of the event "
+		"description": "Earliest date of all images considered part of the event",
+		"verbose_name": "OBS First Processing Date",
 	},
 	{
-		"name": "OBS_LastProcessingDate",
+		"name": "obs_lastprocessingdate",
 		"type": "text",
 		"searchable": false,
-		"description": "Latest date of all images considered part of the event "
+		"description": "Latest date of all images considered part of the event",
+		"verbose_name": "OBS Last Processing Date",
 	},
 	{
-		"name": "OBS_LevelNum",
+		"name": "obs_levelnum",
 		"type": "real",
 		"searchable": false,
-		"description": "Level of Data (e.g. 1.5) = LVL_NUM "
+		"description": "Level of Data (e.g. 1.5) = LVL_NUM",
+		"verbose_name": "OBS Level Num.",
 	},
 	{
-		"name": "OBS_IncludesNRT",
+		"name": "obs_includesnrt",
 		"type": "text",
 		"searchable": false,
-		"description": "\"T\" if any image in the event has the NRT flag (bit 30 in QUALITY), \"F\" otherwise "
+		"description": '"T" if any image in the event has the NRT flag (bit 30 in QUALITY), "F" otherwise',
+		"verbose_name": "OBS Includes NRT",
 	},
 	{
-		"name": "SS_SpinRate",
+		"name": "ss_spinrate",
 		"type": "real",
 		"searchable": true,
-		"description": "Spin/Rotation rate of sunspots "
+		"description": "Spin/Rotation rate of sunspots",
+		"verbose_name": "SS Spin Rate",
 	},
 	{
-		"name": "SS_SpinRateUnit",
+		"name": "ss_spinrateunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit Spin/Rotation rate of sunspots (e.g. Deg/day) "
+		"description": "Unit Spin/Rotation rate of sunspots (e.g. Deg/day)",
+		"verbose_name": "SS Spin Rate Unit",
 	},
 	{
-		"name": "CC_MajorAxis",
+		"name": "cc_majoraxis",
 		"type": "real",
 		"searchable": false,
-		"description": "Length of major axis of elliptical fit to cavity "
+		"description": "Length of major axis of elliptical fit to cavity",
+		"verbose_name": "CC Major Axis",
 	},
 	{
-		"name": "CC_MinorAxis",
+		"name": "cc_minoraxis",
 		"type": "real",
 		"searchable": false,
-		"description": "Length of minor axis of elliptical fit to cavity "
+		"description": "Length of minor axis of elliptical fit to cavity",
+		"verbose_name": "CC Minor Axis",
 	},
 	{
-		"name": "CC_AxisUnit",
+		"name": "cc_axisunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit of measure for major and minor axes. Typically Rsun "
+		"description": "Unit of measure for major and minor axes. Typically Rsun",
+		"verbose_name": "CC Axis Unit",
 	},
 	{
-		"name": "CC_TiltAngleMajorFromRadial",
+		"name": "cc_tiltanglemajorfromradial",
 		"type": "real",
 		"searchable": false,
-		"description": "Angle between major axis and local disk-projected radial vector, measured clockwise from radial vector. "
+		"description": "Angle between major axis and local disk-projected radial vector, measured clockwise from radial vector.",
+		"verbose_name": "CC Tilt Angle Major From Radial",
 	},
 	{
-		"name": "CC_TiltAngleUnit",
+		"name": "cc_tiltangleunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Unit of measure for CC_TiltAngleMaorFromRadial. Typicall deg. "
+		"description": "Unit of measure for CC_TiltAngleMaorFromRadial. Typicall deg.",
+		"verbose_name": "CC Tilt Angle Unit",
 	},
 	{
-		"name": "TO_Shape",
+		"name": "to_shape",
 		"type": "text",
 		"searchable": true,
-		"description": "Apparent shape of topoogical object. Example values can be X-point, cusp, dome, line. "
+		"description": "Apparent shape of topoogical object. Example values can be X-point, cusp, dome, line.",
+		"verbose_name": "Topo. Shape",
 	},
 	{
-		"name": "UnsignedFlux",
+		"name": "unsignedflux",
 		"type": "real",
 		"searchable": true,
-		"description": "Total unsigned flux in region "
+		"description": "Total unsigned flux in region",
+		"verbose_name": "Unsigned Flux",
 	},
 	{
-		"name": "MagFluxUnit",
+		"name": "magfluxunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Magnetic Flux unit (e.g. 'Mx') "
+		"description": "Magnetic Flux unit (e.g. 'Mx')",
+		"verbose_name": "Mag Flux Unit",
 	},
 	{
-		"name": "MeanInclinationGamma",
+		"name": "meaninclinationgamma",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean inclination angle (gamma) (degrees) "
+		"description": "Mean inclination angle (gamma) (degrees)",
+		"verbose_name": "Mean Inclination Gamma",
 	},
 	{
-		"name": "MeanGradientTotal",
+		"name": "meangradienttotal",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean value of the total field gradient "
+		"description": "Mean value of the total field gradient",
+		"verbose_name": "Mean Gradient Total",
 	},
 	{
-		"name": "MeanGradientVert",
+		"name": "meangradientvert",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean value of the vertical field gradient "
+		"description": "Mean value of the vertical field gradient",
+		"verbose_name": "Mean Gradient Vert.",
 	},
 	{
-		"name": "MeanGradientHorz",
+		"name": "meangradienthorz",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean value of the horizontal field gradient "
+		"description": "Mean value of the horizontal field gradient",
+		"verbose_name": "Mean Gradient Horz.",
 	},
 	{
-		"name": "GradientUnit",
+		"name": "gradientunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Gradient unit (e.g. 'G/m') "
+		"description": "Gradient unit (e.g. 'G/m')",
+		"verbose_name": "Gradient Unit",
 	},
 	{
-		"name": "MeanVertCurrentDensity",
+		"name": "meanvertcurrentdensity",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean vertical current density "
+		"description": "Mean vertical current density",
+		"verbose_name": "Mean Vert. Current Density",
 	},
 	{
-		"name": "CurrentDensityUnit",
+		"name": "currentdensityunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Current density unit (e.g. 'mA/m^2') "
+		"description": "Current density unit (e.g. 'mA/m^2')",
+		"verbose_name": "Current Density Unit",
 	},
 	{
-		"name": "UnsignedVertCurrent",
+		"name": "unsignedvertcurrent",
 		"type": "real",
 		"searchable": false,
-		"description": "Total unsigned vertical current "
+		"description": "Total unsigned vertical current",
+		"verbose_name": "Unsigned Vert. Current",
 	},
 	{
-		"name": "CurrentUnit",
+		"name": "currentunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Current unit (e.g. 'A') "
+		"description": "Current unit (e.g. 'A')",
+		"verbose_name": "Current Unit",
 	},
 	{
-		"name": "MeanTwistAlpha",
+		"name": "meantwistalpha",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean twist parameter (alpha) "
+		"description": "Mean twist parameter (alpha)",
+		"verbose_name": "Mean Twist Alpha",
 	},
 	{
-		"name": "TwistUnit",
+		"name": "twistunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Twist unit (e.g. '1/Mm') "
+		"description": "Twist unit (e.g. '1/Mm')",
+		"verbose_name": "Twist Unit",
 	},
 	{
-		"name": "MeanCurrentHelicity",
+		"name": "meancurrenthelicity",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean current helicity "
+		"description": "Mean current helicity",
+		"verbose_name": "Mean Current Helicity",
 	},
 	{
-		"name": "UnsignedCurrentHelicity",
+		"name": "unsignedcurrenthelicity",
 		"type": "real",
 		"searchable": true,
-		"description": "Total unsigned current helicity "
+		"description": "Total unsigned current helicity",
+		"verbose_name": "Unsigned Current Helicity",
 	},
 	{
-		"name": "AbsNetCurrentHelicity",
+		"name": "absnetcurrenthelicity",
 		"type": "real",
 		"searchable": true,
-		"description": "Absolute value of the net current helicity "
+		"description": "Absolute value of the net current helicity",
+		"verbose_name": "Abs. Net Current Helicity",
 	},
 	{
-		"name": "CurrentHelicityUnit",
+		"name": "currenthelicityunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Current helicity unit (e.g. '(G^2)/m') "
+		"description": "Current helicity unit (e.g. '(G^2)/m')",
+		"verbose_name": "Current Helicity Unit",
 	},
 	{
-		"name": "SAVNCPP",
+		"name": "savncpp",
 		"type": "real",
 		"searchable": true,
-		"description": "Sum of the Absolute Value of the Net Currents Per Polarity (SAVNCPP) "
+		"description": "Sum of the Absolute Value of the Net Currents Per Polarity (SAVNCPP)",
+		"verbose_name": "SAVNCPP",
 	},
 	{
-		"name": "MeanPhotoEnergyDensity",
+		"name": "meanphotoenergydensity",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean photospheric excess magnetic energy density "
+		"description": "Mean photospheric excess magnetic energy density",
+		"verbose_name": "Mean Photo. Energy Density",
 	},
 	{
-		"name": "MeanEnergyDensityUnit",
+		"name": "meanenergydensityunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Energy Density unit (e.g. 'erg/(cm^3)') "
+		"description": "Energy Density unit (e.g. 'erg/(cm^3)')",
+		"verbose_name": "Mean Energy Density Unit",
 	},
 	{
-		"name": "TotalPhotoEnergyDensity",
+		"name": "totalphotoenergydensity",
 		"type": "real",
 		"searchable": true,
-		"description": "Total photospheric magnetic energy density (TOTPOT in SHARP) "
+		"description": "Total photospheric magnetic energy density (TOTPOT in SHARP)",
+		"verbose_name": "Total Photo. Energy Density",
 	},
 	{
-		"name": "TotalEnergyDensityUnit",
+		"name": "totalenergydensityunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Energy/length unit (e.g. 'erg/cm') "
+		"description": "Energy/length unit (e.g. 'erg/cm')",
+		"verbose_name": "Total Energy Density Unit",
 	},
 	{
-		"name": "TotalPhotoEnergy",
+		"name": "totalphotoenergy",
 		"type": "real",
 		"searchable": true,
-		"description": "Total photospheric magnetic energy (TOTPOT in SHARP times pixel width) "
+		"description": "Total photospheric magnetic energy (TOTPOT in SHARP times pixel width)",
+		"verbose_name": "Total Photo. Energy",
 	},
 	{
-		"name": "TotalPhotoEnergyUnit",
+		"name": "totalphotoenergyunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Energy unit (e.g. 'erg') "
+		"description": "Energy unit (e.g. 'erg')",
+		"verbose_name": "Total Photo. Energy Unit",
 	},
 	{
-		"name": "MeanShearAngle",
+		"name": "meanshearangle",
 		"type": "real",
 		"searchable": true,
-		"description": "Mean shear angle for B_total (degrees) "
+		"description": "Mean shear angle for B_total (degrees)",
+		"verbose_name": "Mean Shear Angle",
 	},
 	{
-		"name": "HighShearAreaPercent",
+		"name": "highshearareapercent",
 		"type": "real",
 		"searchable": true,
-		"description": "Area with shear angle greater than 45 as a percent of total area "
+		"description": "Area with shear angle greater than 45 as a percent of total area",
+		"verbose_name": "High Shear Area Percent",
 	},
 	{
-		"name": "HighShearArea",
+		"name": "highsheararea",
 		"type": "real",
 		"searchable": true,
-		"description": "Area with shear angle greater than 45 as a percent of total area "
+		"description": "Area with shear angle greater than 45 as a percent of total area",
+		"verbose_name": "High Shear Area",
 	},
 	{
-		"name": "HighShearAreaUnit",
+		"name": "highshearareaunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Area unit (e.g. 'm^2') "
+		"description": "Area unit (e.g. 'm^2')",
+		"verbose_name": "High Shear Area Unit",
 	},
 	{
-		"name": "Log_R_Value",
+		"name": "log_r_value",
 		"type": "real",
 		"searchable": false,
-		"description": "Log (Unsigned Flux R) (prelog value in Gauss*MDI-pixels - Schrijver 2007) "
+		"description": "Log (Unsigned Flux R) (prelog value in Gauss*MDI-pixels - Schrijver 2007)",
+		"verbose_name": "Log R Value",
 	},
 	{
-		"name": "GWILL",
+		"name": "gwill",
 		"type": "real",
 		"searchable": true,
-		"description": "Gradient-weighted inversion-line length (Mason & Hoeksema 2010) "
+		"description": "Gradient-weighted inversion-line length (Mason & Hoeksema 2010)",
+		"verbose_name": "GWILL",
 	},
 	{
-		"name": "GWILLUnit",
+		"name": "gwillunit",
 		"type": "text",
 		"searchable": false,
-		"description": "GWILL (length) unit (e.g. 'Mm') "
+		"description": "GWILL (length) unit (e.g. 'Mm')",
+		"verbose_name": "GWILL Unit",
 	},
 	{
-		"name": "AR_AxisLength",
+		"name": "ar_axislength",
 		"type": "real",
 		"searchable": true,
-		"description": "Axis length (bipole separation distance) "
+		"description": "Axis length (bipole separation distance)",
+		"verbose_name": "AR Axis Length",
 	},
 	{
-		"name": "AR_LengthUnit",
+		"name": "ar_lengthunit",
 		"type": "text",
 		"searchable": false,
-		"description": "Units for AR_AxisLength and AR_NeutralLength "
+		"description": "Units for AR_AxisLength and AR_NeutralLength",
+		"verbose_name": "AR Length Unit",
 	},
 	{
-		"name": "AR_SumPosSignedFlux",
+		"name": "ar_sumpossignedflux",
 		"type": "real",
 		"searchable": true,
-		"description": "Total positive signed flux "
+		"description": "Total positive signed flux",
+		"verbose_name": "AR Sum Pos. Signed Flux",
 	},
 	{
-		"name": "AR_SumNegSignedFlux",
+		"name": "ar_sumnegsignedflux",
 		"type": "real",
 		"searchable": true,
-		"description": "Total negative signed flux (negative number) "
+		"description": "Total negative signed flux (negative number)",
+		"verbose_name": "AR Sum Neg. Signed Flux",
 	},
 	{
-		"name": "AR_NeutralLength",
+		"name": "ar_neutrallength",
 		"type": "real",
 		"searchable": true,
-		"description": "The total length of polarity separation line segments within the AR "
+		"description": "The total length of polarity separation line segments within the AR",
+		"verbose_name": "AR Neutral Length",
 	},
 	{
-		"name": "AR_PILCurvature",
+		"name": "ar_pilcurvature",
 		"type": "real",
 		"searchable": true,
-		"description": "Dimensionless curvature of main PIL (PIL length / direct distance between endpoints) "
-	}
+		"description": "Dimensionless curvature of main PIL (PIL length / direct distance between endpoints)",
+		"verbose_name": "AR PIL Curvature",
+	},
 ])

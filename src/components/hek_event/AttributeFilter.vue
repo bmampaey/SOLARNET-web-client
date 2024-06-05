@@ -15,21 +15,21 @@
 		</b-form-row>
 		<b-form-row v-for="attribute in attributeFilters" :key="attribute.name">
 			<b-col>
-				<b-form-group v-if="attribute.type == 'text'" :label="`${attribute.name} contains`"
+				<b-form-group v-if="attribute.type == 'text'" :label="`${attribute.verbose_name} contains`"
 					:label-for="uniqueId(attribute.name)" :description="attribute.description">
 					<b-form-input :id="uniqueId(attribute.name)" v-model="filterValues[attribute.name]"
 						type="text"></b-form-input>
 				</b-form-group>
 				<datetime-range v-else-if="attribute.type == 'time (ISO 8601)'" v-model="filterValues[attribute.name]"
-					:label="`${attribute.name} is between`" :description="attribute.description"></datetime-range>
+					:label="`${attribute.verbose_name} is between`" :description="attribute.description"></datetime-range>
 				<number-range v-else-if="attribute.type == 'integer'" v-model="filterValues[attribute.name]"
-					:label="`${attribute.name} is between`" :unit="attribute.unit" :description="attribute.description"
+					:label="`${attribute.verbose_name} is between`" :unit="attribute.unit" :description="attribute.description"
 					step="1"></number-range>
 				<number-range v-else-if="attribute.type == 'real'" v-model="filterValues[attribute.name]"
-					:label="`${attribute.name} is between`" :unit="attribute.unit"
+					:label="`${attribute.verbose_name} is between`" :unit="attribute.unit"
 					:description="attribute.description"></number-range>
 				<b-form-group v-else-if="attribute.type == 'boolean'" v-slot="{ ariaDescribedby }"
-					:label="`${attribute.name} is`" :description="attribute.description">
+					:label="`${attribute.verbose_name} is`" :description="attribute.description">
 					<b-form-radio-group v-model="filterValues[attribute.name]" :options="[true, false]"
 						:aria-describedby="ariaDescribedby" buttons button-variant="outline-dark"></b-form-radio-group>
 				</b-form-group>
@@ -70,7 +70,7 @@ export default {
 			return this.attributes
 				.filter(attribute => !this.selectedAttributes[attribute.name])
 				.map(attribute => ({
-					text: attribute.name,
+					text: attribute['verbose_name'],
 					value: attribute
 				}));
 		},

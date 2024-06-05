@@ -82,8 +82,11 @@ export default {
 		let paginator = this.$SVO.getPaginator(this.dataset.metadata.resource_uri);
 		let tableSettings = new TableSettings({
 			pageSize: paginator.pageSize,
+			pageSizeMinimum : SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
+			pageSizeMaximum : SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
 			ordering: paginator.ordering,
-			columns: this.defaultColumns
+			columns: this.defaultColumns,
+
 		});
 		return {
 			tableId: this.$utils.getUniqueId(),
@@ -126,7 +129,7 @@ export default {
 			immediate: true
 		},
 		keywords: {
-			handler: 'loadTableSettingsOptions',
+			handler: 'updateColumnOptions',
 			immediate: true
 		}
 	},
@@ -140,33 +143,13 @@ export default {
 				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
-		loadTableSettingsOptions() {
-			this.tableSettings.pageSizeMinimum = SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE;
-			this.tableSettings.pageSizeMaximum = SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE;
-			this.tableSettings.orderingOptions = this.defaultColumns.map(column => ({ text: column['label'], value: column['key'] }));
-			this.tableSettings.columnOptions = this.defaultColumns.map(column => ({ text: column['label'], value: column }));
-
-			// Avoid duplicating ordering and column options, the column key corresponds to the keyword name
-			let defaultColumnsKeys = new Set(this.defaultColumns.map(column => column['key']));
-
-			for (const keyword of this.keywords) {
-				if (!defaultColumnsKeys.has(keyword['name'])) {
-					defaultColumnsKeys.add(keyword['name']);
-					this.tableSettings.columnOptions.push({
-						text: keyword['verbose_name'],
-						value: {
-							label: keyword['verbose_name'],
-							key: keyword['name'],
-							headerTitle: keyword['description'],
-							formatter: keyword['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
-						}
-					});
-					this.tableSettings.orderingOptions.push({
-						text: keyword['verbose_name'],
-						value: keyword['name']
-					});
-				}
-			}
+		updateColumnOptions() {
+			this.tableSettings.columnOptions = this.keywords.map((keyword) => ({
+				key: keyword['name'],
+				label: keyword['verbose_name'],
+				headerTitle: keyword['description'],
+				formatter: keyword['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
+			}));
 		},
 		updatePageNumber(pageNumber) {
 			this.paginator.loadPage(pageNumber);

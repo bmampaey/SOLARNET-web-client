@@ -4,10 +4,7 @@
 		<b-form-group :label-for="pageSizeSelectorId" label="Number of rows to display">
 			<b-form-spinbutton :id="pageSizeSelectorId" v-model="settings.pageSize" :min="settings.pageSizeMinimum" :max="settings.pageSizeMaximum" :step="10" size="sm"></b-form-spinbutton>
 		</b-form-group>
-		<b-form-group v-if="showOrderingSelector" :label-for="orderingSelectorId" label="Select sorting column">
-			<b-form-select :id="orderingSelectorId" v-model="settings.ordering" :options="settings.orderingOptions"></b-form-select>
-		</b-form-group>
-		<b-form-group v-if="showColumnSelector" v-slot="{ ariaDescribedby }" class="column-selector" label="Display/hide columns">
+		<b-form-group v-if="columnOptions.length" v-slot="{ ariaDescribedby }" class="column-selector" label="Display/hide columns">
 			<b-form-group label="Filter columns" :label-for="columnFilterId" label-sr-only>
 				<b-input-group>
 					<b-form-input
@@ -23,7 +20,10 @@
 					</b-input-group-append>
 				</b-input-group>
 			</b-form-group>
-			<b-form-checkbox-group v-model="settings.columns" :options="columnOptions" :aria-describedby="ariaDescribedby" switches stacked></b-form-checkbox-group>
+			<b-form-checkbox-group v-model="settings.columns" :options="columnOptionsFiltered" :aria-describedby="ariaDescribedby" switches stacked></b-form-checkbox-group>
+		</b-form-group>
+		<b-form-group v-if="orderingOptions.length" :label-for="orderingSelectorId" label="Select sorting column">
+			<b-form-select :id="orderingSelectorId" v-model="settings.ordering" :options="orderingOptions"></b-form-select>
 		</b-form-group>
 	</b-modal>
 </template>
@@ -97,15 +97,32 @@ export default {
 		};
 	},
 	computed: {
-		showOrderingSelector() {
-			return this.settings.orderingOptions?.length;
-		},
-		showColumnSelector() {
-			return this.settings.columnOptions?.length;
-		},
 		columnOptions() {
+			let columnOptions = this.defaultSettings.columns.map(column => ({ text: column['label'], value: column }));
+
+			// Avoid duplicating column options by only adding the ones that are not in the default
+			let columnsKeys = new Set(this.defaultSettings.columns.map(column => column['key']));
+
+			for (const columnOption of this.defaultSettings.columnOptions) {
+				if (!columnsKeys.has(columnOption['key'])) {
+					columnsKeys.add(columnOption['key']);
+					columnOptions.push({ text: columnOption['label'], value: columnOption });
+				}
+			}
+			return columnOptions;
+		},
+		columnOptionsFiltered() {
 			const regex = new RegExp(this.columnFilter, 'i');
-			return this.settings.columnOptions?.filter((option) => regex.test(option.text));
+			return this.columnOptions.filter((option) => regex.test(option.text));
+		},
+		orderingOptions() {
+			let orderingOptions = this.settings.columns.map((column) => ({text: column['label'], value: column['key']}));
+			
+			// Add an empty option to allow not selecting anything
+			if (orderingOptions.length)
+				orderingOptions.unshift({text: '', value: null});
+			
+			return orderingOptions;
 		}
 	},
 	methods: {

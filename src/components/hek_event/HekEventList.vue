@@ -56,26 +56,18 @@ export default {
 			pageSizeMinimum: HEK_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
 			pageSizeMaximum: HEK_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
 			ordering: paginator.ordering,
-			orderingOptions: [
-				{ value: 'event_type', text: 'Event type' },
-				{ value: 'startTime', text: 'Start time' },
-				{ value: 'endTime', text: 'End time' },
-				{ value: 'frm_name', text: 'Detection method' }
-			],
 			columns: [
 				{ key: 'event_starttime', label: 'Start time', formatter: this.$utils.formatDate },
 				{ key: 'event_endtime', label: 'End time', formatter: this.$utils.formatDate },
 				{ key: 'frm_name', label: 'Detection method' }
 			],
 			columnOptions: HEK_EVENT_ATTRIBUTES.map((attribute) => ({
-				text: attribute['verbose_name'],
-				value: {
-					label: attribute['verbose_name'],
 					key: attribute['name'],
+					label: attribute['verbose_name'],
 					headerTitle: attribute['description'],
 					formatter: attribute['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
-				}
-			}))
+				})
+			)
 		});
 		return {
 			tableId: this.$utils.getUniqueId(),

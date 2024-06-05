@@ -42,7 +42,6 @@ export const HEK_EVENT_LIST_SEARCH_PARAMS = Object.freeze({
 	x2: '5000',
 	y1: '-5000',
 	y2: '5000',
-	return: 'event_type,event_starttime,event_endtime,kb_archivid,gs_thumburl,frm_name,frm_identifier', // limit the returned fields
 	event_type: '**', // override to only select some event types
 	event_starttime: new Date(Date.UTC(1975, 9, 1)).toISOString(), // The first HEK event is in september 1975
 	event_endtime: new Date().toISOString()

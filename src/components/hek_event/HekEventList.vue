@@ -4,39 +4,16 @@
 			<b-button-toolbar key-nav aria-label="Control table displayed rows and columns" class="mb-3">
 				<b-button v-b-modal="tableSettingsModalId" size="sm" variant="outline-secondary" title="Change table display settings">Settings</b-button>
 				<span class="button-toolbar-spacer"></span>
-				<pagination
-					:page-number="paginator.pageNumber"
-					:page-count="paginator.pageCount"
-					:page-jump="1"
-					:page-displayed="3"
-					:aria-controls="tableId"
-					class="mb-0"
-					@change="updatePageNumber"
-				></pagination>
+				<pagination :page-number="paginator.pageNumber" :page-count="paginator.pageCount" :page-jump="1" :page-displayed="3" :aria-controls="tableId" class="mb-0" @change="updatePageNumber"></pagination>
 			</b-button-toolbar>
-			<b-table
-				:id="tableId"
-				ref="eventTable"
-				:items="paginator.items"
-				:fields="eventTableFields"
-				:caption="eventTableCaption"
-				primary-key="id"
-				select-mode="single"
-				responsive
-				small
-				hover
-				selectable
-				@row-selected="showEventDetailModal"
-			>
+			<b-table :id="tableId" ref="eventTable" :items="paginator.items" :fields="eventTableFields" :caption="eventTableCaption" primary-key="id" select-mode="single" responsive small hover selectable @row-selected="showEventDetailModal">
 				<template #cell(checkbox)="data">
 					<b-form-checkbox v-model="selection" :value="data.item" size="lg"></b-form-checkbox>
 				</template>
 			</b-table>
 
 			<b-button-toolbar key-nav aria-label="Actions on displayed and selected rows">
-				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal"
-					>Search overlapping ({{ selection.length }})</b-button
-				>
+				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal">Search overlapping ({{ selection.length }})</b-button>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -59,7 +36,7 @@ import Dataset from '@/components/dataset/Dataset';
 import Pagination from '@/components/globals/Pagination';
 import TableSettingsModal, { TableSettings } from '@/components/globals/TableSettings';
 import HekEventDetail from './HekEventDetail';
-import { HEK_PAGINATION_OPTIONS } from '@/constants';
+import { HEK_PAGINATION_OPTIONS, HEK_EVENT_ATTRIBUTES } from '@/constants';
 
 export default {
 	name: 'HekEventList',
@@ -84,7 +61,21 @@ export default {
 				{ value: 'startTime', text: 'Start time' },
 				{ value: 'endTime', text: 'End time' },
 				{ value: 'frm_name', text: 'Detection method' }
-			]
+			],
+			columns: [
+				{ key: 'event_starttime', label: 'Start time', formatter: this.$utils.formatDate },
+				{ key: 'event_endtime', label: 'End time', formatter: this.$utils.formatDate },
+				{ key: 'frm_name', label: 'Detection method' }
+			],
+			columnOptions: HEK_EVENT_ATTRIBUTES.map((attribute) => ({
+				text: attribute['verbose_name'],
+				value: {
+					label: attribute['verbose_name'],
+					key: attribute['name'],
+					headerTitle: attribute['description'],
+					formatter: attribute['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
+				}
+			}))
 		});
 		return {
 			tableId: this.$utils.getUniqueId(),
@@ -103,9 +94,7 @@ export default {
 			return [
 				{ key: 'checkbox', label: '' },
 				{ key: 'type', label: 'Type' },
-				{ key: 'startTime', label: 'Start time', formatter: this.$utils.formatDate },
-				{ key: 'endTime', label: 'End time', formatter: this.$utils.formatDate },
-				{ key: 'frm_name', label: 'Detection method' }
+				...this.tableSettings.columns
 			];
 		},
 		eventTableCaption() {
@@ -150,7 +139,7 @@ export default {
 				// Clear the selection so that the row can be selected again
 				this.$refs.eventTable.clearSelected();
 				// Make sure the component is rendered before showing the modal
-				this.$nextTick(function() {
+				this.$nextTick(function () {
 					this.$refs.eventDetailModal.show();
 				});
 			}

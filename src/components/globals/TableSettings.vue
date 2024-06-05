@@ -15,8 +15,8 @@
 						v-model="columnFilter"
 						type="search"
 						placeholder="Filter columns"
-						title="Type anything to filter the column"
-						debounce="250"
+						title="Type anything to filter the columns"
+						debounce="500"
 					></b-form-input>
 					<b-input-group-append>
 						<b-button :disabled="!columnFilter" title="Clear the column filter" @click="clearColumnFilter">Clear</b-button>

@@ -22,7 +22,7 @@
 					<b-form-radio-group v-model="filterValues[attribute.name]" :options="[true, false]" :aria-describedby="ariaDescribedby" buttons button-variant="outline-dark"></b-form-radio-group>
 				</b-form-group>
 			</b-col>
-			<b-col cols="auto" align-self="end" class="mb-3">
+			<b-col cols="auto" align-self="top" class="mb-3">
 				<b-button variant="light" :title="`Remove filter for attribute ${attribute.name}`" @click="removeAttributeFilter(attribute)"><b-icon icon="x"></b-icon></b-button>
 			</b-col>
 		</b-form-row>

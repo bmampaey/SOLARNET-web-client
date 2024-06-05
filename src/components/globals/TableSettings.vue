@@ -34,10 +34,7 @@ export class TableSettings {
 	pageSizeMinimum = 10;
 	pageSizeMaximum = null;
 	pageSizeStep = 10;
-
 	ordering = null;
-	orderingOptions = [];
-
 	columns = [];
 	columnOptions = [];
 
@@ -46,24 +43,25 @@ export class TableSettings {
 			if (Number.isInteger(settings.pageSize)) {
 				this.pageSize = settings.pageSize;
 			}
+			
 			if (Number.isInteger(settings.pageSizeMinimum)) {
 				this.minimum = settings.pageSizeMinimum;
 			}
+
 			if (Number.isInteger(settings.pageSizeMaximum)) {
 				this.maximum = settings.pageSizeMaximum;
 			}
+
 			if (Number.isInteger(settings.pageSizeStep)) {
 				this.step = settings.pageSizeStep;
 			}
 
 			this.ordering = settings.ordering;
-			if (Array.isArray(settings.orderingOptions)) {
-				this.orderingOptions = [...settings.orderingOptions];
-			}
 
 			if (Array.isArray(settings.columns)) {
 				this.columns = [...settings.columns];
 			}
+
 			if (Array.isArray(settings.columnOptions)) {
 				this.columnOptions = [...settings.columnOptions];
 			}

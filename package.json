@@ -52,7 +52,6 @@
       "vue/component-definition-name-casing": "off",
       "no-debugger": "warn",
       "no-console": "warn"
-
     }
   },
   "browserslist": [

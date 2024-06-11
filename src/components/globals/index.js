@@ -11,3 +11,7 @@ Vue.component('datetime-range', DatetimeRange);
 
 import NumberRange from './NumberRange';
 Vue.component('number-range', NumberRange);
+
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
+Vue.component('v-select', vSelect)

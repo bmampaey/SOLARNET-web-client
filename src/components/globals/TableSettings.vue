@@ -1,26 +1,11 @@
 <template>
 	<!--Use a modal, where the OK button will update the settings, and the cancel button is changed to a reset button to reset the settings to their initial value (note that the default action is to close the modal so we add the prevent to avoid this)-->
-	<b-modal :id="modalId" :aria-controls="ariaControls" size="sm" title="Table display settings" cancel-title="Reset" @show="initialiseSettings" @ok="updateSettings" @cancel.prevent="resetSettings">
+	<b-modal :id="modalId" :aria-controls="ariaControls" title="Table display settings" cancel-title="Reset" @show="initialiseSettings" @ok="updateSettings" @cancel.prevent="resetSettings">
 		<b-form-group :label-for="pageSizeSelectorId" label="Number of rows to display">
 			<b-form-spinbutton :id="pageSizeSelectorId" v-model="settings.pageSize" :min="settings.pageSizeMinimum" :max="settings.pageSizeMaximum" :step="10" size="sm"></b-form-spinbutton>
 		</b-form-group>
-		<b-form-group v-if="columnOptions.length" v-slot="{ ariaDescribedby }" class="column-selector" label="Display/hide columns">
-			<b-form-group label="Filter columns" :label-for="columnFilterId" label-sr-only>
-				<b-input-group>
-					<b-form-input
-						:id="columnFilterId"
-						v-model="columnFilter"
-						type="search"
-						placeholder="Filter columns"
-						title="Type anything to filter the columns"
-						debounce="500"
-					></b-form-input>
-					<b-input-group-append>
-						<b-button :disabled="!columnFilter" title="Clear the column filter" @click="clearColumnFilter">Clear</b-button>
-					</b-input-group-append>
-				</b-input-group>
-			</b-form-group>
-			<b-form-checkbox-group v-model="settings.columns" :options="columnOptionsFiltered" :aria-describedby="ariaDescribedby" switches stacked></b-form-checkbox-group>
+		<b-form-group v-if="columnOptions.length" v-slot="{ ariaDescribedby }" label="Display/hide columns">
+			<v-select v-model="settings.columns" multiple :options="columnOptions" :aria-describedby="ariaDescribedby"></v-select>
 		</b-form-group>
 		<b-form-group v-if="orderingOptions.length" :label-for="orderingSelectorId" label="Select sorting column">
 			<b-form-select :id="orderingSelectorId" v-model="settings.ordering" :options="orderingOptions"></b-form-select>
@@ -96,7 +81,7 @@ export default {
 	},
 	computed: {
 		columnOptions() {
-			let columnOptions = this.defaultSettings.columns.map(column => ({ text: column['label'], value: column }));
+			let columnOptions = [...this.defaultSettings.columns];
 
 			// Avoid duplicating column options by only adding the ones that are not in the default
 			let columnsKeys = new Set(this.defaultSettings.columns.map(column => column['key']));
@@ -104,14 +89,10 @@ export default {
 			for (const columnOption of this.defaultSettings.columnOptions) {
 				if (!columnsKeys.has(columnOption['key'])) {
 					columnsKeys.add(columnOption['key']);
-					columnOptions.push({ text: columnOption['label'], value: columnOption });
+					columnOptions.push(columnOption);
 				}
 			}
 			return columnOptions;
-		},
-		columnOptionsFiltered() {
-			const regex = new RegExp(this.columnFilter, 'i');
-			return this.columnOptions.filter((option) => regex.test(option.text));
 		},
 		orderingOptions() {
 			let orderingOptions = this.settings.columns.map((column) => ({text: column['label'], value: column['key']}));
@@ -141,11 +122,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped>
-/* Limit the height of the column selector */
-.column-selector {
-	max-height: 10rem;
-	overflow: auto;
-}
-</style>

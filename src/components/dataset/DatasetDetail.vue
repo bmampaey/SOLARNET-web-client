@@ -15,6 +15,8 @@
 						<b-button v-b-popover="telescopePopover" pill size="sm" variant="outline-info">{{ telescope.name }}</b-button>
 						<b-button v-b-popover="instrumentPopover" pill size="sm" variant="outline-info">{{ instrument.name }}</b-button>
 						<b-button pill size="sm" variant="outline-info" :href="dataset.archive_url" target="_blank">Archive webpage</b-button>
+						<b-button v-if="dataset.doi_url" pill size="sm" variant="outline-info" :href="dataset.doi_url"
+						target="_blank">doi:{{ doi }}</b-button>
 					</b-button-toolbar>
 				</b-card-body>
 			</b-collapse>
@@ -70,7 +72,10 @@ export default {
 		metadataComponent() {
 			const component = metadataComponents[this.dataset.name] || metadataComponents['default'];
 			return () => import(/* webpackChunkName: "[request]" */ '@/components/metadata/' + component);
-		}
+		},
+		doi(){
+			return this.dataset.doi_url && new URL(this.dataset.doi_url).pathname.substring(1);
+		},
 	}
 };
 </script>

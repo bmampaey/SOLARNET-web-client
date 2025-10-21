@@ -46,7 +46,7 @@ export default {
 	},
 	computed: {
 		imageURL() {
-			return this.metadata.data_location.thumbnail_url ? this.metadata.data_location.thumbnail_url : require('@/assets/no_preview_available.jpg');
+			return this.metadata?.data_location?.thumbnail_url || require('@/assets/no_preview_available.jpg');
 		},
 		fitsHeader() {
 			return this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : '';

@@ -24,7 +24,7 @@
 					<b-form-checkbox v-model="selection" :value="data.item" size="lg"></b-form-checkbox>
 				</template>
 				<template #cell(download_button)="data">
-					<b-button :href="data.value" target="_blank" title="Download file" size="sm" variant="primary" :disabled="data.item.data_location.offline">
+					<b-button :href="data.value" target="_blank" title="Download file" size="sm" variant="primary" :disabled="!data.item.data_location || data.item.data_location.offline">
 						<b-icon icon="download"></b-icon>
 					</b-button>
 				</template>
@@ -107,7 +107,7 @@ export default {
 				{
 					key: 'download_button',
 					label: 'Download',
-					formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url)
+					formatter: (value, index, metadata) => (!metadata.data_location || metadata.data_location.offline ? null : metadata.data_location.file_url)
 				},
 				...this.tableSettings.columns
 			];

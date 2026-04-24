@@ -1,6 +1,7 @@
 export default {
 	default: 'Default',
-	'AIA level 1': 'AiaLevel1',
+	'AIA level 2': 'AiaLevel2',
+	'AIA level 1.5': 'AiaLevel15',
 	CRISP: 'Crisp',
 	CHROMIS: 'Chromis',
 	'EIT level 0': 'EitLevel0',

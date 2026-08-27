@@ -31,9 +31,7 @@
 			</b-table>
 
 			<b-button-toolbar key-nav aria-label="Actions on displayed and selected rows">
-				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection"
-					>Save selection ({{ selection.length }})</b-button
-				>
+				<b-button :disabled="selectionEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection">Save selection ({{ selection.length }})</b-button>
 				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
 				<b-button :disabled="selectionEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 			</b-button-toolbar>
@@ -84,9 +82,8 @@ export default {
 			pageSize: paginator.pageSize,
 			pageSizeMinimum : SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
 			pageSizeMaximum : SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
-			ordering: paginator.ordering,
-			columns: this.defaultColumns,
-
+			tableSorting: paginator.ordering,
+			columnDisplay: this.defaultColumns.map(column => column['key']),
 		});
 		return {
 			tableId: this.$utils.getUniqueId(),
@@ -109,7 +106,7 @@ export default {
 					label: 'Download',
 					formatter: (value, index, metadata) => (!metadata.data_location || metadata.data_location.offline ? null : metadata.data_location.file_url)
 				},
-				...this.tableSettings.columns
+				...this.tableSettings.columnDisplayOptions.filter((option) => this.tableSettings.columnDisplay.includes(option.key))
 			];
 			if (this.tags.length) {
 				tableFields.push({ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') });
@@ -144,7 +141,13 @@ export default {
 			}
 		},
 		updateColumnOptions() {
-			this.tableSettings.columnOptions = this.keywords.map((keyword) => ({
+			this.tableSettings.columnDisplayOptions = this.keywords.map((keyword) => ({
+				key: keyword['name'],
+				label: keyword['verbose_name'],
+				headerTitle: keyword['description'],
+				formatter: keyword['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
+			}));
+			this.tableSettings.tableSortingOptions = this.keywords.filter((keyword) => keyword['constant_value'] === null).map((keyword) => ({
 				key: keyword['name'],
 				label: keyword['verbose_name'],
 				headerTitle: keyword['description'],
@@ -155,9 +158,9 @@ export default {
 			this.paginator.loadPage(pageNumber);
 		},
 		updateTableSettings(settings) {
-			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.ordering) {
+			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.tableSorting) {
 				this.paginator.pageSize = settings.pageSize;
-				this.paginator.ordering = settings.ordering;
+				this.paginator.ordering = settings.tableSorting;
 				this.paginator.loadPage(1);
 			}
 			this.tableSettings = settings;

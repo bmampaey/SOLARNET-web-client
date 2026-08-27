@@ -1,10 +1,15 @@
 /* Define constants global to the whole App */
 
-const DEBUG = false;
+// Use the build-time `process.env.NODE_ENV` literal to check if development or production
+export const DEBUG = process.env.NODE_ENV === 'development';
+
+if (typeof window !== 'undefined') {
+	window.DEBUG = DEBUG;
+}
 
 /* The URL of the SVO API
 All resources URI in the SVO API will be relative to that */
-export const SVO_API_URL = DEBUG ? 'http://localhost:8800/' : 'https://solarnet.oma.be/';
+export const SVO_API_URL = DEBUG ? 'http://localhost:8000/' : 'https://solarnet.oma.be/';
 
 /* The URL of the SVO API schema */
 export const SVO_API_SCHEMA_URL = DEBUG ? '/api/svo' : '/service/api/svo';

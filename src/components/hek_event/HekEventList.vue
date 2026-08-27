@@ -55,13 +55,14 @@ export default {
 			pageSize: paginator.pageSize,
 			pageSizeMinimum: HEK_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
 			pageSizeMaximum: HEK_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
-			ordering: paginator.ordering,
-			columns: [
+			tableSorting: paginator.ordering,
+			tableSortingOptions: [
 				{ key: 'event_starttime', label: 'Start time', formatter: this.$utils.formatDate },
 				{ key: 'event_endtime', label: 'End time', formatter: this.$utils.formatDate },
 				{ key: 'frm_name', label: 'Detection method' }
 			],
-			columnOptions: HEK_EVENT_ATTRIBUTES.map((attribute) => ({
+			columnDisplay: ['event_starttime', 'event_endtime', 'frm_name'],
+			columnDisplayOptions: HEK_EVENT_ATTRIBUTES.map((attribute) => ({
 					key: attribute['name'],
 					label: attribute['verbose_name'],
 					headerTitle: attribute['description'],
@@ -86,7 +87,7 @@ export default {
 			return [
 				{ key: 'checkbox', label: '' },
 				{ key: 'type', label: 'Type' },
-				...this.tableSettings.columns
+				...this.tableSettings.columnDisplayOptions.filter((option) => this.tableSettings.columnDisplay.includes(option.key))
 			];
 		},
 		eventTableCaption() {
@@ -116,9 +117,9 @@ export default {
 			this.paginator.loadPage(pageNumber);
 		},
 		updateTableSettings(settings) {
-			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.ordering) {
+			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.tableSorting) {
 				this.paginator.pageSize = settings.pageSize;
-				this.paginator.ordering = settings.ordering;
+				this.paginator.ordering = settings.tableSorting;
 				this.paginator.loadPage(1);
 			}
 			this.tableSettings = settings;

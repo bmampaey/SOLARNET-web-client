@@ -1,18 +1,14 @@
 <template>
 	<metadata :dataset="dataset" :search-filter="searchFilter" :default-columns="defaultColumns">
-		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start"
-			max-label="End"></datetime-range>
+		<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 		<b-form-group label="Filter" label-for="filters">
-			<b-form-select id="filters" v-model="searchFilter.filters" :options="searchFilter.filterOptions"
-				multiple></b-form-select>
+			<b-form-select id="filters" v-model="searchFilter.filters" :options="searchFilter.filterOptions" multiple></b-form-select>
 		</b-form-group>
 		<b-form-group label="Science objective" label-for="scienceObjectives">
-			<b-form-select id="scienceObjectives" v-model="searchFilter.scienceObjectives"
-				:options="searchFilter.scienceObjectiveOptions" multiple></b-form-select>
+			<b-form-select id="scienceObjectives" v-model="searchFilter.scienceObjectives" :options="searchFilter.scienceObjectiveOptions" multiple></b-form-select>
 		</b-form-group>
 		<b-form-group label="Observation mode" label-for="observationModes">
-			<b-form-select id="observationModes" v-model="searchFilter.observationModes"
-				:options="searchFilter.observationModeOptions" multiple></b-form-select>
+			<b-form-select id="observationModes" v-model="searchFilter.observationModes" :options="searchFilter.observationModeOptions" multiple></b-form-select>
 		</b-form-group>
 	</metadata>
 </template>

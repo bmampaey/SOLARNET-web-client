@@ -4,11 +4,11 @@
 		<b-form-group :label-for="pageSizeSelectorId" label="Number of rows to display">
 			<b-form-spinbutton :id="pageSizeSelectorId" v-model="settings.pageSize" :min="settings.pageSizeMinimum" :max="settings.pageSizeMaximum" :step="10" size="sm"></b-form-spinbutton>
 		</b-form-group>
-		<b-form-group v-if="columnOptions.length" v-slot="{ ariaDescribedby }" label="Display/hide columns">
-			<v-select v-model="settings.columns" multiple :options="columnOptions" :aria-describedby="ariaDescribedby"></v-select>
+		<b-form-group v-if="columnDisplayOptions.length" v-slot="{ ariaDescribedby }" :label-for="columnDisplaySelectorId" label="Display/hide columns">
+			<v-select :id="columnDisplaySelectorId" v-model="settings.columnDisplay" multiple :options="columnDisplayOptions" :reduce="option => option.key" :aria-describedby="ariaDescribedby"></v-select>
 		</b-form-group>
-		<b-form-group v-if="orderingOptions.length" :label-for="orderingSelectorId" label="Select sorting column">
-			<b-form-select :id="orderingSelectorId" v-model="settings.ordering" :options="orderingOptions"></b-form-select>
+		<b-form-group v-if="tableSortingOptions.length" :label-for="tableSortingSelectorId" label="Select sorting column">
+			<b-form-select :id="tableSortingSelectorId" v-model="settings.tableSorting" :options="tableSortingOptions"></b-form-select>
 		</b-form-group>
 	</b-modal>
 </template>
@@ -19,9 +19,10 @@ export class TableSettings {
 	pageSizeMinimum = 10;
 	pageSizeMaximum = null;
 	pageSizeStep = 10;
-	ordering = null;
-	columns = [];
-	columnOptions = [];
+	tableSorting = null;
+	tableSortingOptions = [];
+	columnDisplay = [];
+	columnDisplayOptions = [];
 
 	constructor(settings) {
 		if (settings) {
@@ -41,15 +42,20 @@ export class TableSettings {
 				this.step = settings.pageSizeStep;
 			}
 
-			this.ordering = settings.ordering;
+			this.tableSorting = settings.tableSorting;
 
-			if (Array.isArray(settings.columns)) {
-				this.columns = [...settings.columns];
+			if (Array.isArray(settings.tableSortingOptions)) {
+				this.tableSortingOptions = [...settings.tableSortingOptions];
 			}
 
-			if (Array.isArray(settings.columnOptions)) {
-				this.columnOptions = [...settings.columnOptions];
+			if (Array.isArray(settings.columnDisplay)) {
+				this.columnDisplay = [...settings.columnDisplay];
 			}
+			
+			if (Array.isArray(settings.columnDisplayOptions)) {
+				this.columnDisplayOptions = [...settings.columnDisplayOptions];
+			}
+
 		}
 	}
 }
@@ -74,34 +80,35 @@ export default {
 		return {
 			settings: new TableSettings(),
 			pageSizeSelectorId: this.$utils.getUniqueId(),
-			orderingSelectorId: this.$utils.getUniqueId(),
+			tableSortingSelectorId: this.$utils.getUniqueId(),
+			columnDisplaySelectorId: this.$utils.getUniqueId(),
 			columnFilter: '',
 			columnFilterId: this.$utils.getUniqueId(),
 		};
 	},
 	computed: {
-		columnOptions() {
-			let columnOptions = [...this.defaultSettings.columns];
+		columnDisplayOptions() {
+			let columnDisplayOptions = [...this.defaultSettings.columnDisplayOptions];
 
 			// Avoid duplicating column options by only adding the ones that are not in the default
-			let columnsKeys = new Set(this.defaultSettings.columns.map(column => column['key']));
+			let columnsKeys = new Set(this.defaultSettings.columnDisplayOptions.map(column => column['key']));
 
-			for (const columnOption of this.defaultSettings.columnOptions) {
-				if (!columnsKeys.has(columnOption['key'])) {
-					columnsKeys.add(columnOption['key']);
-					columnOptions.push(columnOption);
+			for (const column of this.defaultSettings.columnDisplayOptions) {
+				if (!columnsKeys.has(column['key'])) {
+					columnsKeys.add(column['key']);
+					columnDisplayOptions.push(column);
 				}
 			}
-			return columnOptions;
+			return columnDisplayOptions;
 		},
-		orderingOptions() {
-			let orderingOptions = this.settings.columns.map((column) => ({text: column['label'], value: column['key']}));
+		tableSortingOptions() {
+			let tableSortingOptions = this.settings.tableSortingOptions.map((column) => ({text: column['label'], value: column['key']}));
 			
 			// Add an empty option to allow not selecting anything
-			if (orderingOptions.length)
-				orderingOptions.unshift({text: '', value: null});
+			if (tableSortingOptions.length)
+				tableSortingOptions.unshift({text: '', value: null});
 			
-			return orderingOptions;
+			return tableSortingOptions;
 		}
 	},
 	methods: {

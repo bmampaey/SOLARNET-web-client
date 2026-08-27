@@ -16,7 +16,7 @@
 									<datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></datetime-range>
 								</slot>
 								<tag-filter v-if="tags.length" v-model="searchFilter.tags" :tags="tags"></tag-filter>
-								<keyword-filter v-if="keywords.length" v-model="searchFilter.keywordFilter" :keywords="keywords"></keyword-filter>
+								<keyword-filter v-if="keywords.length" v-model="searchFilter.keywordFilter" :keywords="filteringKeywords"></keyword-filter>
 								<b-button type="submit" variant="primary">Search</b-button>
 							</b-form>
 							<!-- eslint-enable vue/no-mutating-props -->
@@ -55,6 +55,11 @@ export default {
 			keywords: [],
 			metadataFilterId: this.$utils.getUniqueId()
 		};
+	},
+	computed: {
+		filteringKeywords() {
+			return this.keywords.filter((keyword) => keyword['constant_value'] === null);
+		},
 	},
 	created() {
 		// Fetch and create the options of the form select

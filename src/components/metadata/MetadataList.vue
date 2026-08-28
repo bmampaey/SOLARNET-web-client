@@ -83,6 +83,7 @@ export default {
 			pageSizeMinimum : SVO_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
 			pageSizeMaximum : SVO_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
 			tableSorting: paginator.ordering,
+			tableSortingDescending: paginator.orderingDescending,
 			columnDisplay: this.defaultColumns.map(column => column['key']),
 		});
 		return {
@@ -158,9 +159,10 @@ export default {
 			this.paginator.loadPage(pageNumber);
 		},
 		updateTableSettings(settings) {
-			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.tableSorting) {
+			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.tableSorting || this.paginator.orderingDescending != settings.tableSortingDescending) {
 				this.paginator.pageSize = settings.pageSize;
 				this.paginator.ordering = settings.tableSorting;
+				this.paginator.orderingDescending = settings.tableSortingDescending;
 				this.paginator.loadPage(1);
 			}
 			this.tableSettings = settings;

@@ -12,6 +12,7 @@ export default class Paginator {
 	pageNumber = 1;
 	pageSize = SVO_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
 	ordering = null;
+	orderingDescending = false;
 	items = [];
 	loading = false;
 
@@ -37,7 +38,8 @@ export default class Paginator {
 		this.#searchParams.set('limit', this.pageSize);
 		this.#searchParams.set('offset', (pageNumber - 1) * this.pageSize);
 		if (this.ordering != null) {
-			this.#searchParams.set('order_by', this.ordering);
+			const ordering = this.orderingDescending === true ? `-${this.ordering}` : this.ordering;
+			this.#searchParams.set('order_by', ordering);
 		} else {
 			this.#searchParams.delete('order_by');
 		}

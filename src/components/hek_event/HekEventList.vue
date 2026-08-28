@@ -56,17 +56,16 @@ export default {
 			pageSizeMinimum: HEK_PAGINATION_OPTIONS.MINIMUM_PAGESIZE,
 			pageSizeMaximum: HEK_PAGINATION_OPTIONS.MAXIMUM_PAGESIZE,
 			tableSorting: paginator.ordering,
-			tableSortingOptions: [
-				{ key: 'event_starttime', label: 'Start time', formatter: this.$utils.formatDate },
-				{ key: 'event_endtime', label: 'End time', formatter: this.$utils.formatDate },
-				{ key: 'frm_name', label: 'Detection method' }
-			],
+			tableSortingDescending: paginator.orderingDescending,
+			tableSortingOptions: HEK_EVENT_ATTRIBUTES.map((attribute) => ({
+					key: attribute['name'],
+					label: attribute['verbose_name'],
+				})
+			),
 			columnDisplay: ['event_starttime', 'event_endtime', 'frm_name'],
 			columnDisplayOptions: HEK_EVENT_ATTRIBUTES.map((attribute) => ({
 					key: attribute['name'],
 					label: attribute['verbose_name'],
-					headerTitle: attribute['description'],
-					formatter: attribute['type'] == 'time (ISO 8601)' ? this.$utils.formatDate : undefined
 				})
 			)
 		});
@@ -117,9 +116,10 @@ export default {
 			this.paginator.loadPage(pageNumber);
 		},
 		updateTableSettings(settings) {
-			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.tableSorting) {
+			if (this.paginator.pageSize != settings.pageSize || this.paginator.ordering != settings.tableSorting || this.paginator.orderingDescending != settings.tableSortingDescending) {
 				this.paginator.pageSize = settings.pageSize;
 				this.paginator.ordering = settings.tableSorting;
+				this.paginator.orderingDescending = settings.tableSortingDescending;
 				this.paginator.loadPage(1);
 			}
 			this.tableSettings = settings;

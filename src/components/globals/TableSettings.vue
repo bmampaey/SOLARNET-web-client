@@ -7,8 +7,21 @@
 		<b-form-group v-if="columnDisplayOptions.length" v-slot="{ ariaDescribedby }" :label-for="columnDisplaySelectorId" label="Display/hide columns">
 			<v-select :id="columnDisplaySelectorId" v-model="settings.columnDisplay" multiple :options="columnDisplayOptions" :reduce="option => option.key" :aria-describedby="ariaDescribedby"></v-select>
 		</b-form-group>
+
 		<b-form-group v-if="tableSortingOptions.length" :label-for="tableSortingSelectorId" label="Select sorting column">
-			<b-form-select :id="tableSortingSelectorId" v-model="settings.tableSorting" :options="tableSortingOptions"></b-form-select>
+			<b-input-group>
+				<b-form-select :id="tableSortingSelectorId" v-model="settings.tableSorting" :options="tableSortingOptions"></b-form-select>
+				<b-input-group-append>
+					<b-button-group>
+						<b-button :pressed="!settings.tableSortingDescending" aria-label="Sort ascending" title="Sort ascending" variant="outline-secondary" @click="settings.tableSortingDescending = false">
+							<b-icon icon="sort-down-alt" aria-hidden="true"></b-icon>
+						</b-button>
+						<b-button :pressed="settings.tableSortingDescending" aria-label="Sort descending" title="Sort descending" variant="outline-secondary" @click="settings.tableSortingDescending = true">
+							<b-icon icon="sort-up" aria-hidden="true"></b-icon>
+						</b-button>
+					</b-button-group>
+				</b-input-group-append>
+			</b-input-group>
 		</b-form-group>
 	</b-modal>
 </template>
@@ -20,6 +33,7 @@ export class TableSettings {
 	pageSizeMaximum = null;
 	pageSizeStep = 10;
 	tableSorting = null;
+	tableSortingDescending = true;
 	tableSortingOptions = [];
 	columnDisplay = [];
 	columnDisplayOptions = [];
@@ -43,6 +57,7 @@ export class TableSettings {
 			}
 
 			this.tableSorting = settings.tableSorting;
+			this.tableSortingDescending = settings.tableSortingDescending; 
 
 			if (Array.isArray(settings.tableSortingOptions)) {
 				this.tableSortingOptions = [...settings.tableSortingOptions];

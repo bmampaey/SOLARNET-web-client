@@ -13,6 +13,7 @@ export default class Paginator {
 	pageNumber = 1;
 	pageSize = HEK_PAGINATION_OPTIONS.DEFAULT_PAGESIZE;
 	ordering = null;
+	orderingDescending = false;
 	items = [];
 	loading = false;
 
@@ -41,6 +42,11 @@ export default class Paginator {
 			this.#searchParams.set('sort_by', this.ordering);
 		} else {
 			this.#searchParams.delete('sort_by');
+		}
+		if (this.orderingDescending === true) {
+			this.#searchParams.set('sort_order', 'DESC');
+		} else {
+			this.#searchParams.delete('sort_order');
 		}
 		let url = new URL(this.#resourceUri);
 		url.search = this.#searchParams.toString();

@@ -109,6 +109,17 @@ export default {
 				},
 				...this.tableSettings.columnDisplayOptions.filter((option) => this.tableSettings.columnDisplay.includes(option.key))
 			];
+			// Apply overrides from defaultColumns: prefer label and formatter when provided
+			if (this.defaultColumns && this.defaultColumns.length) {
+				this.defaultColumns.forEach(def => {
+					const idx = tableFields.findIndex(f => f.key === def.key);
+					if (idx !== -1) {
+						if (def.label) tableFields[idx].label = def.label;
+						if (def.formatter !== undefined) tableFields[idx].formatter = def.formatter;
+					}
+				});
+			}
+
 			if (this.tags.length) {
 				tableFields.push({ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') });
 			}

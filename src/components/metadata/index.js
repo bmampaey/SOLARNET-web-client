@@ -4,6 +4,7 @@ export default {
 	'AIA level 1.5': 'AiaLevel15',
 	'ASPIICS level 2': 'AspiicsLevel2',
 	'ASPIICS level 3': 'AspiicsLevel3',
+	'CO5BOLD@IRSOL_d3gt57g44ssdgreyh12': 'Co5BoldIrsol',
 	'CRISP': 'Crisp',
 	'CHROMIS': 'Chromis',
 	'EIT level 0': 'EitLevel0',
